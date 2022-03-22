@@ -1,0 +1,17 @@
+#pragma once
+
+#define NUM_TEAMS 2
+#define NUM_FULL_BOOSTS 6
+#define NUM_SPAWN_POINTS 3
+
+#define MAX_TEAM_SIZE 3
+#define MAX_CARS (MAX_TEAM_SIZE * 2)
+
+#define ARENA_EXTENT_X 96.0f
+#define ARENA_EXTENT_Y 22.0f
+#define ARENA_EXTENT_Z 42.0f
+
+#define ARENA_BOT_EXTENT_X (ARENA_EXTENT_X * 0.90f)
+#define ARENA_BOT_EXTENT_Y (ARENA_EXTENT_Y * 0.90f)
+#define ARENA_BOT_EXTENT_Z (ARENA_EXTENT_Z * 0.90f)
+
