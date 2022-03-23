@@ -53,7 +53,12 @@ TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	Intermediate/Linux/Game
 SOURCES		:=	Source \
 				Generated
-INCLUDES	:=	Include ../Engine/Include ../Engine/Include/Engine ../External ../External/Bullet $(VULKAN_SDK)/include
+INCLUDES	:=	Include \
+				../octave/Engine/Include \
+				../octave/Engine/Include/Engine \
+				../octave/External \
+				../octave/External/Bullet \
+				$(VULKAN_SDK)/include
 OUTPUT_DIR	:=	$(CURDIR)/Build/Linux
 
 #---------------------------------------------------------------------------------
@@ -117,11 +122,11 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 # build a list of library paths
 #---------------------------------------------------------------------------------
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib) \
-					-L$(CURDIR)/../External/Bullet/Build/Linux \
-					-L$(CURDIR)/../Engine/Build/Linux
+					-L$(CURDIR)/../octave/External/Bullet/Build/Linux \
+					-L$(CURDIR)/../octave/Engine/Build/Linux
 
 export OUTPUT	:=	$(OUTPUT_DIR)/$(TARGET).out
-export ENGINE_LIB := $(CURDIR)/../Engine/Build/Linux/libEngineGame.a
+export ENGINE_LIB := $(CURDIR)/../octave/Engine/Build/Linux/libEngineGame.a
 .PHONY: $(BUILD) clean
 
 #---------------------------------------------------------------------------------
@@ -132,7 +137,7 @@ OutputDirs:
 	[ -d $(BUILD) ] || mkdir -p $(BUILD)
 
 MakeEngine:
-	$(MAKE) --no-print-directory -C $(CURDIR)/../Engine -f $(CURDIR)/../Engine/Makefile_Linux
+	$(MAKE) --no-print-directory -C $(CURDIR)/../octave/Engine -f $(CURDIR)/../octave/Engine/Makefile_Linux
 
 $(BUILD): OutputDirs MakeEngine
 	[ -d $@ ] || mkdir -p $@
@@ -142,7 +147,7 @@ $(BUILD): OutputDirs MakeEngine
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(OUTPUT_DIR)
-	@$(MAKE) clean --no-print-directory -C $(CURDIR)/../Engine -f $(CURDIR)/../Engine/Makefile_Linux
+	@$(MAKE) clean --no-print-directory -C $(CURDIR)/../octave/Engine -f $(CURDIR)/../octave/Engine/Makefile_Linux
 
 #---------------------------------------------------------------------------------
 else

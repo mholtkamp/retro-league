@@ -36,7 +36,7 @@ BUILD		:=	Intermediate/3DS
 SOURCES		:=	Source \
 				Generated
 DATA		:=	Data
-INCLUDES	:=	../Engine/Include ../Engine/Include/Engine ../External ../External/Bullet
+INCLUDES	:=	../octave/Engine/Include ../octave/Engine/Include/Engine ../octave/External ../octave/External/Bullet
 GRAPHICS	:=	Graphics
 GFXBUILD	:=	$(BUILD)
 #ROMFS		:=	$(CURDIR)/Build/3DS/romfs
@@ -67,8 +67,8 @@ LIBS	:= -lEngine -lBullet -lcitro3d -lctru -lm
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-ENGINE_LIB_DIR := $(CURDIR)/../Engine/Build/3DS
-BULLET_LIB_DIR := $(CURDIR)/../External/Bullet/Build/3DS
+ENGINE_LIB_DIR := $(CURDIR)/../octave/Engine/Build/3DS
+BULLET_LIB_DIR := $(CURDIR)/../octave/External/Bullet/Build/3DS
 LIBDIRS	:= $(CTRULIB) $(ENGINE_LIB_DIR) $(BULLET_LIB_DIR)
 
 
@@ -173,7 +173,7 @@ all: $(BUILD) $(GFXBUILD) $(DEPSDIR) $(ROMFS_T3XFILES) $(T3XHFILES)
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile_3DS
 
 MakeEngine:
-	@$(MAKE) --no-print-directory -C $(CURDIR)/../Engine -f $(CURDIR)/../Engine/Makefile_3DS
+	@$(MAKE) --no-print-directory -C $(CURDIR)/../octave/Engine -f $(CURDIR)/../octave/Engine/Makefile_3DS
 
 OutputDir:
 	@[ -d $(OUTPUT_DIR) ] || mkdir -p $(OUTPUT_DIR)
@@ -195,7 +195,7 @@ endif
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(TARGET).elf $(GFXBUILD)
-	@$(MAKE) clean --no-print-directory -C $(CURDIR)/../Engine -f $(CURDIR)/../Engine/Makefile_3DS
+	@$(MAKE) clean --no-print-directory -C $(CURDIR)/../octave/Engine -f $(CURDIR)/../octave/Engine/Makefile_3DS
 
 #---------------------------------------------------------------------------------
 $(GFXBUILD)/%.t3x	$(BUILD)/%.h	:	%.t3s
