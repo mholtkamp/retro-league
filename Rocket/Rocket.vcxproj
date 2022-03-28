@@ -162,7 +162,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PLATFORM_WINDOWS=1;API_VULKAN=1;NOMINMAX;_CRT_SECURE_NO_WARNINGS=1;EDITOR=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)octave/External;$(SolutionDir)octave/Engine;$(SolutionDir)octave/Engine/Include;$(SolutionDir)octave/Engine/Include/Engine;$(SolutionDir)octave/External/Bullet;$(SolutionDir)octave/Engine/Include/Editor;$(SolutionDir)octave/External/Lua</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)Octave/External;$(SolutionDir)Octave/Engine;$(SolutionDir)Octave/Engine/Include;$(SolutionDir)Octave/Engine/Include/Engine;$(SolutionDir)Octave/External/Bullet;$(SolutionDir)Octave/Engine/Include/Editor;$(SolutionDir)Octave/External/Lua</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEditor|x64'">
@@ -172,7 +172,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PLATFORM_WINDOWS=1;API_VULKAN=1;NOMINMAX;_CRT_SECURE_NO_WARNINGS=1;EDITOR=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)octave/External;$(SolutionDir)octave/Engine;$(SolutionDir)octave/Engine/Include;$(SolutionDir)octave/Engine/Include/Engine;$(SolutionDir)octave/External/Bullet;$(SolutionDir)octave/Engine/Include/Editor;$(SolutionDir)octave/External/Assimp;$(SolutionDir)octave/External/Lua</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)Octave/External;$(SolutionDir)Octave/Engine;$(SolutionDir)Octave/Engine/Include;$(SolutionDir)Octave/Engine/Include/Engine;$(SolutionDir)Octave/External/Bullet;$(SolutionDir)Octave/Engine/Include/Editor;$(SolutionDir)Octave/External/Assimp;$(SolutionDir)Octave/External/Lua</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -182,7 +182,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PLATFORM_WINDOWS=1;API_VULKAN=1;NOMINMAX;_CRT_SECURE_NO_WARNINGS=1;EDITOR=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)octave/External;$(SolutionDir)octave/Engine;$(SolutionDir)octave/Engine/Include;$(SolutionDir)octave/Engine/Include/Engine;$(SolutionDir)octave/External/Bullet;$(SolutionDir)octave/Engine/Include/Editor;$(SolutionDir)octave/External/Lua</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)Octave/External;$(SolutionDir)Octave/Engine;$(SolutionDir)Octave/Engine/Include;$(SolutionDir)Octave/Engine/Include/Engine;$(SolutionDir)Octave/External/Bullet;$(SolutionDir)Octave/Engine/Include/Editor;$(SolutionDir)Octave/External/Lua</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugEditor|Win32'">
@@ -192,7 +192,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PLATFORM_WINDOWS=1;API_VULKAN=1;NOMINMAX;_CRT_SECURE_NO_WARNINGS=1;EDITOR=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)octave/External;$(SolutionDir)octave/Engine;$(SolutionDir)octave/Engine/Include;$(SolutionDir)octave/Engine/Include/Engine;$(SolutionDir)octave/External/Bullet;$(SolutionDir)octave/Engine/Include/Editor;$(SolutionDir)octave/External/Assimp;$(SolutionDir)octave/External/Lua</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)Octave/External;$(SolutionDir)Octave/Engine;$(SolutionDir)Octave/Engine/Include;$(SolutionDir)Octave/Engine/Include/Engine;$(SolutionDir)Octave/External/Bullet;$(SolutionDir)Octave/Engine/Include/Editor;$(SolutionDir)Octave/External/Assimp;$(SolutionDir)Octave/External/Lua</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -204,7 +204,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PLATFORM_WINDOWS=1;API_VULKAN=1;NOMINMAX;_CRT_SECURE_NO_WARNINGS=1;EDITOR=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)octave/External;$(SolutionDir)octave/Engine;$(SolutionDir)octave/Engine/Include;$(SolutionDir)octave/Engine/Include/Engine;$(SolutionDir)octave/External/Bullet;$(SolutionDir)octave/Engine/Include/Editor;$(SolutionDir)octave/External/Lua</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)Octave/External;$(SolutionDir)Octave/Engine;$(SolutionDir)Octave/Engine/Include;$(SolutionDir)Octave/Engine/Include/Engine;$(SolutionDir)Octave/External/Bullet;$(SolutionDir)Octave/Engine/Include/Editor;$(SolutionDir)Octave/External/Lua</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -220,7 +220,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PLATFORM_WINDOWS=1;API_VULKAN=1;NOMINMAX;_CRT_SECURE_NO_WARNINGS=1;EDITOR=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)octave/External;$(SolutionDir)octave/Engine;$(SolutionDir)octave/Engine/Include;$(SolutionDir)octave/Engine/Include/Engine;$(SolutionDir)octave/External/Bullet;$(SolutionDir)octave/Engine/Include/Editor;$(SolutionDir)octave/External/Assimp;$(SolutionDir)octave/External/Lua</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)Octave/External;$(SolutionDir)Octave/Engine;$(SolutionDir)Octave/Engine/Include;$(SolutionDir)Octave/Engine/Include/Engine;$(SolutionDir)Octave/External/Bullet;$(SolutionDir)Octave/Engine/Include/Editor;$(SolutionDir)Octave/External/Assimp;$(SolutionDir)Octave/External/Lua</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -236,7 +236,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PLATFORM_WINDOWS=1;API_VULKAN=1;NOMINMAX;_CRT_SECURE_NO_WARNINGS=1;EDITOR=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)octave/External;$(SolutionDir)octave/Engine;$(SolutionDir)octave/Engine/Include;$(SolutionDir)octave/Engine/Include/Engine;$(SolutionDir)octave/External/Bullet;$(SolutionDir)octave/Engine/Include/Editor;$(SolutionDir)octave/External/Lua</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)Octave/External;$(SolutionDir)Octave/Engine;$(SolutionDir)Octave/Engine/Include;$(SolutionDir)Octave/Engine/Include/Engine;$(SolutionDir)Octave/External/Bullet;$(SolutionDir)Octave/Engine/Include/Editor;$(SolutionDir)Octave/External/Lua</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -252,7 +252,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PLATFORM_WINDOWS=1;API_VULKAN=1;NOMINMAX;_CRT_SECURE_NO_WARNINGS=1;EDITOR=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)octave/External;$(SolutionDir)octave/Engine;$(SolutionDir)octave/Engine/Include;$(SolutionDir)octave/Engine/Include/Engine;$(SolutionDir)octave/External/Bullet;$(SolutionDir)octave/Engine/Include/Editor;$(SolutionDir)octave/External/Assimp;$(SolutionDir)octave/External/Lua</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)Octave/External;$(SolutionDir)Octave/Engine;$(SolutionDir)Octave/Engine/Include;$(SolutionDir)Octave/Engine/Include/Engine;$(SolutionDir)Octave/External/Bullet;$(SolutionDir)Octave/Engine/Include/Editor;$(SolutionDir)Octave/External/Assimp;$(SolutionDir)Octave/External/Lua</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
