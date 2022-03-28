@@ -53,15 +53,15 @@ TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	Intermediate/Linux/Editor
 SOURCES		:=	Source \
 				Generated
-INCLUDES	:=	Include ../octave/Engine/Include \
-				../octave/Engine/Include/Editor \
-				../octave/Engine/Include/Engine \
-				../octave/External \
-				../octave/External/Bullet \
+INCLUDES	:=	Include ../Octave/Engine/Include \
+				../Octave/Engine/Include/Editor \
+				../Octave/Engine/Include/Engine \
+				../Octave/External \
+				../Octave/External/Bullet \
 				$(VULKAN_SDK)/include \
-				../octave/External/Assimp \
-				../octave/External/IrrXML \
-				../octave/External/Zlib
+				../Octave/External/Assimp \
+				../Octave/External/IrrXML \
+				../Octave/External/Zlib
 OUTPUT_DIR	:=	$(CURDIR)/Build/Linux
 
 #---------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ LIBS	:=	-lEngineEditor -lvulkan -lxcb -lasound -lAssimp -lBullet -lpthread -lm
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:= $(VULKAN_SDK) ../octave/External/Assimp
+LIBDIRS	:= $(VULKAN_SDK) ../Octave/External/Assimp
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
@@ -125,12 +125,12 @@ export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
 # build a list of library paths
 #---------------------------------------------------------------------------------
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib) \
-					-L$(CURDIR)/../octave/External/Assimp/Build/Linux \
-					-L$(CURDIR)/../octave/External/Bullet/Build/Linux \
-					-L$(CURDIR)/../octave/Engine/Build/Linux
+					-L$(CURDIR)/../Octave/External/Assimp/Build/Linux \
+					-L$(CURDIR)/../Octave/External/Bullet/Build/Linux \
+					-L$(CURDIR)/../Octave/Engine/Build/Linux
 
 export OUTPUT	:=	$(OUTPUT_DIR)/$(TARGET)Editor.out
-export ENGINE_LIB := $(CURDIR)/../octave/Engine/Build/Linux/libEngineEditor.a
+export ENGINE_LIB := $(CURDIR)/../Octave/Engine/Build/Linux/libEngineEditor.a
 export EDITOR	:= 1
 .PHONY: $(BUILD) clean
 
@@ -142,7 +142,7 @@ OutputDirs:
 	[ -d $(BUILD) ] || mkdir -p $(BUILD)
 
 MakeEngine:
-	$(MAKE) --no-print-directory -C $(CURDIR)/../octave/Engine -f $(CURDIR)/../octave/Engine/Makefile_Linux
+	$(MAKE) --no-print-directory -C $(CURDIR)/../Octave/Engine -f $(CURDIR)/../Octave/Engine/Makefile_Linux
 
 $(BUILD): OutputDirs MakeEngine
 	[ -d $@ ] || mkdir -p $@
@@ -153,7 +153,7 @@ clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(OUTPUT_DIR)
 	@export EDITOR=1
-	@$(MAKE) clean --no-print-directory -C $(CURDIR)/../octave/Engine -f $(CURDIR)/../octave/Engine/Makefile_Linux
+	@$(MAKE) clean --no-print-directory -C $(CURDIR)/../Octave/Engine -f $(CURDIR)/../Octave/Engine/Makefile_Linux
 
 #---------------------------------------------------------------------------------
 else
