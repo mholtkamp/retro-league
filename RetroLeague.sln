@@ -5,17 +5,17 @@ VisualStudioVersion = 15.0.28307.1684
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Rocket", "Rocket\Rocket.vcxproj", "{B0D3BA0C-0D6B-452D-875E-E74443C11081}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Assimp", "octave\External\Assimp\Assimp.vcxproj", "{3F6A7D22-1E7C-4708-A88B-676674AFCA7A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Assimp", "Octave\External\Assimp\Assimp.vcxproj", "{3F6A7D22-1E7C-4708-A88B-676674AFCA7A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bullet", "octave\External\Bullet\Bullet.vcxproj", "{6CA0377F-45D1-465C-8758-0B8BDA2163FB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bullet", "Octave\External\Bullet\Bullet.vcxproj", "{6CA0377F-45D1-465C-8758-0B8BDA2163FB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IrrXML", "octave\External\IrrXML\IrrXML.vcxproj", "{843F284E-7382-4E28-9597-027F8145D55A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IrrXML", "Octave\External\IrrXML\IrrXML.vcxproj", "{843F284E-7382-4E28-9597-027F8145D55A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lua", "octave\External\Lua\Lua.vcxproj", "{76B204C0-0490-46FA-AD50-8030F398A5BA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lua", "Octave\External\Lua\Lua.vcxproj", "{76B204C0-0490-46FA-AD50-8030F398A5BA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zlib", "octave\External\Zlib\Zlib.vcxproj", "{8BCD93F2-BE7E-48E0-9C7C-82E0640C1712}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zlib", "Octave\External\Zlib\Zlib.vcxproj", "{8BCD93F2-BE7E-48E0-9C7C-82E0640C1712}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "octave\Engine\Engine.vcxproj", "{F08D83DC-D5D1-469D-BA01-BEAA593596CF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "Octave\Engine\Engine.vcxproj", "{F08D83DC-D5D1-469D-BA01-BEAA593596CF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{DD85E4D3-AF4B-4B35-95BD-29CE67545527}"
 EndProject

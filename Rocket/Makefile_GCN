@@ -22,10 +22,10 @@ SOURCES		:=	Source \
 				Generated
 #DATA		:=	data
 #TEXTURES	:=	textures 
-INCLUDES	:=	../octave/Engine/Include \
-				../octave/Engine/Include/Engine \
-				../octave/External \
-				../octave/External/Bullet
+INCLUDES	:=	../Octave/Engine/Include \
+				../Octave/Engine/Include/Engine \
+				../Octave/External \
+				../Octave/External/Bullet
 OUTPUT_DIR	:=	$(CURDIR)/Build/GCN
 
 #---------------------------------------------------------------------------------
@@ -46,8 +46,8 @@ LIBS	:=	-lEngine -lBullet -lasnd -lbba -lfat -logc -lm
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-ENGINE_LIB_DIR := $(CURDIR)/../octave/Engine/Build/GCN
-BULLET_LIB_DIR := $(CURDIR)/../octave/External/Bullet/Build/GCN
+ENGINE_LIB_DIR := $(CURDIR)/../Octave/Engine/Build/GCN
+BULLET_LIB_DIR := $(CURDIR)/../Octave/External/Bullet/Build/GCN
 LIBDIRS	:= $(ENGINE_LIB_DIR) $(BULLET_LIB_DIR)
 
 #---------------------------------------------------------------------------------
@@ -119,7 +119,7 @@ OutputDir:
 	[ -d $(OUTPUT_DIR) ] || mkdir -p $(OUTPUT_DIR)
 
 MakeEngine:
-	@$(MAKE) --no-print-directory -C $(CURDIR)/../octave/Engine -f $(CURDIR)/../octave/Engine/Makefile_GCN
+	@$(MAKE) --no-print-directory -C $(CURDIR)/../Octave/Engine -f $(CURDIR)/../Octave/Engine/Makefile_GCN
 
 #---------------------------------------------------------------------------------
 clean:
