@@ -22,7 +22,10 @@ Retro League GX is a demake of Rocket League for older game consoles.
 3. Make sure you have compiled shaders for Octave by running Octave/Engine/Shaders/GLSL/compile.sh
 4. Go into the Rocket directory and run `make -f Makefile_Linux_Editor` to compile the editor
 5. Run `make -f Makefile_Linux_Game` to compile the game
-6. Go into the Octave directory and run `../Rocket/Build/Linux/RocketEditor.out` to run the editor. 
+6. Go into the Octave directory and run `../Rocket/Build/Linux/RocketEditor.out -project ../Rocket/Rocket.octp` to run the editor and automatically load the RetroLeague project (codename Rocket)
 7. Package the project for Linux using `File->Package Project->Linux`. This is needed to generate engine asset files before running the game.
-8. Run `../Rocket/Build/Linux/Rocket.out` to run the game
+8. Run `../Rocket/Build/Linux/Rocket.out -project ../Rocket/Rocket.octp` to run the game
 9. You can package the project in the Editor by selecting `File->Package Project->Linux` and this will create a "Packaged" in the root directory that is easier to distribute.
+
+### Linux Setup (VsCode)
+Alternatively to compiling and executing manually, you can instead open the root folder in Visual Studio Code and you should be able to run the `Rocket Editor` and `Rocket Game` tasks to compile and launch the game with the correct working directory and project commandline arg.
