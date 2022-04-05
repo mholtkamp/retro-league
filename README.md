@@ -9,10 +9,11 @@ Retro League GX is a demake of Rocket League for older game consoles.
 4. Open the RetroLeague.sln in Visual Studio Community 2017 (I'm guessing any version beyond that is fine too)
 5. Set Rocket as the Startup Project
 6. Set Rocket's Debug working directory to `$(SolutionDir)Octave`
-7. Launch Rocket in DebugEditor to open the editor
-8. Package the project for Windows using `File->Package Project->Windows`. This is needed to generate engine asset files before running the game.
-9. Launch Rocket in Debug to run the game
-10. If you want to package the game for Windows with Ctrl+B in the Editor, add devenv to the PATH. My devenv for VS 2017 community was located here: `C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE`. The resulting "packaged" game will be in the Packaged folder in the reposity root. The packaging process relies on having cygwin installed, which should happen if you installed the devkitPro libraries.
+7. Set Rocket's Command Arguments to `-project ../Rocket/Rocket.octp`
+8. Launch Rocket in DebugEditor to open the editor
+9. Package the project for Windows using `File->Package Project->Windows`. This is needed to generate engine asset files before running the game.
+10. Launch Rocket in Debug to run the game
+11. If you want to package the game for Windows with `File->Package Project` in the Editor, add devenv to the PATH. My devenv for VS 2017 community was located here: `C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE`. The resulting "packaged" game will be in the Packaged folder in the reposity root. The packaging process relies on having cygwin installed, which should happen if you installed the devkitPro libraries.
 
 
 ## Linux Setup
