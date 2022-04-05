@@ -1,0 +1,62 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Rocket Game",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/Rocket/Build/Linux/Rocket.out",
+            "args": ["-project", "../Rocket/Rocket.octp"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/Octave",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Make Game",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+
+        {
+            "name": "Rocket Editor",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/Rocket/Build/Linux/RocketEditor.out",
+            "args": ["-project", "../Rocket/Rocket.octp"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/Octave",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "Make Editor",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+
+        {
+            "name": "Rocket Game Wii",
+            "type": "cppdbg",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "program": "/usr/games/dolphin-emu",
+            "args": ["--exec=${workspaceFolder}/Rocket/Build/Wii/Octave.elf", "&"],
+            "preLaunchTask": "Make Game Wii",
+            "MIMode": "",
+        }
+    ]
+}
