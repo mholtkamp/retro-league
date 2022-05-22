@@ -81,7 +81,11 @@ void Ball::Create()
     //mBodyComponent->SetAngularFactor(glm::vec3(0.0f, 0.0f, 0.0f));
     //mBodyComponent->SetAngularDamping(1.0f);
     mMeshComponent->SetStaticMesh((StaticMesh*)LoadAsset("SM_Sphere"));
-    mMeshComponent->SetMaterialOverride((Material*)LoadAsset("M_Ball"));
+
+    Material* ballMat = (Material*)LoadAsset("M_Ball");
+    ballMat->SetFresnelEnabled(true);
+    ballMat->SetFresnelColor({ 1.0f, 1.0f, 1.0f, 1.0f });
+    mMeshComponent->SetMaterialOverride(ballMat);
 
     mShadowComponent = CreateComponent<ShadowMeshComponent>();
     mShadowComponent->Attach(mMeshComponent);
@@ -113,7 +117,6 @@ void Ball::Tick(float deltaTime)
 
     if (NetIsAuthority())
     {
-
         mTimeSinceLastHit += deltaTime;
         mTimeSinceLastGrounded += deltaTime;
 
@@ -141,12 +144,29 @@ void Ball::Tick(float deltaTime)
 
     mShadowComponent->SetAbsoluteRotation(glm::vec3(180.0f, 0.0f, 0.0f));
     mShadowComponent->SetAbsolutePosition(GetRootComponent()->GetPosition() + RootRelativeShadowPos * GetRootComponent()->GetScale());
+
+    // Update fresnel color based on last hit.
+    glm::vec4 fresnelColor = mMeshComponent->GetMaterial()->GetFresnelColor();
+    glm::vec4 targetColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+
+    if (mLastHitTeam == 0)
+    {
+        targetColor = glm::vec4(1.0f, 0.5f, 0.0f, 1.0f);
+    }
+    else if (mLastHitTeam == 1)
+    {
+        targetColor = glm::vec4(0.0f, 0.5f, 1.0f, 1.0f);
+    }
+
+    fresnelColor = Maths::Damp(fresnelColor, targetColor, 0.005f, deltaTime);
+    mMeshComponent->GetMaterial()->SetFresnelColor(fresnelColor);
 }
 
 void Ball::GatherReplicatedData(std::vector<NetDatum>& outData)
 {
     Actor::GatherReplicatedData(outData);
     outData.push_back(NetDatum(DatumType::Bool, this, &mAlive, 1, OnRep_Alive));
+    outData.push_back(NetDatum(DatumType::Integer, this, &mLastHitTeam, 1));
 }
 
 void Ball::GatherNetFuncs(std::vector<NetFunc>& outFuncs)
@@ -191,6 +211,9 @@ void Ball::OnCollision(
             Line debugLine(lineStart, lineEnd, glm::vec4(0.3f, 0.2f, 1.0f, 1.0f), 10.0f);
             GetWorld()->AddLine(debugLine);
     #endif
+
+            // Update last hit team
+            mLastHitTeam = car->GetTeamIndex();
 
             if (mTimeSinceLastHit > 0.3f)
             {
@@ -247,6 +270,7 @@ void Ball::Reset()
         SetPosition(glm::vec3(0.0f, 5.0f, 0.0f));
         mMeshComponent->SetLinearVelocity(glm::vec3(0));
         mMeshComponent->SetAngularVelocity(glm::vec3(0));
+        mLastHitTeam = -1;
         SetAlive(true);
     }
 }

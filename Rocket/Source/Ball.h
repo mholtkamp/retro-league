@@ -51,6 +51,7 @@ protected:
 
     float mTimeSinceLastHit = 0.0f;
     float mTimeSinceLastGrounded = 0.0f;
+    int32_t mLastHitTeam = -1;
     bool mGrounded = false;
     bool mAlive = true;
 };
