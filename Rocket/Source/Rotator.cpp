@@ -2,7 +2,7 @@
 
 #include "Components/StaticMeshComponent.h"
 
-DEFINE_ACTOR(Rotator);
+DEFINE_ACTOR(Rotator, Actor);
 
 void Rotator::Create()
 {

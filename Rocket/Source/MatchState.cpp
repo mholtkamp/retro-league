@@ -18,7 +18,7 @@
 
 #include "System/System.h"
 
-DEFINE_ACTOR(MatchState);
+DEFINE_ACTOR(MatchState, Actor);
 
 MatchState::MatchState()
 {

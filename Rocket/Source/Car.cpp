@@ -45,7 +45,7 @@ const float DemoSpeedDiff = 5.0f;
 
 const glm::vec3 RootRelativeShadowPos = glm::vec3(0.0f, -2.3f, 0.0f);
 
-DEFINE_ACTOR(Car);
+DEFINE_ACTOR(Car, Actor);
 
 bool Car::OnRep_NetPosition(Datum* datum, const void* newValue)
 {

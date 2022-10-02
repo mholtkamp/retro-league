@@ -22,7 +22,7 @@ const float BallHardSpeedLimit = 80.0f;
 
 const glm::vec3 RootRelativeShadowPos = glm::vec3(0.0f, -20.0f, 0.0f);
 
-DEFINE_ACTOR(Ball);
+DEFINE_ACTOR(Ball, Actor);
 
 bool Ball::OnRep_Alive(Datum* datum, const void* value)
 {
