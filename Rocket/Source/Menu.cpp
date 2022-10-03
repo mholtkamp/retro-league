@@ -85,9 +85,6 @@ void Menu::PopPage()
 
 MainMenu::MainMenu()
 {
-    glm::vec2 ires = Renderer::Get()->GetScreenResolution();
-    glm::vec2 mid = ires / 2.0f;
-
     SetAnchorMode(AnchorMode::FullStretch);
     SetMargins(0.0f, 0.0f, 0.0f, 0.0f);
 
