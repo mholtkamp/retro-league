@@ -866,6 +866,9 @@ void Car::UpdateRotation(float deltaTime)
     }
 
     // Adjust front fender / wheel rotation to match input direction
+    // NOTE: This function is only firing on local player or net authority, so clients
+    // will not see other car wheel rotation or turning (hard to notice anyway). To fix this,
+    // we can probably add replicated data for steering direction + speed.
     float targetRotY = -30.0f * motionX;
     mWheelRotationY = Maths::Approach(mWheelRotationY, targetRotY, 500.0f, deltaTime);
 
@@ -874,6 +877,11 @@ void Car::UpdateRotation(float deltaTime)
     float deltaWheelAngle = wheelSpeed * deltaTime;
     mWheelRotationX += deltaWheelAngle;
     mWheelRotationX = fmod(mWheelRotationX, 360.0f);
+
+    // Force an animation update so we can adjust bones afterwards.
+    // Animation usually happens during the culling step before rendering,
+    // But calling it here will do it ahead of time (and skip animation during culling).
+    mMeshComponent->UpdateAnimation(deltaTime, true);
 
     {
         // Fender rotation (only adjust yaw)
