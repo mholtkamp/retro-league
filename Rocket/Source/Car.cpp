@@ -199,7 +199,6 @@ void Car::M_Demolish(Actor* actor)
 
 Car::Car()
 {
-    mTickInEditor = false;
     mReplicate = true;
 
     // Handle transform ourselves since we want to skip replication updates for locally controlled cars.

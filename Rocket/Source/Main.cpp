@@ -57,7 +57,10 @@ void OctPostInitialize()
     GetWorld()->SetShadowColor({ 0.0f, 0.0f, 0.0f, 0.5f });
 
     GetGameState()->Initialize();
+    
+#if !EDITOR
     GetGameState()->LoadMainMenu();
+#endif
 
 #if PLATFORM_3DS
     // On old 3DS, our perf isn't good enough for 60 fps, so limit to 30 fps to avoid stutters.
@@ -122,7 +125,7 @@ void OctPostUpdate()
 
 void OctPreShutdown()
 {
-
+    GetGameState()->Shutdown();
 }
 
 void OctPostShutdown()

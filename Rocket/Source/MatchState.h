@@ -35,6 +35,7 @@ public:
     MatchState();
     virtual void Create() override;
     virtual void Destroy() override;
+    virtual void BeginPlay() override;
     virtual void Tick(float deltaTime) override;
     virtual void GatherReplicatedData(std::vector<NetDatum>& outData) override;
 

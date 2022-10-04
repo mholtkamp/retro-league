@@ -41,6 +41,17 @@ void MatchState::Create()
     GetGameState()->mMatchState = this;
 
     SetRootComponent(CreateComponent<TransformComponent>());
+}
+
+void MatchState::Destroy()
+{
+    Actor::Destroy();
+    GetGameState()->mMatchState = nullptr;
+}
+
+void MatchState::BeginPlay()
+{
+    Actor::BeginPlay();
 
     World* world = GetWorld();
 
@@ -94,12 +105,6 @@ void MatchState::Create()
 
         ResetMatchState();
     }
-}
-
-void MatchState::Destroy()
-{
-    Actor::Destroy();
-    GetGameState()->mMatchState = nullptr;
 }
 
 void MatchState::ResetMatchState()

@@ -38,6 +38,7 @@ struct GameState
     class Hud* mHudWidget = nullptr;
 
     void Initialize();
+    void Shutdown();
     void LoadArena();
     void LoadMainMenu();
     void ShowMainMenuWidget(bool show);

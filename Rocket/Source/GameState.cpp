@@ -72,6 +72,12 @@ void GameState::Initialize()
     netMan->SetDisconnectCallback(NetworkDisconnectCb);
 }
 
+void GameState::Shutdown()
+{
+    ShowMainMenuWidget(false);
+    ShowHudWidget(false);
+}
+
 void GameState::LoadArena()
 {
     if (mMatchOptions.mNetworkMode == NetworkMode::LAN ||
@@ -91,7 +97,7 @@ void GameState::LoadArena()
     }
 
     // The MatchState actor relies on L_Arena being loaded.
-    GetWorld()->SpawnActor<MatchState>();
+    //GetWorld()->SpawnActor<MatchState>();
 }
 
 void GameState::LoadMainMenu()

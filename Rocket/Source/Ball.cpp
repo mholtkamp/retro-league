@@ -47,7 +47,6 @@ void Ball::M_GoalExplode(Actor* actor)
 
 Ball::Ball()
 {
-    mTickInEditor = false;
     mReplicate = true;
     mReplicateTransform = true;
 }
