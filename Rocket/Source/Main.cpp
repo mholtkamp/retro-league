@@ -82,6 +82,7 @@ void OctPostUpdate()
 {
     GetGameState()->Update(GetAppClock()->DeltaTime());
 
+#if !EDITOR
     // Exit the game if home is pressed or the Smash Bros Melee reset combo is pressed.
     if (IsGamepadButtonDown(GAMEPAD_HOME, 0) ||
         (IsGamepadButtonDown(GAMEPAD_A, 0) &&
@@ -121,6 +122,7 @@ void OctPostUpdate()
             stats->SetDisplayMode(StatDisplayMode::Memory);
         }
     }
+#endif
 }
 
 void OctPreShutdown()
