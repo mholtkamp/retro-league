@@ -59,7 +59,7 @@ void OctPostInitialize()
     GetGameState()->Initialize();
     
 #if !EDITOR
-    GetGameState()->LoadPreferredMatchOptions();
+    //GetGameState()->LoadPreferredMatchOptions();
     GetGameState()->LoadMainMenu();
 #endif
 

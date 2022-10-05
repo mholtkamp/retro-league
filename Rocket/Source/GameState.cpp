@@ -239,6 +239,11 @@ void GameState::LoadPreferredMatchOptions()
     }
 }
 
+void GameState::DeletePreferredMatchOptions()
+{
+    SYS_DeleteSave(kRocketSaveName);
+}
+
 void GameState::Update(float deltaTime)
 {
     // Tick time
@@ -246,7 +251,7 @@ void GameState::Update(float deltaTime)
 
     if (mTransitionToGame)
     {
-        SavePreferredMatchOptions();
+        //SavePreferredMatchOptions();
         LoadArena();
         mTransitionToGame = false;
     }

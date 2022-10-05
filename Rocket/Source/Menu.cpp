@@ -1,5 +1,6 @@
 #include "Menu.h"
 #include "MenuPage.h"
+#include "GameState.h"
 
 #include "Renderer.h"
 #include "InputDevices.h"
@@ -177,6 +178,45 @@ void MainMenu::Update()
         {
             mCursor->SetVisible(false);
         }
+    }
+
+    if (IsGamepadButtonJustDown(GAMEPAD_Y, 0))
+    {
+        SYS_UnmountMemoryCard();
+    }
+
+    if (IsGamepadButtonJustDown(GAMEPAD_X, 0))
+    {
+        GetGameState()->DeletePreferredMatchOptions();
+    }
+
+    if (IsGamepadButtonJustDown(GAMEPAD_L1, 0))
+    {
+        GetGameState()->LoadPreferredMatchOptions();
+
+        // Refresh Options
+        for (uint32_t i = 0; i < mPages.size(); ++i)
+        {
+            if (strcmp(mPages[i]->GetName(), "Create") == 0)
+            {
+                ((MenuPageCreate*)mPages[i])->PullOptions();
+                break;
+            }
+        }
+    }
+
+    if (IsGamepadButtonJustDown(GAMEPAD_R1, 0))
+    {
+        // Sync Options
+        for (uint32_t i = 0; i < mPages.size(); ++i)
+        {
+            if (strcmp(mPages[i]->GetName(), "Create") == 0)
+            {
+                ((MenuPageCreate*)mPages[i])->PushOptions();
+                break;
+            }
+        }
+        GetGameState()->SavePreferredMatchOptions();
     }
 }
 

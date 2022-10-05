@@ -47,6 +47,8 @@ public:
     MenuPageCreate(Menu* mainMenu);
 
     static void ActivateStart(MenuOption* option);
+    void PullOptions();
+    void PushOptions();
 
     MenuOptionEnum* mTeamSizeOption = nullptr;
     MenuOptionEnum* mEnvironmentOption = nullptr;

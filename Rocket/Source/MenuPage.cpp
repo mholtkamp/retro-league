@@ -229,10 +229,7 @@ MenuPageCreate::MenuPageCreate(Menu* mainMenu) :
     mNetworkOption = new MenuOptionEnum(this, "Network", nullptr, 3, networkStrings);
     mStartOption = new MenuOption(this, "Start", ActivateStart);
 
-    // Temporarily lock Network until network play is added.
-    mTeamSizeOption->SetEnumValue(GetGameState()->mMatchOptions.mTeamSize - 1);
-    mEnvironmentOption->SetEnumValue((uint32_t)GetGameState()->mMatchOptions.mEnvironmentType);
-    mNetworkOption->SetEnumValue((uint32_t) GetGameState()->mMatchOptions.mNetworkMode);
+    PullOptions();
 
     AddOption(mTeamSizeOption);
     AddOption(mEnvironmentOption);
@@ -243,11 +240,23 @@ MenuPageCreate::MenuPageCreate(Menu* mainMenu) :
 void MenuPageCreate::ActivateStart(MenuOption* option)
 {
     MenuPageCreate* thisPage = (MenuPageCreate*) option->GetPage();
-    GetGameState()->mMatchOptions.mTeamSize = thisPage->mTeamSizeOption->GetEnumValue() + 1;
-    GetGameState()->mMatchOptions.mEnvironmentType = (EnvironmentType)thisPage->mEnvironmentOption->GetEnumValue();
-    GetGameState()->mMatchOptions.mNetworkMode = (NetworkMode)thisPage->mNetworkOption->GetEnumValue();
+    thisPage->PushOptions();
 
     GetGameState()->mTransitionToGame = true;
+}
+
+void MenuPageCreate::PullOptions()
+{
+    mTeamSizeOption->SetEnumValue(GetGameState()->mMatchOptions.mTeamSize - 1);
+    mEnvironmentOption->SetEnumValue((uint32_t)GetGameState()->mMatchOptions.mEnvironmentType);
+    mNetworkOption->SetEnumValue((uint32_t)GetGameState()->mMatchOptions.mNetworkMode);
+}
+
+void MenuPageCreate::PushOptions()
+{
+    GetGameState()->mMatchOptions.mTeamSize = mTeamSizeOption->GetEnumValue() + 1;
+    GetGameState()->mMatchOptions.mEnvironmentType = (EnvironmentType)mEnvironmentOption->GetEnumValue();
+    GetGameState()->mMatchOptions.mNetworkMode = (NetworkMode)mNetworkOption->GetEnumValue();
 }
 
 MenuPageAbout::MenuPageAbout(Menu* mainMenu) :

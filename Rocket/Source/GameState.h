@@ -48,6 +48,7 @@ struct GameState
 
     void SavePreferredMatchOptions();
     void LoadPreferredMatchOptions();
+    void DeletePreferredMatchOptions();
 
     void Update(float deltaTime);
 
