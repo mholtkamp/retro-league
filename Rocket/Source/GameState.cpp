@@ -18,6 +18,8 @@
 
 #include "System/System.h"
 
+constexpr const char* kRocketSaveName = "RocketSave.dat";
+
 GameState gGameState;
 
 GameState* GetGameState()
@@ -206,6 +208,37 @@ void GameState::ClearPlayer(NetHostId hostId)
     }
 }
 
+void GameState::SavePreferredMatchOptions()
+{
+    Stream saveData;
+    saveData.WriteFloat(mMatchOptions.mDuration);
+    saveData.WriteUint32(mMatchOptions.mTeamSize);
+    saveData.WriteUint32(mMatchOptions.mNumPlayers);
+    saveData.WriteUint32((uint32_t)mMatchOptions.mNetworkMode);
+    saveData.WriteUint32((uint32_t)mMatchOptions.mEnvironmentType);
+    saveData.WriteBool(mMatchOptions.mBots);
+
+    SYS_WriteSave(kRocketSaveName, saveData);
+    // 21 bytes?
+}
+
+void GameState::LoadPreferredMatchOptions()
+{
+    Stream saveData;
+
+    if (SYS_DoesSaveExist(kRocketSaveName))
+    {
+        SYS_ReadSave(kRocketSaveName, saveData);
+
+        mMatchOptions.mDuration = saveData.ReadFloat();
+        mMatchOptions.mTeamSize = saveData.ReadUint32();
+        mMatchOptions.mNumPlayers = saveData.ReadUint32();
+        mMatchOptions.mNetworkMode = (NetworkMode)saveData.ReadUint32();
+        mMatchOptions.mEnvironmentType = (EnvironmentType)saveData.ReadUint32();
+        mMatchOptions.mBots = saveData.ReadBool();
+    }
+}
+
 void GameState::Update(float deltaTime)
 {
     // Tick time
@@ -213,6 +246,7 @@ void GameState::Update(float deltaTime)
 
     if (mTransitionToGame)
     {
+        SavePreferredMatchOptions();
         LoadArena();
         mTransitionToGame = false;
     }

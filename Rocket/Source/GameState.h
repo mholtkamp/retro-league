@@ -46,6 +46,9 @@ struct GameState
     bool IsInMainMenu() const;
     void ClearPlayer(NetHostId hostId);
 
+    void SavePreferredMatchOptions();
+    void LoadPreferredMatchOptions();
+
     void Update(float deltaTime);
 
 private:
