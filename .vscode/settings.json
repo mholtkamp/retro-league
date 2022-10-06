@@ -64,6 +64,7 @@
         "compare": "cpp",
         "concepts": "cpp",
         "numbers": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "xstring": "cpp"
     }
 }
