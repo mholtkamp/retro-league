@@ -226,9 +226,8 @@ void Car::Create()
     mSphereComponent->SetCollisionGroup(ColGroupCar);
 
     SkeletalMesh* skeletalMesh = (SkeletalMesh*)LoadAsset("SK_CarM2");
-    mMeshComponent = CreateComponent<SkeletalMeshComponent>();
+    mMeshComponent = CreateComponent<SkeletalMeshComponent>("Mesh");
     mMeshComponent->Attach(mSphereComponent);
-    mMeshComponent->SetName("Car Mesh");
     mMeshComponent->SetSkeletalMesh(skeletalMesh);
     mMeshComponent->EnablePhysics(false);
     mMeshComponent->EnableCollision(false);
@@ -236,34 +235,33 @@ void Car::Create()
     mMeshComponent->EnableCastShadows(true);
     mMeshComponent->EnableReceiveSimpleShadows(false);
 
-    mShadowComponent = CreateComponent<ShadowMeshComponent>();
+    mShadowComponent = CreateComponent<ShadowMeshComponent>("Shadow");
     mShadowComponent->Attach(mSphereComponent);
-    mShadowComponent->SetName("Shadow");
     mShadowComponent->SetStaticMesh(LoadAsset<StaticMesh>("SM_Cone"));
     mShadowComponent->SetRotation(glm::vec3(180.0f, 0.0f, 0.0f));
     mShadowComponent->SetPosition(RootRelativeShadowPos);
     mShadowComponent->SetScale(glm::vec3(1.4f, 2.0f, 1.4f));
 
-    mCameraComponent = CreateComponent<CameraComponent>();
+    mCameraComponent = CreateComponent<CameraComponent>("Camera");
     mCameraComponent->Attach(mSphereComponent);
     mCameraComponent->SetPosition(glm::vec3(0.0f, CameraHeight, CameraDistanceXZ));
     mCameraComponent->SetRotation(glm::vec3(5.0f, 0.0f, 0.0f));
 
-    mTrailComponent = CreateComponent<ParticleComponent>();
+    mTrailComponent = CreateComponent<ParticleComponent>("Trail Particle");
     mTrailComponent->Attach(mSphereComponent);
     mTrailComponent->SetPosition(glm::vec3(0.0f, 0.0f, 0.5f));
     mTrailComponent->SetParticleSystem((ParticleSystem*)LoadAsset("P_Trail"));
     mTrailComponent->EnableEmission(false);
 
 
-    mDemoComponent = CreateComponent<ParticleComponent>();
+    mDemoComponent = CreateComponent<ParticleComponent>("Explosion Particle");
     mDemoComponent->Attach(mSphereComponent);
     mDemoComponent->SetPosition(glm::vec3(0.0f, 0.0f, 0.5f));
     mDemoComponent->SetParticleSystem((ParticleSystem*)LoadAsset("P_DemoExplosion"));
     mDemoComponent->EnableEmission(false);
     mDemoComponent->SetActive(false);
 
-    mEngineAudioComponent =CreateComponent<AudioComponent>();
+    mEngineAudioComponent =CreateComponent<AudioComponent>("Engine Audio");
     mEngineAudioComponent->Attach(mSphereComponent);
     mEngineAudioComponent->SetInnerRadius(5.0f);
     mEngineAudioComponent->SetOuterRadius(30.0f);
@@ -271,14 +269,14 @@ void Car::Create()
     mEngineAudioComponent->SetLoop(true);
     mEngineAudioComponent->Play();
 
-    mBoostAudioComponent = CreateComponent<AudioComponent>();
+    mBoostAudioComponent = CreateComponent<AudioComponent>("Boost Audio");
     mBoostAudioComponent->Attach(mSphereComponent);
     mBoostAudioComponent->SetInnerRadius(5.0f);
     mBoostAudioComponent->SetOuterRadius(30.0f);
     mBoostAudioComponent->SetSoundWave((SoundWave*)LoadAsset("SW_Boost"));
     mBoostAudioComponent->SetLoop(false);
 
-    mJumpAudioComponent = CreateComponent<AudioComponent>();
+    mJumpAudioComponent = CreateComponent<AudioComponent>("Jump Audio");
     mJumpAudioComponent->Attach(mSphereComponent);
     mJumpAudioComponent->SetInnerRadius(5.0f);
     mJumpAudioComponent->SetOuterRadius(20.0f);
@@ -1563,7 +1561,7 @@ void Car::MoveToRandomSpawnPoint()
 {
     MatchState* match = GetMatchState();
 
-    int32_t spawnIndex = Maths::RandRange(int32_t(0), int32_t(3));
+    int32_t spawnIndex = Maths::RandRange(int32_t(0), int32_t(2));
     Actor* spawnActor = (mTeamIndex == 0) ? match->mSpawnPoints0[spawnIndex] : match->mSpawnPoints1[spawnIndex];
     SetPosition(spawnActor->GetPosition());
     SetRotation(glm::vec3(0.0f, (mTeamIndex == 0) ? -90.0f : 90.0f, 0.0f));
