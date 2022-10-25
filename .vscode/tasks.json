@@ -3,7 +3,7 @@
         {
             "type": "shell",
             "label": "Make Editor",
-            "command": "make -f Makefile_Linux_Editor -C ${workspaceFolder}/Rocket/",
+            "command": "make -f Makefile_Linux_Editor -C ${workspaceFolder}/Rocket/ -j 6",
             "args": [],
             "options": {
 
@@ -21,7 +21,7 @@
         {
             "type": "shell",
             "label": "Make Game",
-            "command": "make -f Makefile_Linux_Game -C ${workspaceFolder}/Rocket/",
+            "command": "make -f Makefile_Linux_Game -C ${workspaceFolder}/Rocket/ -j 6",
             "args": [],
             "options": {
 
@@ -39,7 +39,7 @@
         {
             "type": "shell",
             "label": "Make Game GameCube",
-            "command": "make -f Makefile_GCN -C ${workspaceFolder}/Rocket/",
+            "command": "make -f Makefile_GCN -C ${workspaceFolder}/Rocket/ -j 6",
             "args": [],
             "options": {
 
@@ -57,7 +57,7 @@
         {
             "type": "shell",
             "label": "Make Game Wii",
-            "command": "make -f Makefile_Wii -C ${workspaceFolder}/Rocket/",
+            "command": "make -f Makefile_Wii -C ${workspaceFolder}/Rocket/ -j 6",
             "args": [],
             "options": {
 
@@ -75,7 +75,7 @@
         {
             "type": "shell",
             "label": "Make Game 3DS",
-            "command": "make -f Makefile_3DS -C ${workspaceFolder}/Rocket/",
+            "command": "make -f Makefile_3DS -C ${workspaceFolder}/Rocket/ -j 6",
             "args": [],
             "options": {
 
