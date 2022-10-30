@@ -50,7 +50,7 @@ DEFINE_ACTOR(Car, Actor);
 bool Car::OnRep_NetPosition(Datum* datum, const void* newValue)
 {
     Car* car = (Car*) datum->mOwner;
-    assert(car);
+    OCT_ASSERT(car);
 
     if (!car->IsLocallyControlled() || !car->mInitialPosSet)
     {
@@ -67,7 +67,7 @@ bool Car::OnRep_NetPosition(Datum* datum, const void* newValue)
 bool Car::OnRep_NetRotation(Datum* datum, const void* newValue)
 {
     Car* car = (Car*) datum->mOwner;
-    assert(car);
+    OCT_ASSERT(car);
 
     if (!car->IsLocallyControlled() || !car->mInitialRotSet)
     {
@@ -83,7 +83,7 @@ bool Car::OnRep_NetRotation(Datum* datum, const void* newValue)
 
 bool Car::OnRep_OwningHost(Datum* datum, const void* newValue)
 {
-    assert(datum->mOwner != nullptr);
+    OCT_ASSERT(datum->mOwner != nullptr);
     Car* car = static_cast<Car*>(datum->mOwner);
     car->mOwningHost = *((bool*) newValue);
 
@@ -142,7 +142,7 @@ bool Car::OnRep_TeamIndex(Datum* datum, const void* newValue)
 
 void Car::S_UploadState(Actor* actor, Datum& vecPosition, Datum& vecRotation, Datum& vecVelocity, Datum& bBoosting)
 {
-    assert(NetIsServer());
+    OCT_ASSERT(NetIsServer());
     Car* car = (Car*) actor;
     glm::vec3 position = vecPosition.GetVector();
     glm::vec3 rotation = vecRotation.GetVector();
@@ -297,7 +297,7 @@ void Car::Create()
     //mMeshComponent->SetAnimation("Wiggle");
     //mMeshComponent->Play();
 
-    assert(
+    OCT_ASSERT(
         mBoneFenderL != -1 &&
         mBoneFenderR != -1 &&
         mBoneWheelFL != -1 &&
@@ -506,7 +506,7 @@ glm::vec3 Car::GetVelocity() const
 
 void Car::ForceVelocity(glm::vec3 velocity)
 {
-    assert(NetIsAuthority());
+    OCT_ASSERT(NetIsAuthority());
     SetVelocity(velocity);
     InvokeNetFunc("C_ForceVelocity", mVelocity);
 }
@@ -593,7 +593,7 @@ float Car::GetBoostFuel() const
 
 void Car::Kill()
 {
-    assert(NetIsAuthority());
+    OCT_ASSERT(NetIsAuthority());
 
     if (mAlive)
     {
@@ -613,7 +613,7 @@ void Car::Kill()
 
 void Car::Respawn()
 {
-    assert(NetIsAuthority());
+    OCT_ASSERT(NetIsAuthority());
     if (!mAlive)
     {
         mAlive = true;
@@ -1426,7 +1426,7 @@ void Car::BotUpdateTarget(float deltaTime)
         else
         {
             // Head to someplace near own goal
-            assert(mTeamIndex == 0 || mTeamIndex == 1);
+            OCT_ASSERT(mTeamIndex == 0 || mTeamIndex == 1);
             glm::vec3 centerPos = GetMatchState()->mGoalBoxes[mTeamIndex]->GetPosition() + forwardDir * 20.0f;
             mBotTargetPosition = FindRandomPointInCircleXZ(centerPos, 10.0f);
             mBotTargetType = BotTargetType::Position;

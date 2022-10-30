@@ -37,7 +37,7 @@ void MatchState::Create()
     Actor::Create();
 
     // Self-register this actor in the game state.
-    assert(GetGameState()->mMatchState == nullptr);
+    OCT_ASSERT(GetGameState()->mMatchState == nullptr);
     GetGameState()->mMatchState = this;
 
     SetRootComponent(CreateComponent<TransformComponent>());
@@ -109,7 +109,7 @@ void MatchState::BeginPlay()
 
 void MatchState::ResetMatchState()
 {
-    assert(NetIsAuthority());
+    OCT_ASSERT(NetIsAuthority());
     mBall = (Ball*)GetWorld()->FindActor("Ball");
     mTime = GetGameState()->mMatchOptions.mDuration;
     mTeamSize = GetGameState()->mMatchOptions.mTeamSize;
@@ -272,7 +272,7 @@ void MatchState::Tick(float deltaTime)
             if (mOvertime)
             {
                 // This goal should have broken the tie.
-                assert(mTeams[0].mScore != mTeams[1].mScore);
+                OCT_ASSERT(mTeams[0].mScore != mTeams[1].mScore);
                 SetMatchPhase(MatchPhase::Finished);
             }
             else
@@ -322,7 +322,7 @@ void MatchState::HandleGoal(uint32_t scoringTeam)
     // It's possible the ball can go into goal after game ends
     if (mPhase == MatchPhase::Play)
     {
-        assert(scoringTeam < NUM_TEAMS);
+        OCT_ASSERT(scoringTeam < NUM_TEAMS);
         mTeams[scoringTeam].mScore++;
 
         SetMatchPhase(MatchPhase::Goal);
@@ -331,7 +331,7 @@ void MatchState::HandleGoal(uint32_t scoringTeam)
 
 void MatchState::AssignHostToCar(NetClient* client)
 {
-    assert(NetIsServer());
+    OCT_ASSERT(NetIsServer());
 
     for (uint32_t i = 0; i < mNumCars; ++i)
     {
@@ -353,7 +353,7 @@ bool MatchState::IsMatchOngoing() const
 void MatchState::FindSpawnPointActors()
 {
     // Gather spawn points
-    assert(NUM_SPAWN_POINTS == 3);
+    OCT_ASSERT(NUM_SPAWN_POINTS == 3);
     mSpawnPoints0[0] = GetWorld()->FindComponent("Spawn.0.0")->GetOwner();
     mSpawnPoints0[1] = GetWorld()->FindComponent("Spawn.0.1")->GetOwner();
     mSpawnPoints0[2] = GetWorld()->FindComponent("Spawn.0.2")->GetOwner();
@@ -382,7 +382,7 @@ void MatchState::PostLoadHandlePlatformTier()
 
 void MatchState::SetMatchPhase(MatchPhase phase)
 {
-    assert(NetIsAuthority());
+    OCT_ASSERT(NetIsAuthority());
 
     if (mPhase != phase)
     {
@@ -433,7 +433,7 @@ void MatchState::SetMatchPhase(MatchPhase phase)
 
 void MatchState::SetupKickoff()
 {
-    assert(NetIsAuthority());
+    OCT_ASSERT(NetIsAuthority());
 
     mBall->Reset();
 
@@ -474,7 +474,7 @@ void MatchState::SetupKickoff()
 
 void MatchState::EnableCarControl(bool enable)
 {
-    assert(NetIsAuthority());
+    OCT_ASSERT(NetIsAuthority());
 
     for (uint32_t t = 0; t < NUM_TEAMS; ++t)
     {
@@ -490,8 +490,8 @@ void MatchState::EnableCarControl(bool enable)
 
 void MatchState::AssignCarHostIds()
 {
-    assert(NetIsAuthority());
-    assert(mNumCars >= 1);
+    OCT_ASSERT(NetIsAuthority());
+    OCT_ASSERT(mNumCars >= 1);
 
     if (NetIsServer())
     {
