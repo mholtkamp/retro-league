@@ -5,7 +5,7 @@ Hud3DS::Hud3DS()
 {
     mBoostBg->SetVisible(false);
 
-    mWinner->SetSize(32.0f);
+    mWinner->SetTextSize(32.0f);
 
     mCountdownBg->SetAnchorMode(AnchorMode::FullStretch);
     mCountdownBg->SetMargins(0.0f, 0.0f, 0.0f, 0.0f);

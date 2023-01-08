@@ -8,6 +8,10 @@
 #include "AssetManager.h"
 #include "Renderer.h"
 
+#include "InputDevices.h"
+#include "AssetManager.h"
+#include "Assets/WidgetMap.h"
+
 Hud::Hud()
 {
     SetAnchorMode(AnchorMode::FullStretch);
@@ -59,21 +63,21 @@ Hud::Hud()
     mScore0->SetAnchorMode(AnchorMode::TopMid);
     mScore0->SetPosition(-40.0f, 5.0f);
     mScore0->SetDimensions(100, 100);
-    mScore0->SetSize(24.0f);
+    mScore0->SetTextSize(24.0f);
     AddChild(mScore0);
 
     mScore1 = new Text();
     mScore1->SetAnchorMode(AnchorMode::TopMid);
     mScore1->SetPosition(40.0f, 5.0f);
     mScore1->SetDimensions(100, 100);
-    mScore1->SetSize(24.0f);
+    mScore1->SetTextSize(24.0f);
     AddChild(mScore1);
 
     mTime = new Text();
     mTime->SetAnchorMode(AnchorMode::TopMid);
     mTime->SetPosition(-10.0f, 25.0f);
     mTime->SetDimensions(100, 100);
-    mTime->SetSize(20.0f);
+    mTime->SetTextSize(20.0f);
     AddChild(mTime);
 
     mBoost = new Text();
@@ -81,21 +85,21 @@ Hud::Hud()
     mBoost->SetPosition(-105.0f, -60.0f);
     mBoost->SetDimensions(100, 50);
     mBoost->SetColor({ 0.9f, 0.8f, 0.1f, 1.0f });
-    mBoost->SetSize(20.0f);
+    mBoost->SetTextSize(20.0f);
     AddChild(mBoost);
 
     mWinner = new Text();
     mWinner->SetAnchorMode(AnchorMode::Mid);
     mWinner->SetPosition(-200.0f, -35.0f);
     mWinner->SetDimensions(1000.0f, 200.0f);
-    mWinner->SetSize(60.0f);
+    mWinner->SetTextSize(60.0f);
     mWinner->SetVisible(false);
     mWinnerBg->AddChild(mWinner);
 
     mCountdown = new Text();
     mCountdown->SetPosition({30.0f, 10.0f });
     mCountdown->SetDimensions({ 100.0f, 200.0f });
-    mCountdown->SetSize(60.0f);
+    mCountdown->SetTextSize(60.0f);
     mCountdownBg->AddChild(mCountdown);
 }
 

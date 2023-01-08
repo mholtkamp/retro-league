@@ -14,9 +14,9 @@ MenuOption::MenuOption(MenuPage* page, const char* label, MenuOptionCallbackFP c
     mText = new Text();
 
 #if PLATFORM_3DS
-    mText->SetSize(20.0f);
+    mText->SetTextSize(20.0f);
 #else
-    mText->SetSize(24.0f);
+    mText->SetTextSize(24.0f);
 #endif
     mText->SetDimensions(400.0f, 50.0f);
     mText->SetText(mLabel);

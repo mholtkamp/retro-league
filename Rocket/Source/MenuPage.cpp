@@ -272,7 +272,7 @@ MenuPageAbout::MenuPageAbout(Menu* mainMenu) :
     mAboutText->SetSize(14.0f);
     mAboutText->SetPosition(-60.0f, 0.0f);
 #else
-    mAboutText->SetSize(24.0f);
+    mAboutText->SetTextSize(24.0f);
 #endif
     AddChild(mAboutText);
 }
@@ -314,7 +314,7 @@ MenuPageJoin::MenuPageJoin(Menu* mainMenu) :
     mSearchText->SetText("Searching...");
     mSearchText->SetPosition(100, 145);
     mSearchText->SetDimensions(100, 40);
-    mSearchText->SetSize(20);
+    mSearchText->SetTextSize(20);
     AddChild(mSearchText);
 }
 
