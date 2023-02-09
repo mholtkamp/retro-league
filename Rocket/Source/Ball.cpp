@@ -106,6 +106,7 @@ void Ball::Create()
     mParticleComponent->Attach(mMeshComponent);
     mParticleComponent->SetParticleSystem((ParticleSystem*)LoadAsset("P_GoalExplosion"));
     mParticleComponent->EnableEmission(false);
+    mParticleComponent->EnableAutoEmit(false);
 
     mGoalSound = LoadAsset("SW_Goal");
 }

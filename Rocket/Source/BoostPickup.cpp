@@ -56,6 +56,7 @@ void BoostPickup::Create()
     mParticleComponent->SetName("Boost Pickup Particle");
     mParticleComponent->SetParticleSystem((ParticleSystem*)LoadAsset("P_BoostPickup"));
     mParticleComponent->EnableEmission(false);
+    mParticleComponent->EnableAutoEmit(false);
 }
 
 void BoostPickup::Tick(float deltaTime)

@@ -252,13 +252,14 @@ void Car::Create()
     mTrailComponent->SetPosition(glm::vec3(0.0f, 0.0f, 0.5f));
     mTrailComponent->SetParticleSystem((ParticleSystem*)LoadAsset("P_Trail"));
     mTrailComponent->EnableEmission(false);
-
+    mTrailComponent->EnableAutoEmit(false);
 
     mDemoComponent = CreateComponent<ParticleComponent>("Explosion Particle");
     mDemoComponent->Attach(mSphereComponent);
     mDemoComponent->SetPosition(glm::vec3(0.0f, 0.0f, 0.5f));
     mDemoComponent->SetParticleSystem((ParticleSystem*)LoadAsset("P_DemoExplosion"));
     mDemoComponent->EnableEmission(false);
+    mDemoComponent->EnableAutoEmit(false);
     mDemoComponent->SetActive(false);
 
     mEngineAudioComponent =CreateComponent<AudioComponent>("Engine Audio");
