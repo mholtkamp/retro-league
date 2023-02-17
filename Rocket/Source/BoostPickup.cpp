@@ -8,7 +8,7 @@
 
 DEFINE_ACTOR(BoostPickup, Actor);
 
-bool OnRep_Alive(Datum* datum, const void* value)
+bool OnRep_Alive(Datum* datum, uint32_t index, const void* value)
 {
     BoostPickup* bp = (BoostPickup*) datum->mOwner;
     bool alive = *(bool*) value;
@@ -16,7 +16,7 @@ bool OnRep_Alive(Datum* datum, const void* value)
     return true;
 }
 
-bool OnRep_Mini(Datum* datum, const void* value)
+bool OnRep_Mini(Datum* datum, uint32_t index, const void* value)
 {
     BoostPickup* bp = (BoostPickup*) datum->mOwner;
     bool mini = *(bool*) value;

@@ -108,12 +108,12 @@ protected:
     void SetBoosting(bool boosting);
 
     // OnRep functions
-    static bool OnRep_NetPosition(Datum* datum, const void* newValue);
-    static bool OnRep_NetRotation(Datum* datum, const void* newValue);
-    static bool OnRep_OwningHost(Datum* datum, const void* newValue);
-    static bool OnRep_Alive(Datum* datum, const void* newValue);
-    static bool OnRep_Boosting(Datum* datum, const void* newValue);
-    static bool OnRep_TeamIndex(Datum* datum, const void* newValue);
+    static bool OnRep_NetPosition(Datum* datum, uint32_t index, const void* newValue);
+    static bool OnRep_NetRotation(Datum* datum, uint32_t index, const void* newValue);
+    static bool OnRep_OwningHost(Datum* datum, uint32_t index, const void* newValue);
+    static bool OnRep_Alive(Datum* datum, uint32_t index, const void* newValue);
+    static bool OnRep_Boosting(Datum* datum, uint32_t index, const void* newValue);
+    static bool OnRep_TeamIndex(Datum* datum, uint32_t index, const void* newValue);
 
     // RPCs
     static void S_UploadState(Actor* actor, Datum& vecPosition, Datum& vecRotation, Datum& vecVelocity, Datum& bBoosting);

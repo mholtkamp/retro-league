@@ -36,7 +36,7 @@ public:
     void Reset();
     void SetAlive(bool alive);
 
-    static bool OnRep_Alive(Datum* datum, const void* value);
+    static bool OnRep_Alive(Datum* datum, uint32_t index, const void* value);
 
     static void M_GoalExplode(Actor* actor);
 

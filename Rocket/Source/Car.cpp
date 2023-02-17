@@ -47,7 +47,7 @@ const glm::vec3 RootRelativeShadowPos = glm::vec3(0.0f, -2.3f, 0.0f);
 
 DEFINE_ACTOR(Car, Actor);
 
-bool Car::OnRep_NetPosition(Datum* datum, const void* newValue)
+bool Car::OnRep_NetPosition(Datum* datum, uint32_t index, const void* newValue)
 {
     Car* car = (Car*) datum->mOwner;
     OCT_ASSERT(car);
@@ -55,7 +55,7 @@ bool Car::OnRep_NetPosition(Datum* datum, const void* newValue)
     if (!car->IsLocallyControlled() || !car->mInitialPosSet)
     {
         car->mInitialPosSet = true;
-        return Actor::OnRep_RootPosition(datum, newValue);
+        return Actor::OnRep_RootPosition(datum, index, newValue);
     }
     else
     {
@@ -64,7 +64,7 @@ bool Car::OnRep_NetPosition(Datum* datum, const void* newValue)
     }
 }
 
-bool Car::OnRep_NetRotation(Datum* datum, const void* newValue)
+bool Car::OnRep_NetRotation(Datum* datum, uint32_t index, const void* newValue)
 {
     Car* car = (Car*) datum->mOwner;
     OCT_ASSERT(car);
@@ -72,7 +72,7 @@ bool Car::OnRep_NetRotation(Datum* datum, const void* newValue)
     if (!car->IsLocallyControlled() || !car->mInitialRotSet)
     {
         car->mInitialRotSet = true;
-        return Actor::OnRep_RootRotation(datum, newValue);
+        return Actor::OnRep_RootRotation(datum, index, newValue);
     }
     else
     {
@@ -81,7 +81,7 @@ bool Car::OnRep_NetRotation(Datum* datum, const void* newValue)
     }
 }
 
-bool Car::OnRep_OwningHost(Datum* datum, const void* newValue)
+bool Car::OnRep_OwningHost(Datum* datum, uint32_t index, const void* newValue)
 {
     OCT_ASSERT(datum->mOwner != nullptr);
     Car* car = static_cast<Car*>(datum->mOwner);
@@ -100,7 +100,7 @@ bool Car::OnRep_OwningHost(Datum* datum, const void* newValue)
     return true;
 }
 
-bool Car::OnRep_Alive(Datum* datum, const void* newValue)
+bool Car::OnRep_Alive(Datum* datum, uint32_t index, const void* newValue)
 {
     Car* car = (Car*) datum->mOwner;
     bool alive = *(bool*)newValue;
@@ -119,7 +119,7 @@ bool Car::OnRep_Alive(Datum* datum, const void* newValue)
     return true;
 }
 
-bool Car::OnRep_Boosting(Datum* datum, const void* newValue)
+bool Car::OnRep_Boosting(Datum* datum, uint32_t index, const void* newValue)
 {
     Car* car = (Car*) datum->mOwner;
     bool boosting = *(bool*) newValue;
@@ -132,7 +132,7 @@ bool Car::OnRep_Boosting(Datum* datum, const void* newValue)
     return true;
 }
 
-bool Car::OnRep_TeamIndex(Datum* datum, const void* newValue)
+bool Car::OnRep_TeamIndex(Datum* datum, uint32_t index, const void* newValue)
 {
     Car* car = (Car*) datum->mOwner;
     int32_t teamIndex = *(int32_t*) newValue;

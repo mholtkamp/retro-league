@@ -24,7 +24,7 @@ const glm::vec3 RootRelativeShadowPos = glm::vec3(0.0f, -20.0f, 0.0f);
 
 DEFINE_ACTOR(Ball, Actor);
 
-bool Ball::OnRep_Alive(Datum* datum, const void* value)
+bool Ball::OnRep_Alive(Datum* datum, uint32_t index, const void* value)
 {
     Ball* ball = (Ball*) datum->mOwner;
     bool alive = *(bool*)value;
