@@ -174,6 +174,10 @@
       <PreprocessorDefinitions>PLATFORM_WINDOWS=1;API_VULKAN=1;NOMINMAX;_CRT_SECURE_NO_WARNINGS=1;EDITOR=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)Octave/External;$(SolutionDir)Octave/Engine;$(SolutionDir)Octave/Engine/Include;$(SolutionDir)Octave/Engine/Include/Engine;$(SolutionDir)Octave/External/Bullet;$(SolutionDir)Octave/Engine/Include/Editor;$(SolutionDir)Octave/External/Assimp;$(SolutionDir)Octave/External/Lua</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(ProjectDir)../Octave/External/Assimp/Build/Windows/$(Platform)/$(Configuration)/;$(ProjectDir)../Octave/External/IrrXML/Build/Windows/$(Platform)/$(Configuration)/;$(ProjectDir)../Octave/External/Zlib/Build/Windows/$(Platform)/$(Configuration)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Assimp.lib;IrrXML.lib;Zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -194,6 +198,10 @@
       <PreprocessorDefinitions>PLATFORM_WINDOWS=1;API_VULKAN=1;NOMINMAX;_CRT_SECURE_NO_WARNINGS=1;EDITOR=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(VULKAN_SDK)/Include;$(SolutionDir)Octave/External;$(SolutionDir)Octave/Engine;$(SolutionDir)Octave/Engine/Include;$(SolutionDir)Octave/Engine/Include/Engine;$(SolutionDir)Octave/External/Bullet;$(SolutionDir)Octave/Engine/Include/Editor;$(SolutionDir)Octave/External/Assimp;$(SolutionDir)Octave/External/Lua</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(ProjectDir)../Octave/External/Assimp/Build/Windows/$(Platform)/$(Configuration)/;$(ProjectDir)../Octave/External/IrrXML/Build/Windows/$(Platform)/$(Configuration)/;$(ProjectDir)../Octave/External/Zlib/Build/Windows/$(Platform)/$(Configuration)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Assimp.lib;IrrXML.lib;Zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -225,6 +233,8 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(ProjectDir)../Octave/External/Assimp/Build/Windows/$(Platform)/$(Configuration)/;$(ProjectDir)../Octave/External/IrrXML/Build/Windows/$(Platform)/$(Configuration)/;$(ProjectDir)../Octave/External/Zlib/Build/Windows/$(Platform)/$(Configuration)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Assimp.lib;IrrXML.lib;Zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -257,6 +267,8 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(ProjectDir)../Octave/External/Assimp/Build/Windows/$(Platform)/$(Configuration)/;$(ProjectDir)../Octave/External/IrrXML/Build/Windows/$(Platform)/$(Configuration)/;$(ProjectDir)../Octave/External/Zlib/Build/Windows/$(Platform)/$(Configuration)/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Assimp.lib;IrrXML.lib;Zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
