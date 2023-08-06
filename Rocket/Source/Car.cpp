@@ -85,7 +85,7 @@ bool Car::OnRep_OwningHost(Datum* datum, uint32_t index, const void* newValue)
 {
     OCT_ASSERT(datum->mOwner != nullptr);
     Car* car = static_cast<Car*>(datum->mOwner);
-    car->mOwningHost = *((bool*) newValue);
+    car->mOwningHost = *((uint8_t*) newValue);
 
     if (car->mOwningHost == NetGetHostId())
     {
