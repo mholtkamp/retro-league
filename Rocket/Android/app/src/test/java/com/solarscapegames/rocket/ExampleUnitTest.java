@@ -1,4 +1,4 @@
-package com.bonedust.rocket;
+package com.solarscapegames.rocket;
 
 import org.junit.Test;
 

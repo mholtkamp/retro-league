@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.bonedust.rocket'
+    namespace 'com.solarscapegames.rocket'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.bonedust.rocket"
+        applicationId "com.solarscapegames.rocket"
         minSdk 24
         targetSdk 33
         versionCode 1

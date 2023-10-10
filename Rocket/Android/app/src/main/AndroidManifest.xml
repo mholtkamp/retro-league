@@ -20,7 +20,7 @@
         android:hasCode="true"
         tools:targetApi="31">
         <activity
-            android:name="com.bonedust.rocket.OctaveActivity"
+            android:name="com.solarscapegames.rocket.OctaveActivity"
             android:label="Rocket"
             android:screenOrientation="landscape"
             android:configChanges="orientation|screenSize|keyboardHidden"
