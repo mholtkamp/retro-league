@@ -35,28 +35,28 @@ void BoostPickup::Create()
     Actor::Create();
     SetName("Boost");
 
-    mSphereComponent = CreateComponent<SphereComponent>();
-    SetRootComponent(mSphereComponent);
-    mSphereComponent->SetName("Boost Pickup Sphere");
-    mSphereComponent->EnablePhysics(false);
-    mSphereComponent->EnableCollision(false);
-    mSphereComponent->EnableOverlaps(true);
+    mSphere3D = CreateComponent<Sphere3D>();
+    SetRootComponent(mSphere3D);
+    mSphere3D->SetName("Boost Pickup Sphere");
+    mSphere3D->EnablePhysics(false);
+    mSphere3D->EnableCollision(false);
+    mSphere3D->EnableOverlaps(true);
 
-    mMeshComponent = CreateComponent<StaticMeshComponent>();
-    mMeshComponent->Attach(mSphereComponent);
-    mMeshComponent->SetName("Boost Pickup Mesh");
-    mMeshComponent->EnableOverlaps(false);
-    mMeshComponent->EnableCollision(false);
-    mMeshComponent->EnablePhysics(false);
-    mMeshComponent->SetStaticMesh(mMini ? (StaticMesh*)LoadAsset("SM_MiniBoost") : (StaticMesh*)LoadAsset("SM_Sphere"));
-    mMeshComponent->SetMaterialOverride((Material*)LoadAsset("M_BoostPickup"));
+    mMesh3D = CreateComponent<StaticMesh3D>();
+    mMesh3D->Attach(mSphere3D);
+    mMesh3D->SetName("Boost Pickup Mesh");
+    mMesh3D->EnableOverlaps(false);
+    mMesh3D->EnableCollision(false);
+    mMesh3D->EnablePhysics(false);
+    mMesh3D->SetStaticMesh(mMini ? (StaticMesh*)LoadAsset("SM_MiniBoost") : (StaticMesh*)LoadAsset("SM_Sphere"));
+    mMesh3D->SetMaterialOverride((Material*)LoadAsset("M_BoostPickup"));
 
-    mParticleComponent = CreateComponent<ParticleComponent>();
-    mParticleComponent->Attach(mSphereComponent);
-    mParticleComponent->SetName("Boost Pickup Particle");
-    mParticleComponent->SetParticleSystem((ParticleSystem*)LoadAsset("P_BoostPickup"));
-    mParticleComponent->EnableEmission(false);
-    mParticleComponent->EnableAutoEmit(false);
+    mParticle3D = CreateComponent<Particle3D>();
+    mParticle3D->Attach(mSphere3D);
+    mParticle3D->SetName("Boost Pickup Particle");
+    mParticle3D->SetParticleSystem((ParticleSystem*)LoadAsset("P_BoostPickup"));
+    mParticle3D->EnableEmission(false);
+    mParticle3D->EnableAutoEmit(false);
 }
 
 void BoostPickup::Tick(float deltaTime)
@@ -75,7 +75,7 @@ void BoostPickup::Tick(float deltaTime)
     }
 }
 
-void BoostPickup::BeginOverlap(PrimitiveComponent* thisComp, PrimitiveComponent* otherComp)
+void BoostPickup::BeginOverlap(Primitive3D* thisComp, Primitive3D* otherComp)
 {
     if (NetIsAuthority() &&
         mSpawnTime <= 0.0f &&
@@ -103,13 +103,13 @@ void BoostPickup::SetMini(bool mini)
 
         if (mini)
         {
-            mMeshComponent->SetStaticMesh((StaticMesh*)LoadAsset("SM_MiniBoost"));
-            mMeshComponent->SetScale(glm::vec3(1.0f));
+            mMesh3D->SetStaticMesh((StaticMesh*)LoadAsset("SM_MiniBoost"));
+            mMesh3D->SetScale(glm::vec3(1.0f));
         }
         else
         {
-            mMeshComponent->SetStaticMesh((StaticMesh*)LoadAsset("SM_Sphere"));
-            mMeshComponent->SetScale(glm::vec3(1.0f));
+            mMesh3D->SetStaticMesh((StaticMesh*)LoadAsset("SM_Sphere"));
+            mMesh3D->SetScale(glm::vec3(1.0f));
         }
     }
 }
@@ -119,8 +119,8 @@ void BoostPickup::SetAlive(bool alive)
     if (mAlive != alive)
     {
         mAlive = alive;
-        mMeshComponent->SetVisible(alive);
-        mSphereComponent->EnableOverlaps(alive);
+        mMesh3D->SetVisible(alive);
+        mSphere3D->EnableOverlaps(alive);
 
         if (alive)
         {
@@ -129,7 +129,7 @@ void BoostPickup::SetAlive(bool alive)
         else
         {
             mSpawnTime = mMini ? 4.0f : 10.0f;
-            mParticleComponent->EnableEmission(true);
+            mParticle3D->EnableEmission(true);
         }
     }
 }

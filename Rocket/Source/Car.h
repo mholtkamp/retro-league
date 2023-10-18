@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Actor.h"
-#include "Components/StaticMeshComponent.h"
-#include "Components/SkeletalMeshComponent.h"
-#include "Components/ShadowMeshComponent.h"
-#include "Components/CameraComponent.h"
-#include "Components/SphereComponent.h"
-#include "Components/AudioComponent.h"
+#include "Nodes/Node.h"
+#include "Nodes/3D/StaticMesh3d.h"
+#include "Nodes/3D/SkeletalMesh3d.h"
+#include "Nodes/3D/ShadowMesh3d.h"
+#include "Nodes/3D/Camera3d.h"
+#include "Nodes/3D/Sphere3d.h"
+#include "Nodes/3D/Audio3d.h"
 
 #include "RocketTypes.h"
 
@@ -41,15 +41,15 @@ public:
     virtual void GatherNetFuncs(std::vector<NetFunc>& outFuncs) override;
 
     void HandleCollision(
-        PrimitiveComponent* thisComp,
-        PrimitiveComponent* otherComp,
+        Primitive3D* thisComp,
+        Primitive3D* otherComp,
         glm::vec3 impactPoint,
         glm::vec3 impactNormal,
         btPersistentManifold* manifold);
 
-    SphereComponent* GetSphereComponent();
-    SkeletalMeshComponent* GetMeshComponent();
-    CameraComponent* GetCameraComponent();
+    Sphere3D* GetSphere3D();
+    SkeletalMesh3D* GetMesh3D();
+    Camera3D* GetCamera3D();
 
     void Reset();
 
@@ -123,15 +123,15 @@ protected:
     static void C_ResetState(Actor* actor);
     static void M_Demolish(Actor* actor);
 
-    SphereComponent* mSphereComponent = nullptr;
-    SkeletalMeshComponent* mMeshComponent = nullptr;
-    ShadowMeshComponent* mShadowComponent = nullptr;
-    ParticleComponent* mTrailComponent = nullptr;
-    ParticleComponent* mDemoComponent = nullptr;
-    CameraComponent* mCameraComponent = nullptr;
-    AudioComponent* mEngineAudioComponent = nullptr;
-    AudioComponent* mBoostAudioComponent = nullptr;
-    AudioComponent* mJumpAudioComponent = nullptr;
+    Sphere3D* mSphere3D = nullptr;
+    SkeletalMesh3D* mMesh3D = nullptr;
+    ShadowMesh3D* mShadowComponent = nullptr;
+    Particle3D* mTrailComponent = nullptr;
+    Particle3D* mDemoComponent = nullptr;
+    Camera3D* mCamera3D = nullptr;
+    Audio3D* mEngineAudio3D = nullptr;
+    Audio3D* mBoostAudio3D = nullptr;
+    Audio3D* mJumpAudio3D = nullptr;
 
     SoundWaveRef mBumpSound;
     SoundWaveRef mBoostPickupSound;

@@ -36,7 +36,7 @@ void Ball::M_GoalExplode(Actor* actor)
 {
     Ball* ball = (Ball*) actor;
 
-    ball->mParticleComponent->EnableEmission(true);
+    ball->mParticle3D->EnableEmission(true);
 
     AudioManager::PlaySound3D(
         ball->mGoalSound.Get<SoundWave>(),
@@ -61,52 +61,52 @@ void Ball::Create()
     Actor::Create();
     SetName("Ball");
 
-    mMeshComponent = CreateComponent<StaticMeshComponent>();
-    SetRootComponent(mMeshComponent);
-    mMeshComponent->SetName("Ball Mesh");
-    mMeshComponent->SetMass(1.0f);
-    mMeshComponent->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
-    mMeshComponent->EnablePhysics(NetIsAuthority());
-    mMeshComponent->EnableCollision(true);
-    mMeshComponent->EnableOverlaps(true);
-    mMeshComponent->SetCollisionGroup(ColGroupBall);
-    mMeshComponent->SetRestitution(0.4f);
-    mMeshComponent->SetAngularFactor({ 1.0f, 1.0f, 1.0f });
-    mMeshComponent->SetRollingFriction(1.0f);
-    mMeshComponent->SetFriction(1.0f);
-    mMeshComponent->EnableCastShadows(true);
-    mMeshComponent->EnableReceiveSimpleShadows(false);
+    mMesh3D = CreateComponent<StaticMesh3D>();
+    SetRootComponent(mMesh3D);
+    mMesh3D->SetName("Ball Mesh");
+    mMesh3D->SetMass(1.0f);
+    mMesh3D->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+    mMesh3D->EnablePhysics(NetIsAuthority());
+    mMesh3D->EnableCollision(true);
+    mMesh3D->EnableOverlaps(true);
+    mMesh3D->SetCollisionGroup(ColGroupBall);
+    mMesh3D->SetRestitution(0.4f);
+    mMesh3D->SetAngularFactor({ 1.0f, 1.0f, 1.0f });
+    mMesh3D->SetRollingFriction(1.0f);
+    mMesh3D->SetFriction(1.0f);
+    mMesh3D->EnableCastShadows(true);
+    mMesh3D->EnableReceiveSimpleShadows(false);
     //mBodyComponent->SetFriction(0.0f);
     //mBodyComponent->SetAngularFactor(glm::vec3(0.0f, 0.0f, 0.0f));
     //mBodyComponent->SetAngularDamping(1.0f);
-    mMeshComponent->SetStaticMesh((StaticMesh*)LoadAsset("SM_Sphere"));
+    mMesh3D->SetStaticMesh((StaticMesh*)LoadAsset("SM_Sphere"));
 
     Material* ballMat = (Material*)LoadAsset("M_Ball");
     ballMat->SetFresnelEnabled(true);
     ballMat->SetFresnelColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-    mMeshComponent->SetMaterialOverride(ballMat);
+    mMesh3D->SetMaterialOverride(ballMat);
 
-    mShadowComponent = CreateComponent<ShadowMeshComponent>();
-    mShadowComponent->Attach(mMeshComponent);
+    mShadowComponent = CreateComponent<ShadowMesh3D>();
+    mShadowComponent->Attach(mMesh3D);
     mShadowComponent->SetName("Shadow");
     mShadowComponent->SetStaticMesh(LoadAsset<StaticMesh>("SM_Cone"));
     mShadowComponent->SetRotation(glm::vec3(180.0f, 0.0f, 0.0f));
     mShadowComponent->SetPosition(RootRelativeShadowPos);
     mShadowComponent->SetScale(glm::vec3(1.0f, 20.0f, 1.0f));
 
-    mAudioComponent = CreateComponent<AudioComponent>();
-    mAudioComponent->SetName("Audio Comp");
-    mAudioComponent->Attach(mMeshComponent);
-    mAudioComponent->SetSoundWave((SoundWave*)LoadAsset("SW_Item"));
-    mAudioComponent->SetLoop(true);
-    //mAudioComponent->Play();
+    mAudio3D = CreateComponent<Audio3D>();
+    mAudio3D->SetName("Audio Comp");
+    mAudio3D->Attach(mMesh3D);
+    mAudio3D->SetSoundWave((SoundWave*)LoadAsset("SW_Item"));
+    mAudio3D->SetLoop(true);
+    //mAudio3D->Play();
 
-    mParticleComponent = CreateComponent<ParticleComponent>();
-    mParticleComponent->SetName("Explosion");
-    mParticleComponent->Attach(mMeshComponent);
-    mParticleComponent->SetParticleSystem((ParticleSystem*)LoadAsset("P_GoalExplosion"));
-    mParticleComponent->EnableEmission(false);
-    mParticleComponent->EnableAutoEmit(false);
+    mParticle3D = CreateComponent<Particle3D>();
+    mParticle3D->SetName("Explosion");
+    mParticle3D->Attach(mMesh3D);
+    mParticle3D->SetParticleSystem((ParticleSystem*)LoadAsset("P_GoalExplosion"));
+    mParticle3D->EnableEmission(false);
+    mParticle3D->EnableAutoEmit(false);
 
     mGoalSound = LoadAsset("SW_Goal");
 }
@@ -125,7 +125,7 @@ void Ball::Tick(float deltaTime)
             mGrounded = false;
         }
 
-        glm::vec3 velocity = mMeshComponent->GetLinearVelocity();
+        glm::vec3 velocity = mMesh3D->GetLinearVelocity();
         float speed = glm::length(velocity);
         glm::vec3 direction = (speed != 0.0f) ? velocity / speed : glm::vec3(0.0f);
 
@@ -138,7 +138,7 @@ void Ball::Tick(float deltaTime)
 
             speed = Maths::Damp(speed, BallSoftSpeedLimit, 0.005f, deltaTime);
 
-            mMeshComponent->SetLinearVelocity(speed * direction);
+            mMesh3D->SetLinearVelocity(speed * direction);
         }
     }
 
@@ -146,7 +146,7 @@ void Ball::Tick(float deltaTime)
     mShadowComponent->SetAbsolutePosition(GetRootComponent()->GetPosition() + RootRelativeShadowPos * GetRootComponent()->GetScale());
 
     // Update fresnel color based on last hit.
-    glm::vec4 fresnelColor = mMeshComponent->GetMaterial()->GetFresnelColor();
+    glm::vec4 fresnelColor = mMesh3D->GetMaterial()->GetFresnelColor();
     glm::vec4 targetColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
     if (mLastHitTeam == 0)
@@ -159,7 +159,7 @@ void Ball::Tick(float deltaTime)
     }
 
     fresnelColor = Maths::Damp(fresnelColor, targetColor, 0.005f, deltaTime);
-    mMeshComponent->GetMaterial()->SetFresnelColor(fresnelColor);
+    mMesh3D->GetMaterial()->SetFresnelColor(fresnelColor);
 }
 
 void Ball::GatherReplicatedData(std::vector<NetDatum>& outData)
@@ -176,8 +176,8 @@ void Ball::GatherNetFuncs(std::vector<NetFunc>& outFuncs)
 }
 
 void Ball::OnCollision(
-    PrimitiveComponent* thisComp,
-    PrimitiveComponent* otherComp,
+    Primitive3D* thisComp,
+    Primitive3D* otherComp,
     glm::vec3 impactPoint,
     glm::vec3 impactNormal,
     btPersistentManifold* manifold)
@@ -190,7 +190,7 @@ void Ball::OnCollision(
         {
             Car* car = static_cast<Car*>(otherComp->GetOwner());
 
-            glm::vec3 ballVelocity = mMeshComponent->GetLinearVelocity();
+            glm::vec3 ballVelocity = mMesh3D->GetLinearVelocity();
             glm::vec3 carVelocity = car->GetVelocity();
 
             // (1) Cancel out velocity along collision axis
@@ -202,11 +202,11 @@ void Ball::OnCollision(
             glm::vec3 launchVelocity = impactNormal * launchSpeed;
             ballVelocity += launchVelocity;
 
-            mMeshComponent->SetLinearVelocity(ballVelocity);
+            mMesh3D->SetLinearVelocity(ballVelocity);
 
     #if 0
             // Debug impact
-            glm::vec3 lineStart = mMeshComponent->GetAbsolutePosition();
+            glm::vec3 lineStart = mMesh3D->GetAbsolutePosition();
             glm::vec3 lineEnd = lineStart + 6.0f * impactNormal;
             Line debugLine(lineStart, lineEnd, glm::vec4(0.3f, 0.2f, 1.0f, 1.0f), 10.0f);
             GetWorld()->AddLine(debugLine);
@@ -239,8 +239,8 @@ void Ball::OnCollision(
 }
 
 void Ball::BeginOverlap(
-    PrimitiveComponent* thisComp,
-    PrimitiveComponent* otherComp
+    Primitive3D* thisComp,
+    Primitive3D* otherComp
 )
 {
     if (NetIsAuthority())
@@ -268,8 +268,8 @@ void Ball::Reset()
     if (NetIsAuthority())
     {
         SetPosition(glm::vec3(0.0f, 5.0f, 0.0f));
-        mMeshComponent->SetLinearVelocity(glm::vec3(0));
-        mMeshComponent->SetAngularVelocity(glm::vec3(0));
+        mMesh3D->SetLinearVelocity(glm::vec3(0));
+        mMesh3D->SetAngularVelocity(glm::vec3(0));
         mLastHitTeam = -1;
         SetAlive(true);
     }
@@ -283,12 +283,12 @@ void Ball::SetAlive(bool alive)
 
         if (NetIsAuthority())
         {
-            mMeshComponent->EnablePhysics(alive);
+            mMesh3D->EnablePhysics(alive);
         }
 
-        mMeshComponent->EnableCollision(alive);
-        mMeshComponent->EnableOverlaps(alive);
-        mMeshComponent->SetVisible(alive);
+        mMesh3D->EnableCollision(alive);
+        mMesh3D->EnableOverlaps(alive);
+        mMesh3D->SetVisible(alive);
 
         mShadowComponent->SetVisible(alive);
     }

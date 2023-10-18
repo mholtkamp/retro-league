@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Actor.h"
-#include "Components/StaticMeshComponent.h"
-#include "Components/ShadowMeshComponent.h"
-#include "Components/SphereComponent.h"
-#include "Components/AudioComponent.h"
-#include "Components/ParticleComponent.h"
+#include "Nodes/Node.h"
+#include "Nodes/3D/StaticMesh3d.h"
+#include "Nodes/3D/ShadowMesh3d.h"
+#include "Nodes/3D/Sphere3d.h"
+#include "Nodes/3D/Audio3d.h"
+#include "Nodes/3D/Particle3d.h"
 
 class Ball : public Actor
 {
@@ -22,15 +22,15 @@ public:
     virtual void GatherNetFuncs(std::vector<NetFunc>& outFuncs) override;
 
     virtual void OnCollision(
-        PrimitiveComponent* thisComp,
-        PrimitiveComponent* otherComp,
+        Primitive3D* thisComp,
+        Primitive3D* otherComp,
         glm::vec3 impactPoint,
         glm::vec3 impactNormal,
         btPersistentManifold* manifold) override;
 
     virtual void BeginOverlap(
-        PrimitiveComponent* thisComp,
-        PrimitiveComponent* otherComp
+        Primitive3D* thisComp,
+        Primitive3D* otherComp
     ) override;
 
     void Reset();
@@ -42,10 +42,10 @@ public:
 
 protected:
 
-    StaticMeshComponent* mMeshComponent = nullptr;
-    ShadowMeshComponent* mShadowComponent = nullptr;
-    AudioComponent* mAudioComponent = nullptr;
-    ParticleComponent* mParticleComponent = nullptr;
+    StaticMesh3D* mMesh3D = nullptr;
+    ShadowMesh3D* mShadowComponent = nullptr;
+    Audio3D* mAudio3D = nullptr;
+    Particle3D* mParticle3D = nullptr;
 
     SoundWaveRef mGoalSound;
 

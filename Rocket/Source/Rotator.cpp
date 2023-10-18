@@ -1,13 +1,13 @@
 #include "Rotator.h"
 
-#include "Components/StaticMeshComponent.h"
+#include "Nodes/3D/StaticMesh3d.h"
 
 DEFINE_ACTOR(Rotator, Actor);
 
 void Rotator::Create()
 {
     Actor::Create();
-    SetRootComponent(CreateComponent<StaticMeshComponent>());
+    SetRootComponent(CreateComponent<StaticMesh3D>());
 }
 
 void Rotator::Tick(float deltaTime)

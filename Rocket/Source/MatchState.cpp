@@ -40,7 +40,7 @@ void MatchState::Create()
     OCT_ASSERT(GetGameState()->mMatchState == nullptr);
     GetGameState()->mMatchState = this;
 
-    SetRootComponent(CreateComponent<TransformComponent>());
+    SetRootComponent(CreateComponent<Node3D>());
 }
 
 void MatchState::Destroy()
@@ -49,9 +49,9 @@ void MatchState::Destroy()
     GetGameState()->mMatchState = nullptr;
 }
 
-void MatchState::BeginPlay()
+void MatchState::Start()
 {
-    Actor::BeginPlay();
+    Actor::Start();
 
     World* world = GetWorld();
 
@@ -78,8 +78,8 @@ void MatchState::BeginPlay()
 
             if (i == 0)
             {
-                GetWorld()->SetActiveCamera(newCar->GetCameraComponent());
-                GetWorld()->SetAudioReceiver(newCar->GetSphereComponent());
+                GetWorld()->SetActiveCamera(newCar->GetCamera3D());
+                GetWorld()->SetAudioReceiver(newCar->GetSphere3D());
             }
         }
 
@@ -87,7 +87,7 @@ void MatchState::BeginPlay()
         const std::vector<Actor*>& actors = GetWorld()->GetActors();
         for (int32_t i = (int32_t)actors.size() - 1; i >= 0; --i)
         {
-            TransformComponent* comp = actors[i]->GetRootComponent();
+            Node3D* comp = actors[i]->GetRootComponent();
             if (comp != nullptr &&
                 (comp->GetName() == "FullBoost" || comp->GetName() == "MiniBoost"))
             {
@@ -154,8 +154,8 @@ void MatchState::ResetMatchState()
 
             if (mNumCars == 0)
             {
-                GetWorld()->SetActiveCamera(car->GetCameraComponent());
-                GetWorld()->SetAudioReceiver(car->GetSphereComponent());
+                GetWorld()->SetActiveCamera(car->GetCamera3D());
+                GetWorld()->SetAudioReceiver(car->GetSphere3D());
                 mOwnedCar = car;
             }
 

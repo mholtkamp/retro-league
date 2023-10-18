@@ -89,7 +89,7 @@ bool Car::OnRep_OwningHost(Datum* datum, uint32_t index, const void* newValue)
 
     if (car->mOwningHost == NetGetHostId())
     {
-        car->GetWorld()->SetActiveCamera(car->mCameraComponent);
+        car->GetWorld()->SetActiveCamera(car->mCamera3D);
 
         if (GetMatchState())
         {
@@ -106,9 +106,9 @@ bool Car::OnRep_Alive(Datum* datum, uint32_t index, const void* newValue)
     bool alive = *(bool*)newValue;
     car->mAlive = alive;
 
-    car->mSphereComponent->EnableCollision(alive);
-    car->mSphereComponent->EnableOverlaps(alive);
-    car->mMeshComponent->SetVisible(alive);
+    car->mSphere3D->EnableCollision(alive);
+    car->mSphere3D->EnableOverlaps(alive);
+    car->mMesh3D->SetVisible(alive);
     car->mShadowComponent->SetVisible(alive);
 
     if (!alive)
@@ -216,73 +216,73 @@ void Car::Create()
 
     SetName("Car");
 
-    mSphereComponent = CreateComponent<SphereComponent>();
-    SetRootComponent(mSphereComponent);
-    mSphereComponent->SetRadius(1.0f);
-    mSphereComponent->SetMass(100.0f);
-    mSphereComponent->EnablePhysics(false);
-    mSphereComponent->EnableCollision(true);
-    mSphereComponent->EnableOverlaps(true);
-    mSphereComponent->SetCollisionGroup(ColGroupCar);
+    mSphere3D = CreateComponent<Sphere3D>();
+    SetRootComponent(mSphere3D);
+    mSphere3D->SetRadius(1.0f);
+    mSphere3D->SetMass(100.0f);
+    mSphere3D->EnablePhysics(false);
+    mSphere3D->EnableCollision(true);
+    mSphere3D->EnableOverlaps(true);
+    mSphere3D->SetCollisionGroup(ColGroupCar);
 
     SkeletalMesh* skeletalMesh = (SkeletalMesh*)LoadAsset("SK_CarM2");
-    mMeshComponent = CreateComponent<SkeletalMeshComponent>("Mesh");
-    mMeshComponent->Attach(mSphereComponent);
-    mMeshComponent->SetSkeletalMesh(skeletalMesh);
-    mMeshComponent->EnablePhysics(false);
-    mMeshComponent->EnableCollision(false);
-    mMeshComponent->EnableOverlaps(false);
-    mMeshComponent->EnableCastShadows(true);
-    mMeshComponent->EnableReceiveSimpleShadows(false);
+    mMesh3D = CreateComponent<SkeletalMesh3D>("Mesh");
+    mMesh3D->Attach(mSphere3D);
+    mMesh3D->SetSkeletalMesh(skeletalMesh);
+    mMesh3D->EnablePhysics(false);
+    mMesh3D->EnableCollision(false);
+    mMesh3D->EnableOverlaps(false);
+    mMesh3D->EnableCastShadows(true);
+    mMesh3D->EnableReceiveSimpleShadows(false);
 
-    mShadowComponent = CreateComponent<ShadowMeshComponent>("Shadow");
-    mShadowComponent->Attach(mSphereComponent);
+    mShadowComponent = CreateComponent<ShadowMesh3D>("Shadow");
+    mShadowComponent->Attach(mSphere3D);
     mShadowComponent->SetStaticMesh(LoadAsset<StaticMesh>("SM_Cone"));
     mShadowComponent->SetRotation(glm::vec3(180.0f, 0.0f, 0.0f));
     mShadowComponent->SetPosition(RootRelativeShadowPos);
     mShadowComponent->SetScale(glm::vec3(1.4f, 2.0f, 1.4f));
 
-    mCameraComponent = CreateComponent<CameraComponent>("Camera");
-    mCameraComponent->Attach(mSphereComponent);
-    mCameraComponent->SetPosition(glm::vec3(0.0f, CameraHeight, CameraDistanceXZ));
-    mCameraComponent->SetRotation(glm::vec3(5.0f, 0.0f, 0.0f));
+    mCamera3D = CreateComponent<Camera3D>("Camera");
+    mCamera3D->Attach(mSphere3D);
+    mCamera3D->SetPosition(glm::vec3(0.0f, CameraHeight, CameraDistanceXZ));
+    mCamera3D->SetRotation(glm::vec3(5.0f, 0.0f, 0.0f));
 
-    mTrailComponent = CreateComponent<ParticleComponent>("Trail Particle");
-    mTrailComponent->Attach(mSphereComponent);
+    mTrailComponent = CreateComponent<Particle3D>("Trail Particle");
+    mTrailComponent->Attach(mSphere3D);
     mTrailComponent->SetPosition(glm::vec3(0.0f, 0.0f, 0.5f));
     mTrailComponent->SetParticleSystem((ParticleSystem*)LoadAsset("P_Trail"));
     mTrailComponent->EnableEmission(false);
     mTrailComponent->EnableAutoEmit(false);
 
-    mDemoComponent = CreateComponent<ParticleComponent>("Explosion Particle");
-    mDemoComponent->Attach(mSphereComponent);
+    mDemoComponent = CreateComponent<Particle3D>("Explosion Particle");
+    mDemoComponent->Attach(mSphere3D);
     mDemoComponent->SetPosition(glm::vec3(0.0f, 0.0f, 0.5f));
     mDemoComponent->SetParticleSystem((ParticleSystem*)LoadAsset("P_DemoExplosion"));
     mDemoComponent->EnableEmission(false);
     mDemoComponent->EnableAutoEmit(false);
     mDemoComponent->SetActive(false);
 
-    mEngineAudioComponent =CreateComponent<AudioComponent>("Engine Audio");
-    mEngineAudioComponent->Attach(mSphereComponent);
-    mEngineAudioComponent->SetInnerRadius(5.0f);
-    mEngineAudioComponent->SetOuterRadius(30.0f);
-    mEngineAudioComponent->SetSoundWave((SoundWave*)LoadAsset("SW_EngineLoop"));
-    mEngineAudioComponent->SetLoop(true);
-    mEngineAudioComponent->Play();
+    mEngineAudio3D =CreateComponent<Audio3D>("Engine Audio");
+    mEngineAudio3D->Attach(mSphere3D);
+    mEngineAudio3D->SetInnerRadius(5.0f);
+    mEngineAudio3D->SetOuterRadius(30.0f);
+    mEngineAudio3D->SetSoundWave((SoundWave*)LoadAsset("SW_EngineLoop"));
+    mEngineAudio3D->SetLoop(true);
+    mEngineAudio3D->Play();
 
-    mBoostAudioComponent = CreateComponent<AudioComponent>("Boost Audio");
-    mBoostAudioComponent->Attach(mSphereComponent);
-    mBoostAudioComponent->SetInnerRadius(5.0f);
-    mBoostAudioComponent->SetOuterRadius(30.0f);
-    mBoostAudioComponent->SetSoundWave((SoundWave*)LoadAsset("SW_Boost"));
-    mBoostAudioComponent->SetLoop(false);
+    mBoostAudio3D = CreateComponent<Audio3D>("Boost Audio");
+    mBoostAudio3D->Attach(mSphere3D);
+    mBoostAudio3D->SetInnerRadius(5.0f);
+    mBoostAudio3D->SetOuterRadius(30.0f);
+    mBoostAudio3D->SetSoundWave((SoundWave*)LoadAsset("SW_Boost"));
+    mBoostAudio3D->SetLoop(false);
 
-    mJumpAudioComponent = CreateComponent<AudioComponent>("Jump Audio");
-    mJumpAudioComponent->Attach(mSphereComponent);
-    mJumpAudioComponent->SetInnerRadius(5.0f);
-    mJumpAudioComponent->SetOuterRadius(20.0f);
-    mJumpAudioComponent->SetSoundWave((SoundWave*)LoadAsset("SW_Jump"));
-    mJumpAudioComponent->SetLoop(false);
+    mJumpAudio3D = CreateComponent<Audio3D>("Jump Audio");
+    mJumpAudio3D->Attach(mSphere3D);
+    mJumpAudio3D->SetInnerRadius(5.0f);
+    mJumpAudio3D->SetOuterRadius(20.0f);
+    mJumpAudio3D->SetSoundWave((SoundWave*)LoadAsset("SW_Jump"));
+    mJumpAudio3D->SetLoop(false);
 
     mBumpSound = LoadAsset("SW_Bump");
     mBoostPickupSound = LoadAsset("SW_BoostPickup");
@@ -295,8 +295,8 @@ void Car::Create()
     mBoneWheelBR = skeletalMesh->FindBoneIndex("BackTire.R");
 
     // SK_Car has a Wiggle animation that can be used for testing. Doesn't loop correctly.
-    //mMeshComponent->SetAnimation("Wiggle");
-    //mMeshComponent->Play();
+    //mMesh3D->SetAnimation("Wiggle");
+    //mMesh3D->Play();
 
     OCT_ASSERT(
         mBoneFenderL != -1 &&
@@ -392,8 +392,8 @@ void Car::GatherNetFuncs(std::vector<NetFunc>& outFuncs)
 }
 
 void Car::HandleCollision(
-    PrimitiveComponent* thisComp,
-    PrimitiveComponent* otherComp,
+    Primitive3D* thisComp,
+    Primitive3D* otherComp,
     glm::vec3 impactPoint,
     glm::vec3 impactNormal,
     btPersistentManifold* manifold)
@@ -468,26 +468,26 @@ void Car::HandleCollision(
     }
 }
 
-SphereComponent* Car::GetSphereComponent()
+Sphere3D* Car::GetSphere3D()
 {
-    return mSphereComponent;
+    return mSphere3D;
 }
 
-SkeletalMeshComponent* Car::GetMeshComponent()
+SkeletalMesh3D* Car::GetMesh3D()
 {
-    return mMeshComponent;
+    return mMesh3D;
 }
 
-CameraComponent* Car::GetCameraComponent()
+Camera3D* Car::GetCamera3D()
 {
-    return mCameraComponent;
+    return mCamera3D;
 }
 
 void Car::Reset()
 {
     InvokeNetFunc("C_ResetState");
 
-    mMeshComponent->SetVisible(true);
+    mMesh3D->SetVisible(true);
     mShadowComponent->SetVisible(true);
 
     Respawn();
@@ -564,7 +564,7 @@ void Car::SetTeamIndex(int32_t index)
         colorMat = (Material*)LoadAsset("M_CarM2_Blue");
     }
 
-    mMeshComponent->SetMaterialOverride(colorMat);
+    mMesh3D->SetMaterialOverride(colorMat);
 }
 
 void Car::SetCarIndex(int32_t index)
@@ -602,10 +602,10 @@ void Car::Kill()
         SetVelocity(glm::vec3(0));
         EnableControl(false);
 
-        mSphereComponent->EnableCollision(false);
-        mSphereComponent->EnableOverlaps(false);
+        mSphere3D->EnableCollision(false);
+        mSphere3D->EnableOverlaps(false);
 
-        mMeshComponent->SetVisible(false);
+        mMesh3D->SetVisible(false);
         mShadowComponent->SetVisible(false);
 
         mRespawnTime = 4.0f;
@@ -621,10 +621,10 @@ void Car::Respawn()
         SetVelocity(glm::vec3(0));
         EnableControl(true);
 
-        mSphereComponent->EnableCollision(true);
-        mSphereComponent->EnableOverlaps(true);
+        mSphere3D->EnableCollision(true);
+        mSphere3D->EnableOverlaps(true);
 
-        mMeshComponent->SetVisible(true);
+        mMesh3D->SetVisible(true);
         mShadowComponent->SetVisible(true);
 
         mRespawnTime = 0.0f;
@@ -846,7 +846,7 @@ void Car::UpdateRotation(float deltaTime)
     glm::quat quatRotY = glm::quat({ 0.0f, rotY, 0.0f });
     glm::quat quatRotZ = glm::quat({ 0.0f, 0.0f, rotZ});
     glm::quat currentRot = GetRotationQuat();
-    mSphereComponent->SetRotation(currentRot * quatRotY * quatRotZ * quatRotX);
+    mSphere3D->SetRotation(currentRot * quatRotY * quatRotZ * quatRotX);
 
     float speed = glm::length(mVelocity);
 
@@ -871,7 +871,7 @@ void Car::UpdateRotation(float deltaTime)
     mWheelRotationY = Maths::Approach(mWheelRotationY, targetRotY, 500.0f, deltaTime);
 
     float wheelSpeed = -800.0f * glm::clamp(speed / 20.0f, 0.0f, 1.0f);
-    wheelSpeed *= glm::dot(mVelocity, mSphereComponent->GetForwardVector()) >= 0.0f ? 1.0f : -1.0f;
+    wheelSpeed *= glm::dot(mVelocity, mSphere3D->GetForwardVector()) >= 0.0f ? 1.0f : -1.0f;
     float deltaWheelAngle = wheelSpeed * deltaTime;
     mWheelRotationX += deltaWheelAngle;
     mWheelRotationX = fmod(mWheelRotationX, 360.0f);
@@ -879,15 +879,15 @@ void Car::UpdateRotation(float deltaTime)
     // Force an animation update so we can adjust bones afterwards.
     // Animation usually happens during the culling step before rendering,
     // But calling it here will do it ahead of time (and skip animation during culling).
-    mMeshComponent->UpdateAnimation(deltaTime, true);
+    mMesh3D->UpdateAnimation(deltaTime, true);
 
     {
         // Fender rotation (only adjust yaw)
         glm::quat rotY = glm::quat(glm::vec3(0.0f, 0.0f, DEGREES_TO_RADIANS * mWheelRotationY));
         glm::mat4 fenderTransform = glm::toMat4(rotY);
 
-        mMeshComponent->SetBoneTransform(mBoneFenderL, fenderTransform);
-        mMeshComponent->SetBoneTransform(mBoneFenderR, fenderTransform);
+        mMesh3D->SetBoneTransform(mBoneFenderL, fenderTransform);
+        mMesh3D->SetBoneTransform(mBoneFenderR, fenderTransform);
     }
 
     {
@@ -898,10 +898,10 @@ void Car::UpdateRotation(float deltaTime)
         glm::mat4 frontWheelTransform = glm::toMat4(rotQuat);
         glm::mat4 backWheelTransform = glm::toMat4(rotX);
 
-        mMeshComponent->SetBoneTransform(mBoneWheelFL, frontWheelTransform);
-        mMeshComponent->SetBoneTransform(mBoneWheelFR, frontWheelTransform);
-        mMeshComponent->SetBoneTransform(mBoneWheelBL, backWheelTransform);
-        mMeshComponent->SetBoneTransform(mBoneWheelBR, backWheelTransform);
+        mMesh3D->SetBoneTransform(mBoneWheelFL, frontWheelTransform);
+        mMesh3D->SetBoneTransform(mBoneWheelFR, frontWheelTransform);
+        mMesh3D->SetBoneTransform(mBoneWheelBL, backWheelTransform);
+        mMesh3D->SetBoneTransform(mBoneWheelBR, backWheelTransform);
     }
 }
 
@@ -939,7 +939,7 @@ void Car::UpdateVelocity(float deltaTime)
         {
             const float minAcceleration = -40.0f;
 
-            glm::vec3 thrustDir = mSphereComponent->GetForwardVector();
+            glm::vec3 thrustDir = mSphere3D->GetForwardVector();
             thrustDir = thrustDir - glm::dot(thrustDir, mSurfaceNormal) * mSurfaceNormal;
 
             float accelDir = mBoosting ? 1.0f : mCurrentInput.mAccelerate - mCurrentInput.mReverse;
@@ -960,7 +960,7 @@ void Car::UpdateVelocity(float deltaTime)
     {
         if (mBoosting)
         {
-            mVelocity += (AerialBoostAcceleration * mSphereComponent->GetForwardVector() * deltaTime);
+            mVelocity += (AerialBoostAcceleration * mSphere3D->GetForwardVector() * deltaTime);
         }
 
         if (mSpinTime > 0.0f)
@@ -1057,13 +1057,13 @@ void Car::UpdateJump(float deltaTime)
 
         if (jumped)
         {
-            if (mJumpAudioComponent->IsPlaying())
+            if (mJumpAudio3D->IsPlaying())
             {
-                mJumpAudioComponent->Reset();
-                mJumpAudioComponent->Play();
+                mJumpAudio3D->Reset();
+                mJumpAudio3D->Play();
             }
 
-            mJumpAudioComponent->Play();
+            mJumpAudio3D->Play();
         }
     }
 
@@ -1214,8 +1214,8 @@ void Car::UpdateCamera(float deltaTime)
 
     UpdateComponentTransforms();
 
-    mCameraComponent->SetAbsolutePosition(cameraPos);
-    mCameraComponent->SetAbsoluteRotation(glm::vec3(mCameraPitch - mCameraPitchOffset, -mCameraYaw - mCameraYawOffset, 0.0f));
+    mCamera3D->SetAbsolutePosition(cameraPos);
+    mCamera3D->SetAbsoluteRotation(glm::vec3(mCameraPitch - mCameraPitchOffset, -mCameraYaw - mCameraYawOffset, 0.0f));
 }
 
 void Car::UpdateGrounded(float deltaTime)
@@ -1242,17 +1242,17 @@ void Car::UpdateGrounded(float deltaTime)
             // Sweep towards surface normal a tiny bit to check if we are still grounded.
             if (mSurfaceNormal.y > 0.0f)
             {
-                glm::vec3 truePosition = mSphereComponent->GetPosition();
+                glm::vec3 truePosition = mSphere3D->GetPosition();
                 const float groundingThreshold = 0.3f;
                 SweepTestResult sweepResult;
-                mSphereComponent->SweepToWorldPosition(truePosition - mSurfaceNormal * groundingThreshold, sweepResult, ColGroupEnvironment);
+                mSphere3D->SweepToWorldPosition(truePosition - mSurfaceNormal * groundingThreshold, sweepResult, ColGroupEnvironment);
 
                 if (sweepResult.mHitFraction != 1.0f)
                 {
                     mTimeSinceLastGrounding = 0.0f;
                 }
 
-                mSphereComponent->SetPosition(truePosition);
+                mSphere3D->SetPosition(truePosition);
             }
         }
         else
@@ -1276,15 +1276,15 @@ void Car::UpdateAudio(float deltaTime)
     float speed = glm::length(mVelocity);
     float volumeAlpha = glm::clamp(speed / SpeedLimit, 0.1f, 1.0f);
     float pitchAlpha = glm::clamp(speed / SpeedLimit, 0.0f, 1.0f);
-    mEngineAudioComponent->SetVolume(volumeAlpha * 1.0f);
-    mEngineAudioComponent->SetPitch(glm::mix(1.0f, 1.3f, pitchAlpha));
+    mEngineAudio3D->SetVolume(volumeAlpha * 1.0f);
+    mEngineAudio3D->SetPitch(glm::mix(1.0f, 1.3f, pitchAlpha));
 }
 
 void Car::UpdateMotion(float deltaTime)
 {
     float remainingTime = deltaTime;
-    uint8_t collisionMask = mSphereComponent->GetCollisionMask();
-    glm::vec3 startPos = mSphereComponent->GetPosition();
+    uint8_t collisionMask = mSphere3D->GetCollisionMask();
+    glm::vec3 startPos = mSphere3D->GetPosition();
 
     SweepTestResult sweepResult;
     bool hit = SweepToPosition(GetPosition() + mVelocity * remainingTime, sweepResult, collisionMask);
@@ -1292,7 +1292,7 @@ void Car::UpdateMotion(float deltaTime)
     if (hit && sweepResult.mHitComponent != nullptr &&
         sweepResult.mHitComponent->GetOwner()->GetName() == "Ball")
     {
-        HandleCollision(mSphereComponent, sweepResult.mHitComponent, sweepResult.mHitPosition, sweepResult.mHitNormal, nullptr);
+        HandleCollision(mSphere3D, sweepResult.mHitComponent, sweepResult.mHitPosition, sweepResult.mHitNormal, nullptr);
 
         // Sweep again, but this time ignoring the ball.
         remainingTime = remainingTime * (1.0f - sweepResult.mHitFraction);
@@ -1302,7 +1302,7 @@ void Car::UpdateMotion(float deltaTime)
 
     if (hit)
     {
-        HandleCollision(mSphereComponent, sweepResult.mHitComponent, sweepResult.mHitPosition, sweepResult.mHitNormal, nullptr);
+        HandleCollision(mSphere3D, sweepResult.mHitComponent, sweepResult.mHitPosition, sweepResult.mHitNormal, nullptr);
 
         remainingTime = remainingTime * (1.0f - sweepResult.mHitFraction);
         glm::vec3 normal = sweepResult.mHitNormal;
@@ -1314,7 +1314,7 @@ void Car::UpdateMotion(float deltaTime)
 
         if (hit)
         {
-            HandleCollision(mSphereComponent, sweepResult.mHitComponent, sweepResult.mHitPosition, sweepResult.mHitNormal, nullptr);
+            HandleCollision(mSphere3D, sweepResult.mHitComponent, sweepResult.mHitPosition, sweepResult.mHitNormal, nullptr);
         }
     }
 
@@ -1325,7 +1325,7 @@ void Car::UpdateMotion(float deltaTime)
         mOwningHost != SERVER_HOST_ID &&
         mOwningHost != INVALID_HOST_ID)
     {
-        mSphereComponent->SetPosition(startPos);
+        mSphere3D->SetPosition(startPos);
     }
 }
 
@@ -1340,7 +1340,7 @@ void Car::BotUpdateTarget(float deltaTime)
 
     glm::vec3 forwardDir = (mTeamIndex == 0) ? glm::vec3(1, 0, 0) : glm::vec3(-1, 0, 0);
     float ballForwardness = glm::dot(forwardDir, toBall);
-    float ballAlignment = glm::dot(mSphereComponent->GetForwardVector(), toBall);
+    float ballAlignment = glm::dot(mSphere3D->GetForwardVector(), toBall);
 
     const float forwardingRadius = 45.0f;
     const float approachRadius = 10.0f;
@@ -1469,7 +1469,7 @@ void Car::BotUpdateHandling(float deltaTime)
         targetPos -= goalDir * biasStrength;
     }
 
-    glm::vec3 forwardXZ = mSphereComponent->GetForwardVector();
+    glm::vec3 forwardXZ = mSphere3D->GetForwardVector();
     forwardXZ.y = 0.0f;
     forwardXZ = glm::normalize(forwardXZ);
 
@@ -1590,7 +1590,7 @@ void Car::SetBoosting(bool boosting)
 
         if (boosting)
         {
-            mBoostAudioComponent->Play();
+            mBoostAudio3D->Play();
         }
     }
 }

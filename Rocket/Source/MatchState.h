@@ -3,7 +3,7 @@
 #include "RocketConstants.h"
 #include "RocketTypes.h"
 
-#include "Actor.h"
+#include "Nodes/Node.h"
 
 class Car;
 class Ball;
@@ -35,7 +35,7 @@ public:
     MatchState();
     virtual void Create() override;
     virtual void Destroy() override;
-    virtual void BeginPlay() override;
+    virtual void Start() override;
     virtual void Tick(float deltaTime) override;
     virtual void GatherReplicatedData(std::vector<NetDatum>& outData) override;
 

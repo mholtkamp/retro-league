@@ -6,7 +6,7 @@
 
 class Car;
 class Ball;
-class Actor;
+class Node;
 
 enum class NetworkMode
 {
