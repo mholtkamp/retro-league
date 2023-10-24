@@ -6,13 +6,13 @@ DEFINE_NODE(Rotator, Node3D);
 
 void Rotator::Create()
 {
-    Actor::Create();
-    SetRootComponent(CreateComponent<StaticMesh3D>());
+    Node3D::Create();
+    CreateChild<StaticMesh3D>();
 }
 
 void Rotator::Tick(float deltaTime)
 {
-    Actor::Tick(deltaTime);
+    Node3D::Tick(deltaTime);
 
 #if EDITOR
     if (mEnableInEditor)
@@ -24,21 +24,21 @@ void Rotator::Tick(float deltaTime)
 
 void Rotator::GatherProperties(std::vector<Property>& outProps)
 {
-    Actor::GatherProperties(outProps);
+    Node3D::GatherProperties(outProps);
     outProps.push_back(Property(DatumType::Vector, "Angular Velocity", this, &mAngularVelocity));
     outProps.push_back(Property(DatumType::Bool, "Enable In Editor", this, &mEnableInEditor));
 }
 
 void Rotator::SaveStream(Stream& stream)
 {
-    Actor::SaveStream(stream);
+    Node3D::SaveStream(stream);
     stream.WriteVec3(mAngularVelocity);
     stream.WriteBool(mEnableInEditor);
 }
 
 void Rotator::LoadStream(Stream& stream)
 {
-    Actor::LoadStream(stream);
+    Node3D::LoadStream(stream);
     mAngularVelocity = stream.ReadVec3();
     mEnableInEditor = stream.ReadBool();
 }

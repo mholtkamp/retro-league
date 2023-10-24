@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Nodes/Node.h"
+#include "Nodes/3D/Node3d.h"
 
 
 class Rotator : public Node3D
