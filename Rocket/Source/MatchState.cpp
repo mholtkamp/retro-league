@@ -26,32 +26,30 @@ MatchState::MatchState()
     mReplicate = true;
     mReplicateTransform = false;
 
-    memset(mGoalBoxes, 0, sizeof(Actor*) * NUM_TEAMS);
-    memset(mFullBoosts, 0, sizeof(Actor*) * NUM_FULL_BOOSTS);
-    memset(mSpawnPoints0, 0, sizeof(Actor*) * NUM_SPAWN_POINTS);
-    memset(mSpawnPoints1, 0, sizeof(Actor*) * NUM_SPAWN_POINTS);
+    memset(mGoalBoxes, 0, sizeof(Node*) * NUM_TEAMS);
+    memset(mFullBoosts, 0, sizeof(Node*) * NUM_FULL_BOOSTS);
+    memset(mSpawnPoints0, 0, sizeof(Node*) * NUM_SPAWN_POINTS);
+    memset(mSpawnPoints1, 0, sizeof(Node*) * NUM_SPAWN_POINTS);
 }
 
 void MatchState::Create()
 {
-    Actor::Create();
+    Node3D::Create();
 
     // Self-register this actor in the game state.
     OCT_ASSERT(GetGameState()->mMatchState == nullptr);
     GetGameState()->mMatchState = this;
-
-    SetRootComponent(CreateComponent<Node3D>());
 }
 
 void MatchState::Destroy()
 {
-    Actor::Destroy();
+    Node3D::Destroy();
     GetGameState()->mMatchState = nullptr;
 }
 
 void MatchState::Start()
 {
-    Actor::Start();
+    Node3D::Start();
 
     World* world = GetWorld();
 
@@ -65,15 +63,15 @@ void MatchState::Start()
     {
         // Spawn Ball
         {
-            Ball* ball = GetWorld()->SpawnActor<Ball>();
+            Ball* ball = GetWorld()->SpawnNode<Ball>();
             ball->SetPosition(glm::vec3(0.0f, 8.0f, 0.0f));
-            ball->UpdateComponentTransforms();
+            ball->UpdateTransform(true);
         }
 
         // Spawn Cars
         for (uint32_t i = 0; i < NUM_TEAMS * GetMatchOptions()->mTeamSize; ++i)
         {
-            Car* newCar = GetWorld()->SpawnActor<Car>();
+            Car* newCar = GetWorld()->SpawnNode<Car>();
             newCar->SetPosition({ 10.0f * i, 2.0f, 0.0f });
 
             if (i == 0)
@@ -84,22 +82,22 @@ void MatchState::Start()
         }
 
         // Spawn Boosts
-        const std::vector<Actor*>& actors = GetWorld()->GetActors();
+        const std::vector<Node*> actors = GetWorld()->GatherNodes();
         for (int32_t i = (int32_t)actors.size() - 1; i >= 0; --i)
         {
-            Node3D* comp = actors[i]->GetRootComponent();
+            Node3D* comp = actors[i]->As<Node3D>();
             if (comp != nullptr &&
                 (comp->GetName() == "FullBoost" || comp->GetName() == "MiniBoost"))
             {
                 bool mini = (strncmp(comp->GetName().c_str(), "Mini", 4) == 0);
                 glm::vec3 spawnLocation = comp->GetAbsolutePosition();
 
-                world->DestroyActor(uint32_t(i));
+                comp->SetPendingDestroy(true);
 
-                BoostPickup* pickup = GetWorld()->SpawnActor<BoostPickup>();
+                BoostPickup* pickup = GetWorld()->SpawnNode<BoostPickup>();
                 pickup->SetPosition(spawnLocation);
                 pickup->SetMini(mini);
-                pickup->UpdateComponentTransforms();
+                pickup->UpdateTransform(true);
             }
         }
 
@@ -110,7 +108,7 @@ void MatchState::Start()
 void MatchState::ResetMatchState()
 {
     OCT_ASSERT(NetIsAuthority());
-    mBall = (Ball*)GetWorld()->FindActor("Ball");
+    mBall = GetWorld()->FindNode("Ball")->As<Ball>();
     mTime = GetGameState()->mMatchOptions.mDuration;
     mTeamSize = GetGameState()->mMatchOptions.mTeamSize;
     memset(mTeams, 0, sizeof(Team) * NUM_TEAMS);
@@ -120,17 +118,17 @@ void MatchState::ResetMatchState()
 
 
     // Assign cars, full boosts, spawns, and goals
-    const std::vector<Actor*>& actors = GetWorld()->GetActors();
+    const std::vector<Node*> nodes = GetWorld()->GatherNodes();
     mNumCars = 0;
     uint32_t boostCount = 0;
 
-    for (uint32_t i = 0; i < actors.size(); ++i)
+    for (uint32_t i = 0; i < nodes.size(); ++i)
     {
-        const char* rootCompName = actors[i]->GetRootComponent()->GetName().c_str();
+        const char* rootCompName = nodes[i]->GetName().c_str();
 
-        if (actors[i]->GetName() == "Car")
+        if (nodes[i]->GetName() == "Car")
         {
-            Car* car = (Car*)actors[i];
+            Car* car = nodes[i]->As<Car>();
             mCars[mNumCars] = car;
             
             uint32_t team = mNumCars % 2;
@@ -163,11 +161,15 @@ void MatchState::ResetMatchState()
         }
 
         if (boostCount < NUM_FULL_BOOSTS &&
-            actors[i]->GetName() == "Boost" &&
-            !static_cast<BoostPickup*>(actors[i])->IsMini())
+            nodes[i]->GetName() == "Boost")
         {
-            mFullBoosts[boostCount] = actors[i];
-            ++boostCount;
+            BoostPickup* pickup = nodes[i]->As<BoostPickup>();
+
+            if (pickup && !pickup->IsMini())
+            {
+                mFullBoosts[boostCount] = pickup;
+                ++boostCount;
+            }
         }
 
 
@@ -179,7 +181,7 @@ void MatchState::ResetMatchState()
 
                 if (teamIndex == 0 || teamIndex == 1)
                 {
-                    mGoalBoxes[teamIndex] = actors[i];
+                    mGoalBoxes[teamIndex] = nodes[i]->As<Node3D>();
                 }
             }
         }
@@ -193,11 +195,11 @@ void MatchState::ResetMatchState()
 
 void MatchState::Tick(float deltaTime)
 {
-    Actor::Tick(deltaTime);
+    Node3D::Tick(deltaTime);
 
     if (mBall == nullptr)
     {
-        mBall = (Ball*) GetWorld()->FindActor("Ball");
+        mBall = GetWorld()->FindNode("Ball")->As<Ball>();
     }
 
     if (NetIsAuthority())
@@ -307,7 +309,7 @@ void MatchState::Tick(float deltaTime)
 
 void MatchState::GatherReplicatedData(std::vector<NetDatum>& outData)
 {
-    Actor::GatherReplicatedData(outData);
+    Node3D::GatherReplicatedData(outData);
     //outData.push_back(NetDatum(DatumType::Actor, this, &mBall));
     outData.push_back(NetDatum(DatumType::Float, this, &mTime));
     outData.push_back(NetDatum(DatumType::Integer, this, &mPhase));
@@ -354,27 +356,27 @@ void MatchState::FindSpawnPointActors()
 {
     // Gather spawn points
     OCT_ASSERT(NUM_SPAWN_POINTS == 3);
-    mSpawnPoints0[0] = GetWorld()->FindComponent("Spawn.0.0")->GetOwner();
-    mSpawnPoints0[1] = GetWorld()->FindComponent("Spawn.0.1")->GetOwner();
-    mSpawnPoints0[2] = GetWorld()->FindComponent("Spawn.0.2")->GetOwner();
+    mSpawnPoints0[0] = GetWorld()->FindNode("Spawn.0.0")->As<Node3D>();
+    mSpawnPoints0[1] = GetWorld()->FindNode("Spawn.0.1")->As<Node3D>();
+    mSpawnPoints0[2] = GetWorld()->FindNode("Spawn.0.2")->As<Node3D>();
 
-    mSpawnPoints1[0] = GetWorld()->FindComponent("Spawn.1.0")->GetOwner();
-    mSpawnPoints1[1] = GetWorld()->FindComponent("Spawn.1.1")->GetOwner();
-    mSpawnPoints1[2] = GetWorld()->FindComponent("Spawn.1.2")->GetOwner();
+    mSpawnPoints1[0] = GetWorld()->FindNode("Spawn.1.0")->As<Node3D>();
+    mSpawnPoints1[1] = GetWorld()->FindNode("Spawn.1.1")->As<Node3D>();
+    mSpawnPoints1[2] = GetWorld()->FindNode("Spawn.1.2")->As<Node3D>();
 }
 
 void MatchState::PostLoadHandlePlatformTier()
 {
     // For now, turn off particles on Old 3DS (Tier 0)
-    const std::vector<Actor*>& actors = GetWorld()->GetActors();
+    const std::vector<Node*> nodes = GetWorld()->GatherNodes();
 
     if (SYS_GetPlatformTier() < 1)
     {
-        for (int32_t i = int32_t(actors.size()) - 1; i >= 0; --i)
+        for (int32_t i = int32_t(nodes.size()) - 1; i >= 0; --i)
         {
-            if (actors[i]->GetRootComponent()->GetName() == "Particle")
+            if (nodes[i]->GetName() == "Particle")
             {
-                GetWorld()->DestroyActor(i);
+                nodes[i]->SetPendingDestroy(true);
             }
         }
     }
@@ -446,7 +448,7 @@ void MatchState::SetupKickoff()
                 Car* car = mTeams[t].mCars[c];
 
                 // Set position and orientation based on spawn component
-                Actor* spawnActor = (t == 0) ? mSpawnPoints0[c] : mSpawnPoints1[c];
+                Node3D* spawnActor = (t == 0) ? mSpawnPoints0[c] : mSpawnPoints1[c];
                 car->InvokeNetFunc("C_ForceTransform",
                     spawnActor->GetPosition(),
                     glm::vec3(0.0f, (t == 0) ? -90.0f : 90.0f, 0.0f));
@@ -462,12 +464,13 @@ void MatchState::SetupKickoff()
         }
     }
 
-    const std::vector<Actor*>& actors = GetWorld()->GetActors();
-    for (uint32_t i = 0; i < actors.size(); ++i)
+    const std::vector<Node*> nodes = GetWorld()->GatherNodes();
+    for (uint32_t i = 0; i < nodes.size(); ++i)
     {
-        if (actors[i]->GetName() == "Boost")
+        if (nodes[i]->GetName() == "Boost")
         {
-            static_cast<BoostPickup*>(actors[i])->Reset();
+            BoostPickup* boost = nodes[i]->As<BoostPickup>();
+            boost->Reset();
         }
     }
 }
