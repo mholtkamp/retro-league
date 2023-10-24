@@ -32,28 +32,22 @@ BoostPickup::BoostPickup()
 
 void BoostPickup::Create()
 {
-    Actor::Create();
+    Node3D::Create();
     SetName("Boost");
 
-    mSphere3D = CreateComponent<Sphere3D>();
-    SetRootComponent(mSphere3D);
-    mSphere3D->SetName("Boost Pickup Sphere");
+    mSphere3D = CreateChild<Sphere3D>("Boost Pickup Sphere");
     mSphere3D->EnablePhysics(false);
     mSphere3D->EnableCollision(false);
     mSphere3D->EnableOverlaps(true);
 
-    mMesh3D = CreateComponent<StaticMesh3D>();
-    mMesh3D->Attach(mSphere3D);
-    mMesh3D->SetName("Boost Pickup Mesh");
+    mMesh3D = CreateChild<StaticMesh3D>("Boost Pickup Mesh");
     mMesh3D->EnableOverlaps(false);
     mMesh3D->EnableCollision(false);
     mMesh3D->EnablePhysics(false);
     mMesh3D->SetStaticMesh(mMini ? (StaticMesh*)LoadAsset("SM_MiniBoost") : (StaticMesh*)LoadAsset("SM_Sphere"));
     mMesh3D->SetMaterialOverride((Material*)LoadAsset("M_BoostPickup"));
 
-    mParticle3D = CreateComponent<Particle3D>();
-    mParticle3D->Attach(mSphere3D);
-    mParticle3D->SetName("Boost Pickup Particle");
+    mParticle3D = CreateChild<Particle3D>("Boost Pickup Particle");
     mParticle3D->SetParticleSystem((ParticleSystem*)LoadAsset("P_BoostPickup"));
     mParticle3D->EnableEmission(false);
     mParticle3D->EnableAutoEmit(false);
@@ -61,7 +55,7 @@ void BoostPickup::Create()
 
 void BoostPickup::Tick(float deltaTime)
 {
-    Actor::Tick(deltaTime);
+    Node3D::Tick(deltaTime);
 
     if (NetIsAuthority() &&
         mSpawnTime > 0.0f)
@@ -79,9 +73,9 @@ void BoostPickup::BeginOverlap(Primitive3D* thisComp, Primitive3D* otherComp)
 {
     if (NetIsAuthority() &&
         mSpawnTime <= 0.0f &&
-        otherComp->GetOwner()->GetName() == "Car")
+        otherComp->Is(Car::GetStaticType()))
     {
-        Car* car = (Car*)otherComp->GetOwner();
+        Car* car = (Car*)otherComp;
         car->AddBoostFuel(mMini ? 10.0f : 100.0f);
 
         SetAlive(false);
@@ -90,7 +84,7 @@ void BoostPickup::BeginOverlap(Primitive3D* thisComp, Primitive3D* otherComp)
 
 void BoostPickup::GatherReplicatedData(std::vector<NetDatum>& outData)
 {
-    Actor::GatherReplicatedData(outData);
+    Node3D::GatherReplicatedData(outData);
     outData.push_back(NetDatum(DatumType::Bool, this, &mMini, 1, OnRep_Mini));
     outData.push_back(NetDatum(DatumType::Bool, this, &mAlive, 1, OnRep_Alive));
 }
