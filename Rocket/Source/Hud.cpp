@@ -114,7 +114,8 @@ void Hud::Update()
 
     MatchState* match = GetMatchState();
 
-    if (match->mPhase == MatchPhase::Count)
+    if (match == nullptr || 
+        match->mPhase == MatchPhase::Count)
         return;
 
     char textBuffer[32];

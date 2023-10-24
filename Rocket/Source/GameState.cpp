@@ -5,6 +5,7 @@
 #include "Menu.h"
 #include "Hud.h"
 #include "Hud3DS.h"
+#include "Nodes/Node.h"
 
 #include "Engine.h"
 #include "Renderer.h"
@@ -14,7 +15,7 @@
 #include "Log.h"
 #include "InputDevices.h"
 #include "Assets/Material.h"
-#include "Assets/Level.h"
+#include "Assets/Scene.h"
 
 #include "System/System.h"
 
@@ -89,13 +90,14 @@ void GameState::LoadArena()
         NetworkManager::Get()->OpenSession();
     }
 
-    Level* arenaLevel = (Level*) LoadAsset("L_Arena");
-    arenaLevel->LoadIntoWorld(GetWorld());
+    ShowMainMenuWidget(false);
+    ShowHudWidget(true);
+
+    GetWorld()->LoadScene("L_Arena", true);
 
     if (mMatchOptions.mEnvironmentType == EnvironmentType::Lagoon)
     {
-        Level* lagoonLevel = (Level*) LoadAsset("L_Lagoon");
-        lagoonLevel->LoadIntoWorld(GetWorld());
+        GetWorld()->SpawnScene("L_Lagoon");
     }
 
     // The MatchState actor relies on L_Arena being loaded.
@@ -104,24 +106,7 @@ void GameState::LoadArena()
 
 void GameState::LoadMainMenu()
 {
-    Level* arenaLevel = (Level*)FetchAsset("L_Arena");
-    Level* lagoonLevel = (Level*)FetchAsset("L_Lagoon");
-
-    if (lagoonLevel != nullptr)
-    {
-        lagoonLevel->UnloadFromWorld(GetWorld());
-    }
-
-    if (arenaLevel != nullptr)
-    {
-        arenaLevel->UnloadFromWorld(GetWorld());
-    }
-
-    UnloadAsset("L_Arena");
-    UnloadAsset("L_Lagoon");
-    GetWorld()->DestroyAllActors();
-
-    //Renderer::Get()->RemoveAllWidgets();
+    GetWorld()->DestroyRootNode();
 
     ShowHudWidget(false);
     ShowMainMenuWidget(true);
@@ -142,23 +127,23 @@ void GameState::ShowMainMenuWidget(bool show)
 {
     if (show && mMainMenuWidget == nullptr)
     {
-        mMainMenuWidget = new MainMenu();
 #if PLATFORM_3DS
         // On 3DS, set the main menu on the bottom screen
-        Renderer::Get()->AddWidget(mMainMenuWidget, -1, 1);
+        //Renderer::Get()->AddWidget(mMainMenuWidget, -1, 1);
+        mMainMenuWidget = GetWorld(1)->SpawnNode<MainMenu>();
+
 #else
-        Renderer::Get()->AddWidget(mMainMenuWidget);
+        mMainMenuWidget = GetWorld()->SpawnNode<MainMenu>();
 #endif
     }
     else if (!show && mMainMenuWidget != nullptr)
     {
 #if PLATFORM_3DS
-        Renderer::Get()->RemoveWidget(mMainMenuWidget, 1);
+        //Renderer::Get()->RemoveWidget(mMainMenuWidget, 1);
+        GetWorld(1)->DestroyNode(mMainMenuWidget);
     #else
-        Renderer::Get()->RemoveWidget(mMainMenuWidget, 0);
+        GetWorld()->DestroyNode(mMainMenuWidget);
     #endif
-        delete mMainMenuWidget;
-        mMainMenuWidget = nullptr;
     }
 }
 
@@ -167,22 +152,19 @@ void GameState::ShowHudWidget(bool show)
     if (show && mHudWidget == nullptr)
     {
 #if PLATFORM_3DS
-        mHudWidget = new Hud3DS();
-        Renderer::Get()->AddWidget(mHudWidget, -1, 1);
+        mHudWidget = GetWorld(1)->SpawnNode<Hud>();
 #else
-        mHudWidget = new Hud();
-        Renderer::Get()->AddWidget(mHudWidget, -1, 0);
+        mHudWidget = GetWorld()->SpawnNode<Hud>();
 #endif
     }
     else if (!show && mHudWidget != nullptr)
     {
 #if PLATFORM_3DS
-        Renderer::Get()->RemoveWidget(mHudWidget, 1);
+        //Renderer::Get()->RemoveWidget(mHudWidget, 1);
+        GetWorld(1)->DestroyNode(mHudWidget);
 #else
-        Renderer::Get()->RemoveWidget(mHudWidget, 0);
+        GetWorld()->DestroyNode(mHudWidget);
 #endif
-        delete mHudWidget;
-        mHudWidget = nullptr;
     }
 }
 

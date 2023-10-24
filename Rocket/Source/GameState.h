@@ -3,10 +3,10 @@
 #include "RocketConstants.h"
 #include "RocketTypes.h"
 #include "MatchState.h"
+#include "Nodes/Node.h"
 
 class Car;
 class Ball;
-class Node;
 
 enum class NetworkMode
 {

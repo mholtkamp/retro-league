@@ -12,6 +12,10 @@
 
 #include "Input/Input.h"
 
+DEFINE_NODE(Menu, Canvas);
+DEFINE_NODE(TitleBanner, Widget);
+DEFINE_NODE(MainMenu, Menu);
+
 Menu::Menu()
 {
     mBlipSound = LoadAsset("SW_Blip");

@@ -12,7 +12,7 @@
 class Menu : public Canvas
 {
 public:
-
+    DECLARE_NODE(Menu, Canvas);
     Menu();
 
     virtual void Tick(float deltaTime) override;
@@ -32,6 +32,7 @@ protected:
 class TitleBanner : public Widget
 {
 public:
+    DECLARE_NODE(TitleBanner, Widget);
     TitleBanner();
     virtual void Tick(float deltaTime) override;
 
@@ -45,6 +46,8 @@ protected:
 class MainMenu : public Menu
 {
 public:
+    DECLARE_NODE(MainMenu, Menu);
+
     MainMenu();
     virtual ~MainMenu();
     virtual void AddPage(MenuPage* page) override;

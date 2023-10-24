@@ -4,6 +4,7 @@
 #include "RocketTypes.h"
 
 #include "Nodes/Node.h"
+#include "Nodes/3D/Node3d.h"
 
 class Car;
 class Ball;
