@@ -79,7 +79,7 @@ void MatchState::Start()
             if (i == 0)
             {
                 GetWorld()->SetActiveCamera(newCar->GetCamera3D());
-                GetWorld()->SetAudioReceiver(newCar->GetSphere3D());
+                GetWorld()->SetAudioReceiver(newCar);
             }
         }
 
@@ -155,7 +155,7 @@ void MatchState::ResetMatchState()
             if (mNumCars == 0)
             {
                 GetWorld()->SetActiveCamera(car->GetCamera3D());
-                GetWorld()->SetAudioReceiver(car->GetSphere3D());
+                GetWorld()->SetAudioReceiver(car);
                 mOwnedCar = car;
             }
 

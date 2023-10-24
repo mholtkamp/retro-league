@@ -26,11 +26,11 @@ struct CarInput
     bool mMenu = false;
 };
 
-class Car : public Node3D
+class Car : public Sphere3D
 {
 public:
 
-    DECLARE_NODE(Car, Node3D);
+    DECLARE_NODE(Car, Sphere3D);
     
     Car();
     ~Car();
@@ -47,7 +47,6 @@ public:
         glm::vec3 impactNormal,
         btPersistentManifold* manifold);
 
-    Sphere3D* GetSphere3D();
     SkeletalMesh3D* GetMesh3D();
     Camera3D* GetCamera3D();
 
@@ -101,7 +100,7 @@ protected:
     void BotUpdateHandling(float deltaTime);
 
     void ClearGrounded();
-    Actor* FindClosestFullBoost();
+    Node3D* FindClosestFullBoost();
     glm::vec3 FindRandomPointInCircleXZ(glm::vec3 center, float radius);
     void MoveToRandomSpawnPoint();
     void ResetState();
@@ -116,14 +115,13 @@ protected:
     static bool OnRep_TeamIndex(Datum* datum, uint32_t index, const void* newValue);
 
     // RPCs
-    static void S_UploadState(Actor* actor, Datum& vecPosition, Datum& vecRotation, Datum& vecVelocity, Datum& bBoosting);
-    static void C_ForceVelocity(Actor* actor, Datum& vecVelocity);
-    static void C_ForceTransform(Actor* actor, Datum& vecPosition, Datum& vecRotation);
-    static void C_AddBoostFuel(Actor* actor, Datum& fBoostFuel);
-    static void C_ResetState(Actor* actor);
-    static void M_Demolish(Actor* actor);
+    static void S_UploadState(Node* node, Datum& vecPosition, Datum& vecRotation, Datum& vecVelocity, Datum& bBoosting);
+    static void C_ForceVelocity(Node* node, Datum& vecVelocity);
+    static void C_ForceTransform(Node* node, Datum& vecPosition, Datum& vecRotation);
+    static void C_AddBoostFuel(Node* node, Datum& fBoostFuel);
+    static void C_ResetState(Node* node);
+    static void M_Demolish(Node* node);
 
-    Sphere3D* mSphere3D = nullptr;
     SkeletalMesh3D* mMesh3D = nullptr;
     ShadowMesh3D* mShadowComponent = nullptr;
     Particle3D* mTrailComponent = nullptr;
@@ -191,7 +189,7 @@ protected:
     // Bot Data
     BotBehavior mBotBehavior = BotBehavior::Count;
     BotTargetType mBotTargetType = BotTargetType::Count;
-    Actor* mBotTargetActor = nullptr;
+    Node3D* mBotTargetActor = nullptr;
     glm::vec3 mBotTargetPosition = { };
     float mBotTargetTime = 0.0f;
 };

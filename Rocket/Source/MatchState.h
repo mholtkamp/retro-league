@@ -65,10 +65,10 @@ public:
     Team mTeams[NUM_TEAMS];
     MatchPhase mPhase = MatchPhase::Count;
 
-    Actor* mGoalBoxes[NUM_TEAMS] = {};
-    Actor* mFullBoosts[NUM_FULL_BOOSTS] = {};
-    Actor* mSpawnPoints0[NUM_SPAWN_POINTS] = {};
-    Actor* mSpawnPoints1[NUM_SPAWN_POINTS] = {};
+    Node3D* mGoalBoxes[NUM_TEAMS] = {};
+    Node3D* mFullBoosts[NUM_FULL_BOOSTS] = {};
+    Node3D* mSpawnPoints0[NUM_SPAWN_POINTS] = {};
+    Node3D* mSpawnPoints1[NUM_SPAWN_POINTS] = {};
 
     float mPhaseTime = 0.0f;
     bool mOvertime = false;

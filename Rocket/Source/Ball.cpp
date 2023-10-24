@@ -134,6 +134,7 @@ void Ball::Tick(float deltaTime)
     }
 
     mShadowComponent->SetAbsoluteRotation(glm::vec3(180.0f, 0.0f, 0.0f));
+    // TODO-NODE: Shouldn't the following line call SetPosition() instead of SetAbsolutePosition()
     mShadowComponent->SetAbsolutePosition(GetPosition() + RootRelativeShadowPos * GetScale());
 
     // Update fresnel color based on last hit.
