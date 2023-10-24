@@ -11,6 +11,9 @@ class MenuPage;
 class MenuOption : public Widget
 {
 public:
+
+    DECLARE_NODE(MenuOption, Widget);
+
     virtual void Create() override;
 
     void SetSelected(bool selected);
@@ -61,6 +64,9 @@ class MenuOptionEnum : public MenuOption
 {
     // Selecting this option will cycle through an array of values
 public:
+
+    DECLARE_NODE(MenuOptionEnum, MenuOption);
+
     virtual void Activate() override;
 
     virtual void Tick(float deltaTime) override;
@@ -80,5 +86,7 @@ protected:
 class MenuOptionSession : public MenuOption
 {
 public:
+    DECLARE_NODE(MenuOptionSession, MenuOption);
+
     GameSession mSession;
 };

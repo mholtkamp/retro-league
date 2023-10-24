@@ -48,7 +48,7 @@ InitOptions OctPreInitialize()
 
 void OctPostInitialize()
 {
-#if 1
+#if 0
 
     GetWorld()->SpawnDefaultRoot();
     GetWorld()->SpawnDefaultCamera();
@@ -84,7 +84,7 @@ void OctPreUpdate()
 
 void OctPostUpdate()
 {
-#if 0
+#if 1
     GetGameState()->Update(GetAppClock()->DeltaTime());
 
 #if !EDITOR

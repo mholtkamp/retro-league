@@ -91,7 +91,6 @@ void GameState::LoadArena()
     }
 
     ShowMainMenuWidget(false);
-    ShowHudWidget(true);
 
     GetWorld()->LoadScene("L_Arena", true);
 
@@ -99,6 +98,9 @@ void GameState::LoadArena()
     {
         GetWorld()->SpawnScene("L_Lagoon");
     }
+
+    // Spawn HUD after L_Arena (which will be the root node)
+    ShowHudWidget(true);
 
     // The MatchState actor relies on L_Arena being loaded.
     //GetWorld()->SpawnActor<MatchState>();

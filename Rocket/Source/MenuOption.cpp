@@ -5,8 +5,14 @@
 
 #include "InputDevices.h"
 
+DEFINE_NODE(MenuOption, Widget);
+DEFINE_NODE(MenuOptionEnum, Widget);
+DEFINE_NODE(MenuOptionSession, Widget);
+
 void MenuOption::Create()
 {
+    Widget::Create();
+
     mText = CreateChild<Text>();
 
 #if PLATFORM_3DS
