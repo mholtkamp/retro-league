@@ -9,11 +9,12 @@ class MenuPage : public Widget
 {
 public:
 
-    MenuPage(Menu* mainMenu);
+    virtual void Create() override;;
     virtual void SetOpen(bool open);
     virtual void Tick(float deltaTime) override;
     const char* GetName() const;
     Menu* GetMenu();
+    void SetMenu(Menu* menu);
 
 protected:
 
@@ -33,7 +34,8 @@ protected:
 class MenuPageMain : public MenuPage
 {
 public:
-    MenuPageMain(Menu* menu);
+    
+    virtual void Create() override;
 
     static void ActivateCreate(MenuOption* option);
     static void ActivateAbout(MenuOption* option);
@@ -44,7 +46,7 @@ public:
 class MenuPageCreate : public MenuPage
 {
 public:
-    MenuPageCreate(Menu* mainMenu);
+    virtual void Create() override;
 
     static void ActivateStart(MenuOption* option);
     void PullOptions();
@@ -59,7 +61,7 @@ public:
 class MenuPageAbout : public MenuPage
 {
 public:
-    MenuPageAbout(Menu* mainMenu);
+    virtual void Create() override;
 
     virtual void Tick(float deltaTime) override;
 
@@ -69,7 +71,8 @@ public:
 class MenuPageJoin : public MenuPage
 {
 public:
-    MenuPageJoin(Menu* mainMenu);
+    virtual void Create() override;
+
     virtual void Tick(float deltaTime) override;
     virtual void SetOpen(bool open) override;
 

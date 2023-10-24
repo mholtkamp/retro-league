@@ -21,9 +21,9 @@ Menu::Menu()
     mBlipSound = LoadAsset("SW_Blip");
 }
 
-void Menu::Update()
+void Menu::Tick(float deltaTime)
 {
-    Widget::Update();
+    Widget::Tick(deltaTime);
 
 }
 
@@ -31,6 +31,7 @@ void Menu::AddPage(MenuPage* page)
 {
     AddChild(page);
     mPages.push_back(page);
+    page->SetMenu(this);
 
     page->SetAnchorMode(AnchorMode::Mid);
     page->SetDimensions(400, 300);
@@ -93,7 +94,7 @@ MainMenu::MainMenu()
     SetAnchorMode(AnchorMode::FullStretch);
     SetMargins(0.0f, 0.0f, 0.0f, 0.0f);
 
-    mTitleBanner = new TitleBanner();
+    mTitleBanner = Node::Construct<TitleBanner>();
     mTitleBanner->SetAnchorMode(AnchorMode::MidHorizontalStretch);
     mTitleBanner->SetLeftMargin(0.0f);
     mTitleBanner->SetRightMargin(0.0f);
@@ -104,21 +105,25 @@ MainMenu::MainMenu()
     mTitleBanner->SetY(-50.0f);
 
     // Place the title banner on the top screen
-    Renderer::Get()->AddWidget(mTitleBanner, -1, 0);
+    GetWorld(1)->PlaceWidget(mTitleBanner);
 
-    mBackButton = new Quad();
+    mBackButton = CreateChikd<Quad>("BackButton");
     mBackButton->SetRect(0.0f, 240.0f - 32.0f, 32.0f, 32.0f);
     mBackButton->SetTexture((Texture*)LoadAsset("T_BackButton"));
     mBackButton->SetVisible(false);
-    AddChild(mBackButton);
 #else
     AddChild(mTitleBanner);
 #endif
 
-    AddPage(new MenuPageMain(this));
-    AddPage(new MenuPageCreate(this));
-    AddPage(new MenuPageJoin(this));
-    AddPage(new MenuPageAbout(this));
+    MenuPageMain* pageMain = Node::Construct<MenuPageMain>();
+    MenuPageCreate* pageCreate = Node::Construct<MenuPageCreate>();
+    MenuPageJoin* pageJoin = Node::Construct<MenuPageJoin>();
+    MenuPageAbout* pageAbout = Node::Construct<MenuPageAbout>();
+
+    AddPage(pageMain);
+    AddPage(pageCreate);
+    AddPage(pageJoin);
+    AddPage(pageAbout);
 
     // TODO: Menu song?
     mSongSound = LoadAsset("SW_Song2_Mini");
@@ -128,10 +133,9 @@ MainMenu::MainMenu()
 
     if (INPUT_MOUSE_SUPPORT)
     {
-        mCursor = new Quad();
+        mCursor = CreateChild<Quad>("Cursor");
         mCursor->SetRect(0, 0, 32, 32);
         mCursor->SetTexture((Texture*)LoadAsset("T_Ring"));
-        AddChild(mCursor);
     }
 }
 
@@ -153,9 +157,9 @@ void MainMenu::AddPage(MenuPage* page)
     Menu::AddPage(page);
 }
 
-void MainMenu::Update()
+void MainMenu::Tick(float deltaTime)
 {
-    Menu::Update();
+    Menu::Tick(deltaTime);
 
     int32_t x;
     int32_t y;
@@ -248,7 +252,7 @@ TitleBanner::TitleBanner()
 {
     glm::vec2 ires = Renderer::Get()->GetScreenResolution();
 
-    mBackgroundQuad = new Quad();
+    mBackgroundQuad = CreateChild<Quad>("Background");
     mBackgroundQuad->SetAnchorMode(AnchorMode::FullStretch);
     mBackgroundQuad->SetMargins(0.0f, 0.0f, 0.0f, 0.0f);
     mBackgroundQuad->SetTexture((Texture*)LoadAsset("T_Checkers"));
@@ -258,19 +262,17 @@ TitleBanner::TitleBanner()
         { 1.0f, 0.5f, 0.2f, 1.0f },
         { 0.0f, 0.3f, 1.0f, 1.0f },
         { 0.0f, 0.3f, 1.0f, 1.0f });
-    AddChild(mBackgroundQuad);
 
-    mTitleQuad = new Quad();
+    mTitleQuad = CreateChild<Quad>("Title");
     mTitleQuad->SetAnchorMode(AnchorMode::Mid);
     mTitleQuad->SetTexture((Texture*)LoadAsset("T_TitleText"));
     mTitleQuad->SetDimensions(384, 48);
     mTitleQuad->SetPosition(-196.0f, -26.0f);
-    AddChild(mTitleQuad);
 }
 
-void TitleBanner::Update()
+void TitleBanner::Tick(float deltaTime)
 {
-    Widget::Update();
+    Widget::Tick(deltaTime);
 
     glm::vec2 uvOffset = mBackgroundQuad->GetUvOffset();
     uvOffset += GetAppClock()->DeltaTime() * glm::vec2(0.03f, 0.05f);

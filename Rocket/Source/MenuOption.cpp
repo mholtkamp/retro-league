@@ -11,7 +11,7 @@ MenuOption::MenuOption(MenuPage* page, const char* label, MenuOptionCallbackFP c
     mLabel = label;
     mCallback = callback;
 
-    mText = new Text();
+    mText = CreateChild<Text>();
 
 #if PLATFORM_3DS
     mText->SetTextSize(20.0f);
@@ -20,7 +20,6 @@ MenuOption::MenuOption(MenuPage* page, const char* label, MenuOptionCallbackFP c
 #endif
     mText->SetDimensions(400.0f, 50.0f);
     mText->SetText(mLabel);
-    AddChild(mText);
 
     SetSelected(false);
 }
@@ -111,9 +110,9 @@ void MenuOptionEnum::Activate()
     }
 }
 
-void MenuOptionEnum::Update()
+void MenuOptionEnum::Tick(float deltaTime)
 {
-    MenuOption::Update();
+    MenuOption::Tick(deltaTime);
 
     if (mSelected && !mLocked)
     {

@@ -9,9 +9,8 @@
 
 #include "NetworkManager.h"
 
-MenuPage::MenuPage(Menu* menu)
+void MenuPage::Create()
 {
-    mMenu = menu;
     SetVisible(false);
 }
 
@@ -29,9 +28,9 @@ void MenuPage::SetOpen(bool open)
     }
 }
 
-void MenuPage::Update()
+void MenuPage::Tick(float deltaTime)
 {
-    Widget::Update();
+    Widget::Tick(deltaTime);
 
     if (IsVisible() && !mOpenedThisFrame)
     {
@@ -106,6 +105,11 @@ Menu* MenuPage::GetMenu()
     return mMenu;
 }
 
+void MenuPage::SetMenu(Menu* menu)
+{
+    mMenu = menu;
+}
+
 void MenuPage::AddOption(MenuOption* option)
 {
     uint32_t prevNum = (uint32_t)mOptions.size();
@@ -161,9 +165,10 @@ void MenuPage::SetSelectedOption(uint32_t optionIndex)
     }
 }
 
-MenuPageMain::MenuPageMain(Menu* menu) :
-    MenuPage(menu)
+void MenuPageMain::Create()
 {
+    MenuPage::Create();
+
     mName = "Main";
     MenuOption* createOption = new MenuOption(this, "Create Game", ActivateCreate);
     MenuOption* joinOption = new MenuOption(this, "Join Game", ActivateJoin);
@@ -199,9 +204,10 @@ void MenuPageMain::ActivateAbout(MenuOption* option)
     option->GetPage()->GetMenu()->PushPage("About");
 }
 
-MenuPageCreate::MenuPageCreate(Menu* mainMenu) :
-    MenuPage(mainMenu)
+void MenuPageCreate::Create()
 {
+    MenuPage::Create();
+
     mName = "Create";
 
     static const char* teamSizeStrings[3] =
@@ -259,9 +265,10 @@ void MenuPageCreate::PushOptions()
     GetGameState()->mMatchOptions.mNetworkMode = (NetworkMode)mNetworkOption->GetEnumValue();
 }
 
-MenuPageAbout::MenuPageAbout(Menu* mainMenu) :
-    MenuPage(mainMenu)
+void MenuPageAbout::Create()
 {
+    MenuPage::Create();
+
     mName = "About";
     mAboutText = new Text();
     mAboutText->SetDimensions(400, 400);
@@ -277,9 +284,9 @@ MenuPageAbout::MenuPageAbout(Menu* mainMenu) :
     AddChild(mAboutText);
 }
 
-void MenuPageAbout::Update()
+void MenuPageAbout::Tick(float deltaTime)
 {
-    MenuPage::Update();
+    MenuPage::Tick(deltaTime);
 
     if (mOpen && IsGamepadButtonJustDown(GAMEPAD_B, 0))
     {
@@ -299,9 +306,10 @@ void MenuPageJoin::ActivateGame(MenuOption* option)
     }
 }
 
-MenuPageJoin::MenuPageJoin(Menu* mainMenu) :
-    MenuPage(mainMenu)
+void MenuPageJoin::Create()
 {
+    MenuPage::Create();
+
     mName = "Join";
 
     for (uint32_t i = 0; i < sNumGameOptions; ++i)
@@ -310,17 +318,16 @@ MenuPageJoin::MenuPageJoin(Menu* mainMenu) :
         AddOption(mGameOptions[i]);
     }
 
-    mSearchText = new Text();
+    mSearchText = CreateChild<Text>("SearchText");
     mSearchText->SetText("Searching...");
     mSearchText->SetPosition(100, 145);
     mSearchText->SetDimensions(100, 40);
     mSearchText->SetTextSize(20);
-    AddChild(mSearchText);
 }
 
-void MenuPageJoin::Update()
+void MenuPageJoin::Tick(float deltaTime)
 {
-    MenuPage::Update();
+    MenuPage::Tick(deltaTime);
 
     NetworkManager* netMan = NetworkManager::Get();
 
