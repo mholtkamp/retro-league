@@ -8,6 +8,8 @@ class Hud : public Widget
 {
 public:
 
+    DECLARE_NODE(Hud, Widget);
+
     Hud();
     virtual ~Hud();
 

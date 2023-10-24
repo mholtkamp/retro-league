@@ -1,6 +1,8 @@
 #include "Hud3DS.h"
 #include "Renderer.h"
 
+DEFINE_NODE(Hud3DS, Hud);
+
 Hud3DS::Hud3DS()
 {
     mBoostBg->SetVisible(false);

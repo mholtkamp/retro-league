@@ -10,7 +10,8 @@
 
 #include "InputDevices.h"
 #include "AssetManager.h"
-#include "Assets/WidgetMap.h"
+
+DEFINE_NODE(Hud, Widget);
 
 Hud::Hud()
 {
@@ -18,21 +19,19 @@ Hud::Hud()
     SetMargins(0.0f, 0.0f, 0.0f, 0.0f);
 
     // BG Quads
-    mMatchBg = new Quad();
+    mMatchBg = CreateChild<Quad>("MatchBg");
     mMatchBg->SetAnchorMode(AnchorMode::TopMid);
     mMatchBg->SetPosition(-75.0f, 0.0f);
     mMatchBg->SetDimensions(160, 50);
     mMatchBg->SetColor(glm::vec4(0.0f, 0.0f, 0.0f, 0.60f));
-    AddChild(mMatchBg);
 
-    mBoostBg = new Quad();
+    mBoostBg = CreateChild<Quad>("BoostBg");
     mBoostBg->SetAnchorMode(AnchorMode::BottomRight);
     mBoostBg->SetPosition(-120.0f, -60.0f);
     mBoostBg->SetDimensions(120.0f, 28.0f);
     mBoostBg->SetColor(glm::vec4(0.0f, 0.0f, 0.0f, 0.60f));
-    AddChild(mBoostBg);
 
-    mWinnerBg = new Quad();
+    mWinnerBg = CreateChild<Quad>("WinnerBg");
     mWinnerBg->SetAnchorMode(AnchorMode::MidHorizontalStretch);
     mWinnerBg->SetLeftMargin(0.0f);
     mWinnerBg->SetRightMargin(0.0f);
@@ -40,16 +39,14 @@ Hud::Hud()
     mWinnerBg->SetHeight(100.0f);
     mWinnerBg->SetColor({ 0.0f, 0.0f, 0.0f, 0.6f });
     mWinnerBg->SetVisible(false);
-    AddChild(mWinnerBg);
 
-    mCountdownBg = new Quad();
+    mCountdownBg = CreateChild<Quad>("CountdownBg");
     mCountdownBg->SetAnchorMode(AnchorMode::Mid);
     mCountdownBg->SetPosition(-50.0f, -50.0f);
     mCountdownBg->SetDimensions(100.0f, 100.0f);
     mCountdownBg->SetColor({ 0.0f, 0.0f, 0.0f, 1.0f });
     mCountdownBg->SetTexture((Texture*)LoadAsset("T_SoftCircle"));
     mCountdownBg->SetVisible(false);
-    AddChild(mCountdownBg);
 
     // Boost Gauge
     //mBoostFuel = new Quad();
@@ -59,48 +56,42 @@ Hud::Hud()
     //AddChild(mBoostCapacity);
 
     // Text Elements
-    mScore0 = new Text();
+    mScore0 = CreateChild<Text>("Score0");
     mScore0->SetAnchorMode(AnchorMode::TopMid);
     mScore0->SetPosition(-40.0f, 5.0f);
     mScore0->SetDimensions(100, 100);
     mScore0->SetTextSize(24.0f);
-    AddChild(mScore0);
 
-    mScore1 = new Text();
+    mScore1 = CreateChild<Text>("Score1");
     mScore1->SetAnchorMode(AnchorMode::TopMid);
     mScore1->SetPosition(40.0f, 5.0f);
     mScore1->SetDimensions(100, 100);
     mScore1->SetTextSize(24.0f);
-    AddChild(mScore1);
 
-    mTime = new Text();
+    mTime = CreateChild<Text>("Time");
     mTime->SetAnchorMode(AnchorMode::TopMid);
     mTime->SetPosition(-10.0f, 25.0f);
     mTime->SetDimensions(100, 100);
     mTime->SetTextSize(20.0f);
-    AddChild(mTime);
 
-    mBoost = new Text();
+    mBoost = CreateChild<Text>("Boost");
     mBoost->SetAnchorMode(AnchorMode::BottomRight);
     mBoost->SetPosition(-105.0f, -60.0f);
     mBoost->SetDimensions(100, 50);
     mBoost->SetColor({ 0.9f, 0.8f, 0.1f, 1.0f });
     mBoost->SetTextSize(20.0f);
-    AddChild(mBoost);
 
-    mWinner = new Text();
+    mWinner = mWinnerBg->CreateChild<Text>("WinnerText");
     mWinner->SetAnchorMode(AnchorMode::Mid);
     mWinner->SetPosition(-200.0f, -35.0f);
     mWinner->SetDimensions(1000.0f, 200.0f);
     mWinner->SetTextSize(60.0f);
     mWinner->SetVisible(false);
-    mWinnerBg->AddChild(mWinner);
 
-    mCountdown = new Text();
+    mCountdown = mCountdownBg->CreateChild<Text>("CountdownText");
     mCountdown->SetPosition({30.0f, 10.0f });
     mCountdown->SetDimensions({ 100.0f, 200.0f });
     mCountdown->SetTextSize(60.0f);
-    mCountdownBg->AddChild(mCountdown);
 }
 
 Hud::~Hud()
@@ -108,9 +99,9 @@ Hud::~Hud()
     // Children deleted in ~Widget()
 }
 
-void Hud::Update()
+void Hud::Tick(float deltaTime)
 {
-    Widget::Update();
+    Widget::Tick(deltaTime);
 
     MatchState* match = GetMatchState();
 
