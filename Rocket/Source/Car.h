@@ -26,11 +26,11 @@ struct CarInput
     bool mMenu = false;
 };
 
-class Car : public Actor
+class Car : public Node3D
 {
 public:
 
-    DECLARE_ACTOR(Car, Actor);
+    DECLARE_NODE(Car, Node3D);
     
     Car();
     ~Car();

@@ -26,11 +26,11 @@ struct Team
     Car* mCars[MAX_TEAM_SIZE] = {};
 };
 
-class MatchState : public Actor
+class MatchState : public Node3D
 {
 public:
 
-    DECLARE_ACTOR(MatchState, Actor);
+    DECLARE_NODE(MatchState, Node3D);
 
     MatchState();
     virtual void Create() override;

@@ -7,11 +7,11 @@
 #include "Nodes/3D/Audio3d.h"
 #include "Nodes/3D/Particle3d.h"
 
-class Ball : public Actor
+class Ball : public StaticMesh3D
 {
 public:
 
-    DECLARE_ACTOR(Ball, Actor);
+    DECLARE_NODE(Ball, StaticMesh3D);
 
     Ball();
     ~Ball();
@@ -38,11 +38,10 @@ public:
 
     static bool OnRep_Alive(Datum* datum, uint32_t index, const void* value);
 
-    static void M_GoalExplode(Actor* actor);
+    static void M_GoalExplode(Node* node);
 
 protected:
 
-    StaticMesh3D* mMesh3D = nullptr;
     ShadowMesh3D* mShadowComponent = nullptr;
     Audio3D* mAudio3D = nullptr;
     Particle3D* mParticle3D = nullptr;

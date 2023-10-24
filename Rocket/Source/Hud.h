@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Widgets/Widget.h"
-#include "Widgets/Text.h"
-#include "Widgets/Quad.h"
+#include "Nodes/Widgets/Widget.h"
+#include "Nodes/Widgets/Text.h"
+#include "Nodes/Widgets/Quad.h"
 
 class Hud : public Widget
 {
@@ -11,7 +11,7 @@ public:
     Hud();
     virtual ~Hud();
 
-    virtual void Update() override;
+    virtual void Tick(float deltaTime) override;
 
     void SetCountdownTime(int32_t seconds);
 

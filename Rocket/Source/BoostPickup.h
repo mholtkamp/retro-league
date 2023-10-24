@@ -8,11 +8,11 @@
 
 #include "Assets/SoundWave.h"
 
-class BoostPickup : public Actor
+class BoostPickup : public Node3D
 {
 public:
 
-    DECLARE_ACTOR(BoostPickup, Actor);
+    DECLARE_NODE(BoostPickup, Node3D);
 
     BoostPickup();
     virtual void Create() override;

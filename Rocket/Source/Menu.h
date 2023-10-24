@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Widgets/Canvas.h"
-#include "Widgets/Text.h"
+#include "Nodes/Widgets/Canvas.h"
+#include "Nodes/Widgets/Text.h"
 
 #include "Assets/SoundWave.h"
 
@@ -15,7 +15,7 @@ public:
 
     Menu();
 
-    virtual void Update() override;
+    virtual void Tick(float deltaTime) override;
 
     virtual void AddPage(MenuPage* page);
     virtual void PushPage(const char* name);
@@ -33,7 +33,7 @@ class TitleBanner : public Widget
 {
 public:
     TitleBanner();
-    virtual void Update() override;
+    virtual void Tick(float deltaTime) override;
 
 protected:
 
@@ -48,7 +48,7 @@ public:
     MainMenu();
     virtual ~MainMenu();
     virtual void AddPage(MenuPage* page) override;
-    virtual void Update() override;
+    virtual void Tick(float deltaTime) override;
 
     virtual void PushPage(const char* name) override;
     virtual void PopPage() override;

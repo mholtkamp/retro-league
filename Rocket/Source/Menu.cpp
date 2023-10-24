@@ -6,7 +6,7 @@
 #include "InputDevices.h"
 #include "AudioManager.h"
 #include "AssetManager.h"
-#include "Widgets/Quad.h"
+#include "Nodes/Widgets/Quad.h"
 
 #include "Engine.h"
 

@@ -3,11 +3,11 @@
 #include "Nodes/Node.h"
 
 
-class Rotator : public Actor
+class Rotator : public Node3D
 {
 public:
 
-    DECLARE_ACTOR(Rotator, Actor);
+    DECLARE_NODE(Rotator, Node3D);
 
     virtual void Create() override;
     virtual void Tick(float deltaTime) override;

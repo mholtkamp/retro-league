@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Widgets/Widget.h"
-#include "Widgets/Text.h"
+#include "Nodes/Widgets/Widget.h"
+#include "Nodes/Widgets/Text.h"
 #include "NetworkManager.h"
 
 typedef void(*MenuOptionCallbackFP)(class MenuOption* menuOption);
@@ -66,7 +66,7 @@ public:
         const char** enumStrings);
     virtual void Activate() override;
 
-    virtual void Update() override;
+    virtual void Tick(float deltaTime) override;
 
     
     void SetEnumValue(uint32_t value);

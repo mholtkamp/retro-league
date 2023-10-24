@@ -6,7 +6,7 @@
 #include "AssetManager.h"
 #include "NetworkManager.h"
 
-DEFINE_ACTOR(BoostPickup, Actor);
+DEFINE_NODE(BoostPickup, Node3D);
 
 bool OnRep_Alive(Datum* datum, uint32_t index, const void* value)
 {

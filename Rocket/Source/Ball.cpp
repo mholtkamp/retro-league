@@ -22,7 +22,7 @@ const float BallHardSpeedLimit = 80.0f;
 
 const glm::vec3 RootRelativeShadowPos = glm::vec3(0.0f, -20.0f, 0.0f);
 
-DEFINE_ACTOR(Ball, Actor);
+DEFINE_NODE(Ball, Node3D);
 
 bool Ball::OnRep_Alive(Datum* datum, uint32_t index, const void* value)
 {
@@ -32,9 +32,9 @@ bool Ball::OnRep_Alive(Datum* datum, uint32_t index, const void* value)
     return true;
 }
 
-void Ball::M_GoalExplode(Actor* actor)
+void Ball::M_GoalExplode(Node* node)
 {
-    Ball* ball = (Ball*) actor;
+    Ball* ball = (Ball*) node;
 
     ball->mParticle3D->EnableEmission(true);
 
@@ -58,52 +58,43 @@ Ball::~Ball()
 
 void Ball::Create()
 {
-    Actor::Create();
-    SetName("Ball");
+    StaticMesh3D::Create();
 
-    mMesh3D = CreateComponent<StaticMesh3D>();
-    SetRootComponent(mMesh3D);
-    mMesh3D->SetName("Ball Mesh");
-    mMesh3D->SetMass(1.0f);
-    mMesh3D->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
-    mMesh3D->EnablePhysics(NetIsAuthority());
-    mMesh3D->EnableCollision(true);
-    mMesh3D->EnableOverlaps(true);
-    mMesh3D->SetCollisionGroup(ColGroupBall);
-    mMesh3D->SetRestitution(0.4f);
-    mMesh3D->SetAngularFactor({ 1.0f, 1.0f, 1.0f });
-    mMesh3D->SetRollingFriction(1.0f);
-    mMesh3D->SetFriction(1.0f);
-    mMesh3D->EnableCastShadows(true);
-    mMesh3D->EnableReceiveSimpleShadows(false);
-    //mBodyComponent->SetFriction(0.0f);
-    //mBodyComponent->SetAngularFactor(glm::vec3(0.0f, 0.0f, 0.0f));
-    //mBodyComponent->SetAngularDamping(1.0f);
-    mMesh3D->SetStaticMesh((StaticMesh*)LoadAsset("SM_Sphere"));
+    SetName("Ball");
+    SetMass(1.0f);
+    SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+    EnablePhysics(NetIsAuthority());
+    EnableCollision(true);
+    EnableOverlaps(true);
+    SetCollisionGroup(ColGroupBall);
+    SetRestitution(0.4f);
+    SetAngularFactor({ 1.0f, 1.0f, 1.0f });
+    SetRollingFriction(1.0f);
+    SetFriction(1.0f);
+    EnableCastShadows(true);
+    EnableReceiveSimpleShadows(false);
+    //SetFriction(0.0f);
+    //SetAngularFactor(glm::vec3(0.0f, 0.0f, 0.0f));
+    //SetAngularDamping(1.0f);
+    SetStaticMesh((StaticMesh*)LoadAsset("SM_Sphere"));
 
     Material* ballMat = (Material*)LoadAsset("M_Ball");
     ballMat->SetFresnelEnabled(true);
     ballMat->SetFresnelColor({ 1.0f, 1.0f, 1.0f, 1.0f });
-    mMesh3D->SetMaterialOverride(ballMat);
+    SetMaterialOverride(ballMat);
 
-    mShadowComponent = CreateComponent<ShadowMesh3D>();
-    mShadowComponent->Attach(mMesh3D);
-    mShadowComponent->SetName("Shadow");
+    mShadowComponent = CreateChild<ShadowMesh3D>("Shadow");
     mShadowComponent->SetStaticMesh(LoadAsset<StaticMesh>("SM_Cone"));
     mShadowComponent->SetRotation(glm::vec3(180.0f, 0.0f, 0.0f));
     mShadowComponent->SetPosition(RootRelativeShadowPos);
     mShadowComponent->SetScale(glm::vec3(1.0f, 20.0f, 1.0f));
 
-    mAudio3D = CreateComponent<Audio3D>();
-    mAudio3D->SetName("Audio Comp");
-    mAudio3D->Attach(mMesh3D);
+    mAudio3D = CreateChild<Audio3D>("Audio");
     mAudio3D->SetSoundWave((SoundWave*)LoadAsset("SW_Item"));
     mAudio3D->SetLoop(true);
     //mAudio3D->Play();
 
-    mParticle3D = CreateComponent<Particle3D>();
-    mParticle3D->SetName("Explosion");
-    mParticle3D->Attach(mMesh3D);
+    mParticle3D = CreateChild<Particle3D>("Explosion");
     mParticle3D->SetParticleSystem((ParticleSystem*)LoadAsset("P_GoalExplosion"));
     mParticle3D->EnableEmission(false);
     mParticle3D->EnableAutoEmit(false);
@@ -113,7 +104,7 @@ void Ball::Create()
 
 void Ball::Tick(float deltaTime)
 {
-    Actor::Tick(deltaTime);
+    StaticMesh3D::Tick(deltaTime);
 
     if (NetIsAuthority())
     {
@@ -125,7 +116,7 @@ void Ball::Tick(float deltaTime)
             mGrounded = false;
         }
 
-        glm::vec3 velocity = mMesh3D->GetLinearVelocity();
+        glm::vec3 velocity = GetLinearVelocity();
         float speed = glm::length(velocity);
         glm::vec3 direction = (speed != 0.0f) ? velocity / speed : glm::vec3(0.0f);
 
@@ -138,15 +129,15 @@ void Ball::Tick(float deltaTime)
 
             speed = Maths::Damp(speed, BallSoftSpeedLimit, 0.005f, deltaTime);
 
-            mMesh3D->SetLinearVelocity(speed * direction);
+            SetLinearVelocity(speed * direction);
         }
     }
 
     mShadowComponent->SetAbsoluteRotation(glm::vec3(180.0f, 0.0f, 0.0f));
-    mShadowComponent->SetAbsolutePosition(GetRootComponent()->GetPosition() + RootRelativeShadowPos * GetRootComponent()->GetScale());
+    mShadowComponent->SetAbsolutePosition(GetPosition() + RootRelativeShadowPos * GetScale());
 
     // Update fresnel color based on last hit.
-    glm::vec4 fresnelColor = mMesh3D->GetMaterial()->GetFresnelColor();
+    glm::vec4 fresnelColor = GetMaterial()->GetFresnelColor();
     glm::vec4 targetColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
     if (mLastHitTeam == 0)
@@ -159,19 +150,19 @@ void Ball::Tick(float deltaTime)
     }
 
     fresnelColor = Maths::Damp(fresnelColor, targetColor, 0.005f, deltaTime);
-    mMesh3D->GetMaterial()->SetFresnelColor(fresnelColor);
+    GetMaterial()->SetFresnelColor(fresnelColor);
 }
 
 void Ball::GatherReplicatedData(std::vector<NetDatum>& outData)
 {
-    Actor::GatherReplicatedData(outData);
+    StaticMesh3D::GatherReplicatedData(outData);
     outData.push_back(NetDatum(DatumType::Bool, this, &mAlive, 1, OnRep_Alive));
     outData.push_back(NetDatum(DatumType::Integer, this, &mLastHitTeam, 1));
 }
 
 void Ball::GatherNetFuncs(std::vector<NetFunc>& outFuncs)
 {
-    Actor::GatherNetFuncs(outFuncs);
+    StaticMesh3D::GatherNetFuncs(outFuncs);
     ADD_NET_FUNC(outFuncs, Multicast, M_GoalExplode);
 }
 
@@ -184,13 +175,11 @@ void Ball::OnCollision(
 {
     if (NetIsAuthority())
     {
-        bool hitCar = (otherComp->GetOwner()->GetName() == "Car");
+        Car* car = otherComp->As<Car>();
 
-        if (hitCar)
+        if (car != nullptr)
         {
-            Car* car = static_cast<Car*>(otherComp->GetOwner());
-
-            glm::vec3 ballVelocity = mMesh3D->GetLinearVelocity();
+            glm::vec3 ballVelocity = GetLinearVelocity();
             glm::vec3 carVelocity = car->GetVelocity();
 
             // (1) Cancel out velocity along collision axis
@@ -202,7 +191,7 @@ void Ball::OnCollision(
             glm::vec3 launchVelocity = impactNormal * launchSpeed;
             ballVelocity += launchVelocity;
 
-            mMesh3D->SetLinearVelocity(ballVelocity);
+            SetLinearVelocity(ballVelocity);
 
     #if 0
             // Debug impact
@@ -268,8 +257,8 @@ void Ball::Reset()
     if (NetIsAuthority())
     {
         SetPosition(glm::vec3(0.0f, 5.0f, 0.0f));
-        mMesh3D->SetLinearVelocity(glm::vec3(0));
-        mMesh3D->SetAngularVelocity(glm::vec3(0));
+        SetLinearVelocity(glm::vec3(0));
+        SetAngularVelocity(glm::vec3(0));
         mLastHitTeam = -1;
         SetAlive(true);
     }
@@ -283,12 +272,12 @@ void Ball::SetAlive(bool alive)
 
         if (NetIsAuthority())
         {
-            mMesh3D->EnablePhysics(alive);
+            EnablePhysics(alive);
         }
 
-        mMesh3D->EnableCollision(alive);
-        mMesh3D->EnableOverlaps(alive);
-        mMesh3D->SetVisible(alive);
+        EnableCollision(alive);
+        EnableOverlaps(alive);
+        SetVisible(alive);
 
         mShadowComponent->SetVisible(alive);
     }

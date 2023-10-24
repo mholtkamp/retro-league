@@ -10,7 +10,7 @@
 #include "Log.h"
 #include "AssetManager.h"
 
-#include "Widgets/StatsOverlay.h"
+#include "Nodes/Widgets/StatsOverlay.h"
 
 #include "GameState.h"
 

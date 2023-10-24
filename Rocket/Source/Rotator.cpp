@@ -2,7 +2,7 @@
 
 #include "Nodes/3D/StaticMesh3d.h"
 
-DEFINE_ACTOR(Rotator, Actor);
+DEFINE_NODE(Rotator, Node3D);
 
 void Rotator::Create()
 {

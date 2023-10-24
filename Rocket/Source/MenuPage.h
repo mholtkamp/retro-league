@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Widgets/Widget.h"
+#include "Nodes/Widgets/Widget.h"
 #include "MenuOption.h"
 
 class Menu;
@@ -11,7 +11,7 @@ public:
 
     MenuPage(Menu* mainMenu);
     virtual void SetOpen(bool open);
-    virtual void Update() override;
+    virtual void Tick(float deltaTime) override;
     const char* GetName() const;
     Menu* GetMenu();
 
@@ -61,7 +61,7 @@ class MenuPageAbout : public MenuPage
 public:
     MenuPageAbout(Menu* mainMenu);
 
-    virtual void Update() override;
+    virtual void Tick(float deltaTime) override;
 
     Text* mAboutText = nullptr;
 };
@@ -70,7 +70,7 @@ class MenuPageJoin : public MenuPage
 {
 public:
     MenuPageJoin(Menu* mainMenu);
-    virtual void Update() override;
+    virtual void Tick(float deltaTime) override;
     virtual void SetOpen(bool open) override;
 
     virtual void NextOption() override;

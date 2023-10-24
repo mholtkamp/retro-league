@@ -18,7 +18,7 @@
 
 #include "System/System.h"
 
-DEFINE_ACTOR(MatchState, Actor);
+DEFINE_NODE(MatchState, Node3D);
 
 MatchState::MatchState()
 {
