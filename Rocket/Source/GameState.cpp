@@ -138,12 +138,8 @@ void GameState::ShowMainMenuWidget(bool show)
     }
     else if (!show && mMainMenuWidget != nullptr)
     {
-#if PLATFORM_3DS
-        //Renderer::Get()->RemoveWidget(mMainMenuWidget, 1);
-        GetWorld(1)->DestroyNode(mMainMenuWidget);
-    #else
-        GetWorld()->DestroyNode(mMainMenuWidget);
-    #endif
+        Node::Destruct(mMainMenuWidget);
+        mMainMenuWidget = nullptr;
     }
 }
 
@@ -159,12 +155,8 @@ void GameState::ShowHudWidget(bool show)
     }
     else if (!show && mHudWidget != nullptr)
     {
-#if PLATFORM_3DS
-        //Renderer::Get()->RemoveWidget(mHudWidget, 1);
-        GetWorld(1)->DestroyNode(mHudWidget);
-#else
-        GetWorld()->DestroyNode(mHudWidget);
-#endif
+        Node::Destruct(mHudWidget);
+        mHudWidget = nullptr;
     }
 }
 
