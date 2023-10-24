@@ -9,6 +9,12 @@
 
 #include "NetworkManager.h"
 
+DEFINE_NODE(MenuPage, Widget);
+DEFINE_NODE(MenuPageMain, MenuPage);
+DEFINE_NODE(MenuPageCreate, MenuPage);
+DEFINE_NODE(MenuPageAbout, MenuPage);
+DEFINE_NODE(MenuPageJoin, MenuPage);
+
 void MenuPage::Create()
 {
     SetVisible(false);
@@ -110,25 +116,6 @@ void MenuPage::SetMenu(Menu* menu)
     mMenu = menu;
 }
 
-void MenuPage::AddOption(MenuOption* option)
-{
-    uint32_t prevNum = (uint32_t)mOptions.size();
-#if PLATFORM_3DS
-    option->SetPosition(50.0f, prevNum * 24.0f);
-#else
-    option->SetPosition(50.0f, prevNum * 32.0f);
-#endif
-    option->SetDimensions(200.0f, 25.0f);
-    AddChild(option);
-    mOptions.push_back(option);
-
-    if (prevNum == 0)
-    {
-        option->SetSelected(true);
-        mSelectedOption = 0;
-    }
-}
-
 void MenuPage::NextOption()
 {
     uint32_t numOptions = uint32_t(mOptions.size());
@@ -170,18 +157,13 @@ void MenuPageMain::Create()
     MenuPage::Create();
 
     mName = "Main";
-    MenuOption* createOption = new MenuOption(this, "Create Game", ActivateCreate);
-    MenuOption* joinOption = new MenuOption(this, "Join Game", ActivateJoin);
-    MenuOption* settingsOption = new MenuOption(this, "Settings", nullptr /*ActivateSettings*/);
-    MenuOption* aboutOption = new MenuOption(this, "About", ActivateAbout);
+    MenuOption* createOption = CreateOption<MenuOption>("Create Game", ActivateCreate);
+    MenuOption* joinOption = CreateOption<MenuOption>("Join Game", ActivateJoin);
+    MenuOption* settingsOption = CreateOption<MenuOption>("Settings", nullptr /*ActivateSettings*/);
+    MenuOption* aboutOption = CreateOption<MenuOption>("About", ActivateAbout);
 
     // Temporarily lock Settings
     settingsOption->SetLocked(true);
-
-    AddOption(createOption);
-    AddOption(joinOption);
-    AddOption(settingsOption);
-    AddOption(aboutOption);
 }
 
 void MenuPageMain::ActivateCreate(MenuOption* option)
@@ -230,17 +212,17 @@ void MenuPageCreate::Create()
         "Online"
     };
 
-    mTeamSizeOption = new MenuOptionEnum(this, "Team Size", nullptr, 3, teamSizeStrings);
-    mEnvironmentOption = new MenuOptionEnum(this, "Stage", nullptr, 2, environmentStrings);
-    mNetworkOption = new MenuOptionEnum(this, "Network", nullptr, 3, networkStrings);
-    mStartOption = new MenuOption(this, "Start", ActivateStart);
+    mTeamSizeOption = CreateOption<MenuOptionEnum>("Team Size", nullptr);
+    mEnvironmentOption = CreateOption<MenuOptionEnum>("Stage", nullptr);
+    mNetworkOption = CreateOption<MenuOptionEnum>("Network", nullptr);
+    mStartOption = CreateOption<MenuOption>("Start", ActivateStart);
+
+    mTeamSizeOption->SetEnumData(3, teamSizeStrings);
+    mEnvironmentOption->SetEnumData(2, environmentStrings);
+    mNetworkOption->SetEnumData(3, networkStrings);
+
 
     PullOptions();
-
-    AddOption(mTeamSizeOption);
-    AddOption(mEnvironmentOption);
-    AddOption(mNetworkOption);
-    AddOption(mStartOption);
 }
 
 void MenuPageCreate::ActivateStart(MenuOption* option)
@@ -270,7 +252,7 @@ void MenuPageAbout::Create()
     MenuPage::Create();
 
     mName = "About";
-    mAboutText = new Text();
+    mAboutText = CreateChild<Text>();
     mAboutText->SetDimensions(400, 400);
     mAboutText->SetPosition(-100, 0);
     mAboutText->SetText("Created by Martin Holtkamp\nTwitter: @martin_holtkamp\n\nReleases and source code will be published at\ngithub.com/mholtkamp/retro-league\n\nVersion 0.2");
@@ -281,7 +263,6 @@ void MenuPageAbout::Create()
 #else
     mAboutText->SetTextSize(24.0f);
 #endif
-    AddChild(mAboutText);
 }
 
 void MenuPageAbout::Tick(float deltaTime)
@@ -314,8 +295,7 @@ void MenuPageJoin::Create()
 
     for (uint32_t i = 0; i < sNumGameOptions; ++i)
     {
-        mGameOptions[i] = new MenuOptionSession(this, "...", ActivateGame);
-        AddOption(mGameOptions[i]);
+        mGameOptions[i] = CreateOption<MenuOptionSession>("...", ActivateGame);
     }
 
     mSearchText = CreateChild<Text>("SearchText");

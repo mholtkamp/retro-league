@@ -11,7 +11,7 @@ class MenuPage;
 class MenuOption : public Widget
 {
 public:
-    MenuOption(MenuPage* page, const char* label, MenuOptionCallbackFP callback);
+    virtual void Create() override;
 
     void SetSelected(bool selected);
     bool IsSelected() const;
@@ -20,9 +20,12 @@ public:
     bool IsLocked() const;
 
     MenuPage* GetPage();
+    void SetPage(MenuPage* page);
 
     const std::string& GetLabel();
     void SetLabel(const char* label);
+
+    void SetCallback(MenuOptionCallbackFP callback);
 
     virtual void Activate();
 
@@ -58,22 +61,16 @@ class MenuOptionEnum : public MenuOption
 {
     // Selecting this option will cycle through an array of values
 public:
-    MenuOptionEnum(
-        MenuPage* page,
-        const char* label,
-        MenuOptionCallbackFP callback,
-        uint32_t enumCount,
-        const char** enumStrings);
     virtual void Activate() override;
 
     virtual void Tick(float deltaTime) override;
 
-    
+    void SetEnumData(uint32_t enumCount, const char** enumStrings);
+
     void SetEnumValue(uint32_t value);
     uint32_t GetEnumValue() const;
 
 protected:
-
 
     const char** mEnumStrings = nullptr;
     uint32_t mEnumCount = 0;
@@ -83,8 +80,5 @@ protected:
 class MenuOptionSession : public MenuOption
 {
 public:
-
-    MenuOptionSession(MenuPage* page, const char* label, MenuOptionCallbackFP callback);
-
     GameSession mSession;
 };

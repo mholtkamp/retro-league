@@ -9,6 +9,8 @@ class MenuPage : public Widget
 {
 public:
 
+    DECLARE_NODE(MenuPage, Widget);
+
     virtual void Create() override;;
     virtual void SetOpen(bool open);
     virtual void Tick(float deltaTime) override;
@@ -16,9 +18,37 @@ public:
     Menu* GetMenu();
     void SetMenu(Menu* menu);
 
+
+
+    template<class T>
+    T* CreateOption(const char* label, MenuOptionCallbackFP callback)
+    {
+        T* option = CreateChild<T>(label);
+        option->SetPage(this);
+        option->SetLabel(label);
+        option->SetCallback(callback);
+
+        uint32_t prevNum = (uint32_t)mOptions.size();
+#if PLATFORM_3DS
+        option->SetPosition(50.0f, prevNum * 24.0f);
+#else
+        option->SetPosition(50.0f, prevNum * 32.0f);
+#endif
+        option->SetDimensions(200.0f, 25.0f);
+        AddChild(option);
+        mOptions.push_back(option);
+
+        if (prevNum == 0)
+        {
+            option->SetSelected(true);
+            mSelectedOption = 0;
+        }
+
+        return option;
+    }
+
 protected:
 
-    virtual void AddOption(MenuOption* option);
     virtual void NextOption();
     virtual void PrevOption();
     virtual void SetSelectedOption(uint32_t optionIndex);
@@ -34,7 +64,8 @@ protected:
 class MenuPageMain : public MenuPage
 {
 public:
-    
+    DECLARE_NODE(MenuPageMain, MenuPage);
+
     virtual void Create() override;
 
     static void ActivateCreate(MenuOption* option);
@@ -46,6 +77,8 @@ public:
 class MenuPageCreate : public MenuPage
 {
 public:
+    DECLARE_NODE(MenuPageCreate, MenuPage);
+
     virtual void Create() override;
 
     static void ActivateStart(MenuOption* option);
@@ -61,6 +94,8 @@ public:
 class MenuPageAbout : public MenuPage
 {
 public:
+    DECLARE_NODE(MenuPageAbout, MenuPage);
+
     virtual void Create() override;
 
     virtual void Tick(float deltaTime) override;
@@ -71,6 +106,8 @@ public:
 class MenuPageJoin : public MenuPage
 {
 public:
+    DECLARE_NODE(MenuPageJoin, MenuPage);
+
     virtual void Create() override;
 
     virtual void Tick(float deltaTime) override;

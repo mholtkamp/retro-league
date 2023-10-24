@@ -5,12 +5,8 @@
 
 #include "InputDevices.h"
 
-MenuOption::MenuOption(MenuPage* page, const char* label, MenuOptionCallbackFP callback)
+void MenuOption::Create()
 {
-    mPage = page;
-    mLabel = label;
-    mCallback = callback;
-
     mText = CreateChild<Text>();
 
 #if PLATFORM_3DS
@@ -19,7 +15,7 @@ MenuOption::MenuOption(MenuPage* page, const char* label, MenuOptionCallbackFP c
     mText->SetTextSize(24.0f);
 #endif
     mText->SetDimensions(400.0f, 50.0f);
-    mText->SetText(mLabel);
+    mText->SetText("NO LABEL");
 
     SetSelected(false);
 }
@@ -52,6 +48,11 @@ bool MenuOption::IsLocked() const
 MenuPage* MenuOption::GetPage()
 {
     return mPage;
+}
+
+void MenuOption::SetPage(MenuPage* page)
+{
+    mPage = page;
 }
 
 void MenuOption::Activate()
@@ -88,17 +89,9 @@ void MenuOption::SetLabel(const char* label)
     mText->SetText(mLabel);
 }
 
-MenuOptionEnum::MenuOptionEnum(
-    MenuPage* page,
-    const char* label,
-    MenuOptionCallbackFP callback,
-    uint32_t enumCount,
-    const char** enumStrings) : 
-        MenuOption(page, label, callback)
+void MenuOption::SetCallback(MenuOptionCallbackFP callback)
 {
-    mEnumCount = enumCount;
-    mEnumStrings = enumStrings;
-    SetEnumValue(0);
+    mCallback = callback;
 }
 
 void MenuOptionEnum::Activate()
@@ -130,6 +123,13 @@ void MenuOptionEnum::Tick(float deltaTime)
     }
 }
 
+void MenuOptionEnum::SetEnumData(uint32_t enumCount, const char** enumStrings)
+{
+    mEnumCount = enumCount;
+    mEnumStrings = enumStrings;
+    SetEnumValue(0);
+}
+
 void MenuOptionEnum::SetEnumValue(uint32_t value)
 {
     uint32_t modValue = value % mEnumCount;
@@ -141,10 +141,4 @@ void MenuOptionEnum::SetEnumValue(uint32_t value)
 uint32_t MenuOptionEnum::GetEnumValue() const
 {
     return mEnumValue;
-}
-
-MenuOptionSession::MenuOptionSession(MenuPage* page, const char* label, MenuOptionCallbackFP callback)
-    : MenuOption(page, label, callback)
-{
-    
 }

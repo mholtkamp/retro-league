@@ -10,6 +10,8 @@
 #include "Log.h"
 #include "AssetManager.h"
 
+#include "Nodes/3D/TestSpinner.h"
+
 #include "Nodes/Widgets/StatsOverlay.h"
 
 #include "GameState.h"
@@ -46,13 +48,13 @@ InitOptions OctPreInitialize()
 
 void OctPostInitialize()
 {
-    //FogSettings fogSettings;
-    //fogSettings.mColor = { 0.0f, 1.0f, 0.7f, 1.0f };
-    //fogSettings.mNear = 20.0f;
-    //fogSettings.mFar = 500.0f;
-    //fogSettings.mDensityFunc = FogDensityFunc::Linear;
-    //fogSettings.mEnabled = true;
-    //GetWorld()->SetFogSettings(fogSettings);
+#if 1
+
+    GetWorld()->SpawnDefaultRoot();
+    GetWorld()->SpawnDefaultCamera();
+    GetWorld()->SpawnNode<TestSpinner>();
+
+#else
     GetWorld()->SetAmbientLightColor({ 0.5f, 0.5f, 0.5f, 1.0f });
     GetWorld()->SetShadowColor({ 0.0f, 0.0f, 0.0f, 0.5f });
 
@@ -72,6 +74,7 @@ void OctPostInitialize()
 #endif
 
     Renderer::Get()->SetGlobalUiScale(1.0f);
+#endif
 }
 
 void OctPreUpdate()
@@ -81,6 +84,7 @@ void OctPreUpdate()
 
 void OctPostUpdate()
 {
+#if 0
     GetGameState()->Update(GetAppClock()->DeltaTime());
 
 #if !EDITOR
@@ -123,6 +127,8 @@ void OctPostUpdate()
             stats->SetDisplayMode(StatDisplayMode::Memory);
         }
     }
+#endif
+
 #endif
 }
 

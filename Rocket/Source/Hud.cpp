@@ -49,11 +49,8 @@ Hud::Hud()
     mCountdownBg->SetVisible(false);
 
     // Boost Gauge
-    //mBoostFuel = new Quad();
-    //AddChild(mBoostFuel);
-
-    //mBoostCapacity = new Quad();
-    //AddChild(mBoostCapacity);
+    //mBoostFuel = CreateChild<Quad>();
+    //mBoostCapacity = CreateChild<Quad>();
 
     // Text Elements
     mScore0 = CreateChild<Text>("Score0");
