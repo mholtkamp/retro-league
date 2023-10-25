@@ -73,7 +73,7 @@ void BoostPickup::BeginOverlap(Primitive3D* thisComp, Primitive3D* otherComp)
 {
     if (NetIsAuthority() &&
         mSpawnTime <= 0.0f &&
-        otherComp->Is(Car::GetStaticType()))
+        otherComp->Is(Car::ClassRuntimeId()))
     {
         Car* car = (Car*)otherComp;
         car->AddBoostFuel(mMini ? 10.0f : 100.0f);
