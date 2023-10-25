@@ -203,6 +203,7 @@ Car::Car()
 
     // Handle transform ourselves since we want to skip replication updates for locally controlled cars.
     mReplicateTransform = false;
+    mLateTick = true;
 }
 
 Car::~Car()
