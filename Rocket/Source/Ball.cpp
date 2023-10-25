@@ -36,7 +36,11 @@ void Ball::M_GoalExplode(Node* node)
 {
     Ball* ball = (Ball*) node;
 
-    ball->mParticle3D->EnableEmission(true);
+    World* world = ball->GetWorld();
+    if (world != nullptr)
+    {
+        world->SpawnParticle(ball->mGoalParticle.Get<ParticleSystem>(), ball->GetAbsolutePosition());
+    }
 
     AudioManager::PlaySound3D(
         ball->mGoalSound.Get<SoundWave>(),
@@ -94,11 +98,7 @@ void Ball::Create()
     mAudio3D->SetLoop(true);
     //mAudio3D->Play();
 
-    mParticle3D = CreateChild<Particle3D>("Explosion");
-    mParticle3D->SetParticleSystem((ParticleSystem*)LoadAsset("P_GoalExplosion"));
-    mParticle3D->EnableEmission(false);
-    mParticle3D->EnableAutoEmit(false);
-
+    mGoalParticle = LoadAsset("P_GoalExplosion");
     mGoalSound = LoadAsset("SW_Goal");
 }
 

@@ -7,6 +7,9 @@
 #include "Nodes/3D/Audio3d.h"
 #include "Nodes/3D/Particle3d.h"
 
+#include "Assets/ParticleSystem.h"
+#include "Assets/SoundWave.h"
+
 class Ball : public StaticMesh3D
 {
 public:
@@ -44,8 +47,8 @@ protected:
 
     ShadowMesh3D* mShadowComponent = nullptr;
     Audio3D* mAudio3D = nullptr;
-    Particle3D* mParticle3D = nullptr;
 
+    ParticleSystemRef mGoalParticle;
     SoundWaveRef mGoalSound;
 
     float mTimeSinceLastHit = 0.0f;
