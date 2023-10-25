@@ -412,13 +412,13 @@ void Car::HandleCollision(
 
     bool bumped = false;
 
-    if (otherComp->GetName() == "Ball")
+    if (otherComp->Is(Ball::ClassRuntimeId()))
     {
         Ball* ball = static_cast<Ball*>(otherComp);
         ball->OnCollision(otherComp, thisComp, impactPoint, -impactNormal, nullptr);
         bumped = true;
     }
-    else if (otherComp->GetName() == "Car")
+    else if (otherComp->Is(Car::ClassRuntimeId()))
     {
         Car* otherCar = static_cast<Car*>(otherComp);
 
@@ -1273,7 +1273,7 @@ void Car::UpdateMotion(float deltaTime)
     bool hit = SweepToWorldPosition(GetPosition() + mVelocity * remainingTime, sweepResult, collisionMask);
 
     if (hit && sweepResult.mHitComponent != nullptr &&
-        sweepResult.mHitComponent->GetName() == "Ball")
+        sweepResult.mHitComponent->Is(Ball::ClassRuntimeId()))
     {
         HandleCollision(this, sweepResult.mHitComponent, sweepResult.mHitPosition, sweepResult.mHitNormal, nullptr);
 

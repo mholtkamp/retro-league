@@ -87,8 +87,8 @@ void MatchState::Start()
         {
             Node3D* comp = actors[i]->As<Node3D>();
             if (comp != nullptr &&
-                (comp->GetName().find("FullBoost") != std::string::npos ||
-                comp->GetName().find("MiniBoost") != std::string::npos))
+                (comp->GetName().find("FullBoost") == 0 ||
+                comp->GetName().find("MiniBoost") == 0))
             {
                 bool mini = (strncmp(comp->GetName().c_str(), "Mini", 4) == 0);
                 glm::vec3 spawnLocation = comp->GetAbsolutePosition();
@@ -375,7 +375,7 @@ void MatchState::PostLoadHandlePlatformTier()
     {
         for (int32_t i = int32_t(nodes.size()) - 1; i >= 0; --i)
         {
-            if (nodes[i]->GetName() == "Particle")
+            if (nodes[i]->GetName().find("Particle") == 0)
             {
                 nodes[i]->SetPendingDestroy(true);
             }
