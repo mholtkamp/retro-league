@@ -36,6 +36,7 @@ public:
     ~Car();
 
     virtual void Create() override;
+    virtual void Start() override;
     virtual void Tick(float deltaTime) override;
     virtual void GatherReplicatedData(std::vector<NetDatum>& outData);
     virtual void GatherNetFuncs(std::vector<NetFunc>& outFuncs) override;

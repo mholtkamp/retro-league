@@ -89,7 +89,10 @@ bool Car::OnRep_OwningHost(Datum* datum, uint32_t index, const void* newValue)
 
     if (car->mOwningHost == NetGetHostId())
     {
-        car->GetWorld()->SetActiveCamera(car->mCamera3D);
+        if (car->GetWorld())
+        {
+            car->GetWorld()->SetActiveCamera(car->mCamera3D);
+        }
 
         if (GetMatchState())
         {
@@ -295,6 +298,17 @@ void Car::Create()
         mBoneWheelFR != -1 &&
         mBoneWheelBL != -1 &&
         mBoneWheelBR != -1);
+}
+
+void Car::Start()
+{
+    Sphere3D::Start();
+
+    if (NetIsClient() &&
+        mOwningHost == NetGetHostId())
+    {
+        GetWorld()->SetActiveCamera(mCamera3D);
+    }
 }
 
 void Car::Tick(float deltaTime)

@@ -96,7 +96,8 @@ void GameState::LoadArena()
 
     if (mMatchOptions.mEnvironmentType == EnvironmentType::Lagoon)
     {
-        GetWorld()->SpawnScene("L_Lagoon");
+        Node* lagoonScene = GetWorld()->SpawnScene("L_Lagoon");
+        lagoonScene->SetReplicate(true);
     }
 
     // Spawn HUD after L_Arena (which will be the root node)
