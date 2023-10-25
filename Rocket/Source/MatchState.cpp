@@ -126,10 +126,10 @@ void MatchState::ResetMatchState()
     for (uint32_t i = 0; i < nodes.size(); ++i)
     {
         const char* rootCompName = nodes[i]->GetName().c_str();
+        Car* car = nodes[i]->As<Car>();
 
-        if (nodes[i]->GetName() == "Car")
+        if (car != nullptr)
         {
-            Car* car = nodes[i]->As<Car>();
             mCars[mNumCars] = car;
             
             uint32_t team = mNumCars % 2;
@@ -161,11 +161,11 @@ void MatchState::ResetMatchState()
             ++mNumCars;
         }
 
-        if (boostCount < NUM_FULL_BOOSTS &&
-            nodes[i]->GetName() == "Boost")
-        {
-            BoostPickup* pickup = nodes[i]->As<BoostPickup>();
+        BoostPickup* pickup = nodes[i]->As<BoostPickup>();
 
+        if (boostCount < NUM_FULL_BOOSTS &&
+            pickup != nullptr)
+        {
             if (pickup && !pickup->IsMini())
             {
                 mFullBoosts[boostCount] = pickup;
