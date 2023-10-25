@@ -141,7 +141,7 @@ void GameState::ShowMainMenuWidget(bool show)
     }
     else if (!show && mMainMenuWidget != nullptr)
     {
-        Node::Destruct(mMainMenuWidget);
+        Node::Destruct(mMainMenuWidget.Get());
         mMainMenuWidget = nullptr;
     }
 }
@@ -158,7 +158,7 @@ void GameState::ShowHudWidget(bool show)
     }
     else if (!show && mHudWidget != nullptr)
     {
-        Node::Destruct(mHudWidget);
+        Node::Destruct(mHudWidget.Get());
         mHudWidget = nullptr;
     }
 }

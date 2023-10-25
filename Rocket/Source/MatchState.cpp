@@ -209,10 +209,10 @@ void MatchState::Tick(float deltaTime)
     }
 
     // Only show countdown text during Countdown phase
-    if (GetGameState()->mHudWidget->IsVisible() &&
+    if (GetGameState()->mHudWidget.Get()->IsVisible() &&
         mPhase != MatchPhase::Countdown)
     {
-        GetGameState()->mHudWidget->SetCountdownTime(0);
+        GetGameState()->mHudWidget.Get<Hud>()->SetCountdownTime(0);
     }
 
 
@@ -236,7 +236,7 @@ void MatchState::Tick(float deltaTime)
         {
             int32_t countTime = int32_t(3.0f - mPhaseTime) + 1;
             countTime = glm::clamp<int32_t>(countTime, 1, 3);
-            GetGameState()->mHudWidget->SetCountdownTime(countTime);
+            GetGameState()->mHudWidget.Get<Hud>()->SetCountdownTime(countTime);
         }
         break;
 

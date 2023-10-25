@@ -4,6 +4,7 @@
 #include "RocketTypes.h"
 #include "MatchState.h"
 #include "Nodes/Node.h"
+#include "ObjectRef.h"
 
 class Car;
 class Ball;
@@ -34,8 +35,8 @@ struct GameState
     bool mMainMenuOpen = false;
     bool mTransitionToGame = false;
     bool mTransitionToMainMenu = false;
-    class MainMenu* mMainMenuWidget = nullptr;
-    class Hud* mHudWidget = nullptr;
+    NodeRef mMainMenuWidget = nullptr;
+    NodeRef mHudWidget = nullptr;
 
     void Initialize();
     void Shutdown();
