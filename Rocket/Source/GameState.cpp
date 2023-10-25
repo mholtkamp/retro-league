@@ -108,9 +108,10 @@ void GameState::LoadArena()
 
 void GameState::LoadMainMenu()
 {
+    ShowHudWidget(false);
+
     GetWorld()->DestroyRootNode();
 
-    ShowHudWidget(false);
     ShowMainMenuWidget(true);
 
     AssetManager::Get()->RefSweep();

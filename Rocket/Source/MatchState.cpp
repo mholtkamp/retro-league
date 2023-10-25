@@ -87,7 +87,8 @@ void MatchState::Start()
         {
             Node3D* comp = actors[i]->As<Node3D>();
             if (comp != nullptr &&
-                (comp->GetName() == "FullBoost" || comp->GetName() == "MiniBoost"))
+                (comp->GetName().find("FullBoost") != std::string::npos ||
+                comp->GetName().find("MiniBoost") != std::string::npos))
             {
                 bool mini = (strncmp(comp->GetName().c_str(), "Mini", 4) == 0);
                 glm::vec3 spawnLocation = comp->GetAbsolutePosition();
@@ -467,9 +468,10 @@ void MatchState::SetupKickoff()
     const std::vector<Node*> nodes = GetWorld()->GatherNodes();
     for (uint32_t i = 0; i < nodes.size(); ++i)
     {
-        if (nodes[i]->GetName() == "Boost")
+        BoostPickup* boost = nodes[i]->As<BoostPickup>();
+
+        if (boost != nullptr)
         {
-            BoostPickup* boost = nodes[i]->As<BoostPickup>();
             boost->Reset();
         }
     }

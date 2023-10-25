@@ -38,7 +38,8 @@ void Rotator::SaveStream(Stream& stream)
 
 void Rotator::LoadStream(Stream& stream)
 {
-    Node3D::LoadStream(stream);
+    // Scene Conversion, need to load these two vars from stream
+    //Node3D::LoadStream(stream);
     mAngularVelocity = stream.ReadVec3();
     mEnableInEditor = stream.ReadBool();
 }
