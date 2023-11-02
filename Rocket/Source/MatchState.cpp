@@ -36,15 +36,22 @@ void MatchState::Create()
 {
     Node3D::Create();
 
-    // Self-register this actor in the game state.
-    OCT_ASSERT(GetGameState()->mMatchState == nullptr);
-    GetGameState()->mMatchState = this;
+    if (IsPlaying())
+    {
+        // Self-register this actor in the game state.
+        OCT_ASSERT(GetGameState()->mMatchState == nullptr);
+        GetGameState()->mMatchState = this;
+    }
 }
 
 void MatchState::Destroy()
 {
     Node3D::Destroy();
-    GetGameState()->mMatchState = nullptr;
+
+    if (IsPlaying())
+    {
+        GetGameState()->mMatchState = nullptr;
+    }
 }
 
 void MatchState::Start()
