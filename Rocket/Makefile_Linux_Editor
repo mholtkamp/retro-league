@@ -53,15 +53,17 @@ TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	Intermediate/Linux/Editor
 SOURCES		:=	Source \
 				Generated
-INCLUDES	:=	Include ../Octave/Engine/Include \
-				../Octave/Engine/Include/Editor \
-				../Octave/Engine/Include/Engine \
+INCLUDES	:=	Include ../Octave/Engine/Source \
+				../Octave/Engine/Source/Editor \
+				../Octave/Engine/Source/Engine \
 				../Octave/External \
 				../Octave/External/Bullet \
 				$(VULKAN_SDK)/include \
 				../Octave/External/Assimp \
 				../Octave/External/IrrXML \
-				../Octave/External/Zlib
+				../Octave/External/Zlib \
+				../Octave/External/Imgui \
+
 OUTPUT_DIR	:=	$(CURDIR)/Build/Linux
 
 #---------------------------------------------------------------------------------

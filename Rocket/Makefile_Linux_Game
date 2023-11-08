@@ -54,8 +54,8 @@ BUILD		:=	Intermediate/Linux/Game
 SOURCES		:=	Source \
 				Generated
 INCLUDES	:=	Include \
-				../Octave/Engine/Include \
-				../Octave/Engine/Include/Engine \
+				../Octave/Engine/Source \
+				../Octave/Engine/Source/Engine \
 				../Octave/External \
 				../Octave/External/Bullet \
 				$(VULKAN_SDK)/include
