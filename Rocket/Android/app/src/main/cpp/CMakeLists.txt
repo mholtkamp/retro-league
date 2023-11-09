@@ -40,11 +40,11 @@ file(GLOB_RECURSE SrcRocket "../../../../../../Rocket/Source/*.cpp")
 include_directories("../../../../../../Octave/External/Lua/")
 include_directories("../../../../../../Octave/External/Vorbis/")
 include_directories("../../../../../../Octave/External/Bullet/")
-include_directories("../../../../../../Octave/Engine/Include/"
-        "../../../../../../Octave/Engine/Include/Engine/"
+include_directories("../../../../../../Octave/Engine/Source/"
+        "../../../../../../Octave/Engine/Source/Engine/"
         "../../../../../../Octave/External/"
         "../../../../../../Octave/External/Bullet/")
-include_directories("../../../../../../Rocket/Include")
+include_directories("../../../../../../Rocket/Source")
 
 add_library( # Sets the name of the library.
         rocket
