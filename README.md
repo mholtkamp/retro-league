@@ -1,5 +1,5 @@
 # Retro League GX
-Retro League GX is a demake of Rocket League for older game consoles.
+Retro League GX is a "clone" of Rocket League made with the Octave game engine.
 
 ## Windows Setup
 
@@ -13,7 +13,7 @@ Retro League GX is a demake of Rocket League for older game consoles.
 8. Launch Rocket in DebugEditor to open the editor
 9. Package the project for Windows using `File->Package Project->Windows`. This is needed to generate engine asset files before running the game.
 10. Launch Rocket in Debug to run the game
-11. If you want to package the game for Windows with `File->Package Project` in the Editor, add devenv to the PATH. My devenv for VS 2017 community was located here: `C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE`. The resulting "packaged" game will be in the Packaged folder in the reposity root. The packaging process relies on having cygwin installed, which should happen if you installed the devkitPro libraries.
+11. If you want to package the game for Windows with `File->Package Project` in the Editor, add devenv to the PATH. My devenv for VS 2017 community was located here: `C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE`. The resulting "packaged" game will be in the Packaged folder in the reposity root.
 
 
 ## Linux Setup
