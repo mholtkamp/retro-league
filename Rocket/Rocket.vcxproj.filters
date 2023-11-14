@@ -41,9 +41,6 @@
     <ClCompile Include="Generated\EmbeddedAssets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Hud3DS.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\MatchState.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -71,9 +68,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Hud.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Hud3DS.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\MatchState.h">

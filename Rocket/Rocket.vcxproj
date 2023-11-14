@@ -301,7 +301,6 @@
     <ClCompile Include="Source\Car.cpp" />
     <ClCompile Include="Source\GameState.cpp" />
     <ClCompile Include="Source\Hud.cpp" />
-    <ClCompile Include="Source\Hud3DS.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\MatchState.cpp" />
     <ClCompile Include="Source\Menu.cpp" />
@@ -325,7 +324,6 @@
     <ClInclude Include="Source\Car.h" />
     <ClInclude Include="Source\GameState.h" />
     <ClInclude Include="Source\Hud.h" />
-    <ClInclude Include="Source\Hud3DS.h" />
     <ClInclude Include="Source\MatchState.h" />
     <ClInclude Include="Source\Menu.h" />
     <ClInclude Include="Source\MenuOption.h" />
