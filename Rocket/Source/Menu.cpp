@@ -35,12 +35,7 @@ void Menu::AddPage(MenuPage* page)
 
     page->SetAnchorMode(AnchorMode::Mid);
     page->SetDimensions(400, 300);
-#if PLATFORM_3DS
-    page->SetAnchorMode(AnchorMode::TopLeft);
-    page->SetPosition(60.0f, 50.0f);
-#else
     page->SetPosition(-140.0f, 0.0f);
-#endif
 }
 
 void Menu::PushPage(const char* name)
@@ -100,20 +95,7 @@ MainMenu::MainMenu()
     mTitleBanner->SetRightMargin(0.0f);
     mTitleBanner->SetY(-170.0f);
     mTitleBanner->SetHeight(100.0f);
-
-#if PLATFORM_3DS
-    mTitleBanner->SetY(-50.0f);
-
-    // Place the title banner on the top screen
-    GetWorld(1)->PlaceWidget(mTitleBanner);
-
-    mBackButton = CreateChikd<Quad>("BackButton");
-    mBackButton->SetRect(0.0f, 240.0f - 32.0f, 32.0f, 32.0f);
-    mBackButton->SetTexture((Texture*)LoadAsset("T_BackButton"));
-    mBackButton->SetVisible(false);
-#else
     AddChild(mTitleBanner);
-#endif
 
     MenuPageMain* pageMain = Node::Construct<MenuPageMain>();
     MenuPageCreate* pageCreate = Node::Construct<MenuPageCreate>();
@@ -142,14 +124,6 @@ MainMenu::MainMenu()
 MainMenu::~MainMenu()
 {
     AudioManager::StopAllSounds();
-
-#if PLATFORM_3DS
-    // We need to manually remove the title and free the memory.
-    // On all other platforms the title will remain a child so ~Widget() will free it.
-    Renderer::Get()->RemoveWidget(mTitleBanner, 0);
-    delete mTitleBanner;
-    mTitleBanner = nullptr;
-#endif
 }
 
 void MainMenu::AddPage(MenuPage* page)
@@ -231,21 +205,11 @@ void MainMenu::Tick(float deltaTime)
 void MainMenu::PushPage(const char* name)
 {
     Menu::PushPage(name);
-
-#if PLATFORM_3DS
-    // Show a back button on 3DS
-    mBackButton->SetVisible(mPageStack.size() > 1);
-#endif
 }
 
 void MainMenu::PopPage()
 {
     Menu::PopPage();
-
-#if PLATFORM_3DS
-    // Show a back button on 3DS
-    mBackButton->SetVisible(mPageStack.size() > 1);
-#endif
 }
 
 TitleBanner::TitleBanner()

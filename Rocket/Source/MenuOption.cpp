@@ -14,12 +14,7 @@ void MenuOption::Create()
     Widget::Create();
 
     mText = CreateChild<Text>();
-
-#if PLATFORM_3DS
-    mText->SetTextSize(20.0f);
-#else
     mText->SetTextSize(24.0f);
-#endif
     mText->SetDimensions(400.0f, 50.0f);
     mText->SetText("NO LABEL");
 
