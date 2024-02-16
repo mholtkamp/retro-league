@@ -10,6 +10,7 @@
 #include "Utilities.h"
 #include "AudioManager.h"
 #include "NetworkManager.h"
+#include "Assets/MaterialLite.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtx/rotate_vector.hpp>
@@ -82,7 +83,7 @@ void Ball::Create()
     //SetAngularDamping(1.0f);
     SetStaticMesh((StaticMesh*)LoadAsset("SM_Sphere"));
 
-    Material* ballMat = (Material*)LoadAsset("M_Ball");
+    MaterialLite* ballMat = (MaterialLite*)LoadAsset("M_Ball");
     ballMat->SetFresnelEnabled(true);
     ballMat->SetFresnelColor({ 1.0f, 1.0f, 1.0f, 1.0f });
     SetMaterialOverride(ballMat);
@@ -138,7 +139,8 @@ void Ball::Tick(float deltaTime)
     mShadowComponent->SetAbsolutePosition(GetPosition() + RootRelativeShadowPos * GetScale());
 
     // Update fresnel color based on last hit.
-    glm::vec4 fresnelColor = GetMaterial()->GetFresnelColor();
+    MaterialLite* liteMat = GetMaterial()->As<MaterialLite>();
+    glm::vec4 fresnelColor = liteMat->GetFresnelColor();
     glm::vec4 targetColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
     if (mLastHitTeam == 0)
@@ -151,7 +153,7 @@ void Ball::Tick(float deltaTime)
     }
 
     fresnelColor = Maths::Damp(fresnelColor, targetColor, 0.005f, deltaTime);
-    GetMaterial()->SetFresnelColor(fresnelColor);
+    liteMat->SetFresnelColor(fresnelColor);
 }
 
 void Ball::GatherReplicatedData(std::vector<NetDatum>& outData)

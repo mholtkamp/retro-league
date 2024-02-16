@@ -1287,10 +1287,10 @@ void Car::UpdateMotion(float deltaTime)
     SweepTestResult sweepResult;
     bool hit = SweepToWorldPosition(GetPosition() + mVelocity * remainingTime, sweepResult, collisionMask);
 
-    if (hit && sweepResult.mHitComponent != nullptr &&
-        sweepResult.mHitComponent->Is(Ball::ClassRuntimeId()))
+    if (hit && sweepResult.mHitNode != nullptr &&
+        sweepResult.mHitNode->Is(Ball::ClassRuntimeId()))
     {
-        HandleCollision(this, sweepResult.mHitComponent, sweepResult.mHitPosition, sweepResult.mHitNormal, nullptr);
+        HandleCollision(this, sweepResult.mHitNode, sweepResult.mHitPosition, sweepResult.mHitNormal, nullptr);
 
         // Sweep again, but this time ignoring the ball.
         remainingTime = remainingTime * (1.0f - sweepResult.mHitFraction);
@@ -1300,7 +1300,7 @@ void Car::UpdateMotion(float deltaTime)
 
     if (hit)
     {
-        HandleCollision(this, sweepResult.mHitComponent, sweepResult.mHitPosition, sweepResult.mHitNormal, nullptr);
+        HandleCollision(this, sweepResult.mHitNode, sweepResult.mHitPosition, sweepResult.mHitNormal, nullptr);
 
         remainingTime = remainingTime * (1.0f - sweepResult.mHitFraction);
         glm::vec3 normal = sweepResult.mHitNormal;
@@ -1312,7 +1312,7 @@ void Car::UpdateMotion(float deltaTime)
 
         if (hit)
         {
-            HandleCollision(this, sweepResult.mHitComponent, sweepResult.mHitPosition, sweepResult.mHitNormal, nullptr);
+            HandleCollision(this, sweepResult.mHitNode, sweepResult.mHitPosition, sweepResult.mHitNormal, nullptr);
         }
     }
 

@@ -13,7 +13,7 @@
 #include "World.h"
 #include "Log.h"
 #include "InputDevices.h"
-#include "Assets/Material.h"
+#include "Assets/MaterialLite.h"
 #include "Assets/Scene.h"
 
 #include "System/System.h"
@@ -241,15 +241,15 @@ void GameState::LoadMaterials()
 
 void GameState::UpdateMaterials(float deltaTime)
 {
-    Material* ghWaterMat = mGhWaterMat.Get<Material>();
+    MaterialLite* ghWaterMat = mGhWaterMat.Get<MaterialLite>();
     ghWaterMat->SetUvOffset(ghWaterMat->GetUvOffset() + deltaTime * glm::vec2(0.2f, 0.2f));
 
-    Material* ghWaterfallMat1 = mGhWaterfallMat1.Get<Material>();
+    MaterialLite* ghWaterfallMat1 = mGhWaterfallMat1.Get<MaterialLite>();
     ghWaterfallMat1->SetUvOffset(ghWaterfallMat1->GetUvOffset() + deltaTime * glm::vec2(0.0f, -1.0f));
 
-    Material* ghWaterfallMat2 = mGhWaterfallMat2.Get<Material>();
+    MaterialLite* ghWaterfallMat2 = mGhWaterfallMat2.Get<MaterialLite>();
     ghWaterfallMat2->SetUvOffset(ghWaterfallMat2->GetUvOffset() + deltaTime * glm::vec2(0.0f, -0.5f));
 
-    Material* spinnerMat = mGoalSpinnerMat.Get<Material>();
+    MaterialLite* spinnerMat = mGoalSpinnerMat.Get<MaterialLite>();
     spinnerMat->SetUvOffset(spinnerMat->GetUvOffset() + deltaTime * glm::vec2(0.0f, 0.5f));
 }
