@@ -44,8 +44,8 @@ void OctPostInitialize()
     GetWorld()->SpawnNode<TestSpinner>();
 
 #else
-    GetWorld()->SetAmbientLightColor({ 0.5f, 0.5f, 0.5f, 1.0f });
-    GetWorld()->SetShadowColor({ 0.0f, 0.0f, 0.0f, 0.5f });
+    GetWorld(0)->SetAmbientLightColor({ 0.5f, 0.5f, 0.5f, 1.0f });
+    GetWorld(0)->SetShadowColor({ 0.0f, 0.0f, 0.0f, 0.5f });
 
     GetGameState()->Initialize();
     

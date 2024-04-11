@@ -91,11 +91,11 @@ void GameState::LoadArena()
 
     ShowMainMenuWidget(false);
 
-    GetWorld()->LoadScene("L_Arena", true);
+    GetWorld(0)->LoadScene("L_Arena", true);
 
     if (mMatchOptions.mEnvironmentType == EnvironmentType::Lagoon)
     {
-        Node* lagoonScene = GetWorld()->SpawnScene("L_Lagoon");
+        Node* lagoonScene = GetWorld(0)->SpawnScene("L_Lagoon");
         lagoonScene->SetReplicate(true);
     }
 
@@ -110,7 +110,7 @@ void GameState::LoadMainMenu()
 {
     ShowHudWidget(false);
 
-    GetWorld()->DestroyRootNode();
+    GetWorld(0)->DestroyRootNode();
 
     ShowMainMenuWidget(true);
 
@@ -130,7 +130,7 @@ void GameState::ShowMainMenuWidget(bool show)
 {
     if (show && mMainMenuWidget == nullptr)
     {
-        mMainMenuWidget = GetWorld()->SpawnNode<MainMenu>();
+        mMainMenuWidget = GetWorld(0)->SpawnNode<MainMenu>();
     }
     else if (!show && mMainMenuWidget != nullptr)
     {
@@ -143,7 +143,7 @@ void GameState::ShowHudWidget(bool show)
 {
     if (show && mHudWidget == nullptr)
     {
-        mHudWidget = GetWorld()->SpawnNode<Hud>();
+        mHudWidget = GetWorld(0)->SpawnNode<Hud>();
     }
     else if (!show && mHudWidget != nullptr)
     {
