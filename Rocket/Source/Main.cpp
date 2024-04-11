@@ -16,7 +16,7 @@
 
 #include "GameState.h"
 
-#define EMBEDDED_ENABLED 0
+#define EMBEDDED_ENABLED (PLATFORM_DOLPHIN || PLATFORM_3DS)
 
 #if EMBEDDED_ENABLED
 #include "../Generated/EmbeddedAssets.h"
@@ -31,6 +31,17 @@ InitOptions OctPreInitialize()
     initOptions.mProjectName = "Rocket";
     initOptions.mUseAssetRegistry = false;
     initOptions.mVersion = 1;
+
+#if PLATFORM_DOLPHIN || PLATFORM_3DS
+    initOptions.mEmbeddedAssetCount = gNumEmbeddedAssets;
+    initOptions.mEmbeddedAssets = gEmbeddedAssets;
+    initOptions.mEmbeddedScriptCount = gNumEmbeddedScripts;
+    initOptions.mEmbeddedScripts = gEmbeddedScripts;
+#endif
+
+#if PLATFORM_WII
+    initOptions.mWorkingDirectory = "sd://apps/RetroLeagueSD";
+#endif
 
     return initOptions;
 }
@@ -52,6 +63,14 @@ void OctPostInitialize()
 #if !EDITOR
     //GetGameState()->LoadPreferredMatchOptions();
     GetGameState()->LoadMainMenu();
+#endif
+
+#if PLATFORM_3DS
+    // On old 3DS, our perf isn't good enough for 60 fps, so limit to 30 fps to avoid stutters.
+    if (!GetEngineState()->mSystem.mNew3DS)
+    {
+        GFX_SetFrameRate(30.0f);
+    }
 #endif
 
     Renderer::Get()->SetGlobalUiScale(1.0f);

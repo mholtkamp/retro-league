@@ -29,7 +29,11 @@ public:
         option->SetCallback(callback);
 
         uint32_t prevNum = (uint32_t)mOptions.size();
+#if PLATFORM_3DS
+        option->SetPosition(50.0f, prevNum * 24.0f);
+#else
         option->SetPosition(50.0f, prevNum * 32.0f);
+#endif
         option->SetDimensions(200.0f, 25.0f);
         AddChild(option);
         mOptions.push_back(option);

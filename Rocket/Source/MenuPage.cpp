@@ -256,7 +256,13 @@ void MenuPageAbout::Create()
     mAboutText->SetDimensions(400, 400);
     mAboutText->SetPosition(-100, 0);
     mAboutText->SetText("Created by Martin Holtkamp\nTwitter: @martin_holtkamp\n\nReleases and source code will be published at\ngithub.com/mholtkamp/retro-league\n\nVersion 0.2");
+    
+#if PLATFORM_3DS
+    mAboutText->SetTextSize(14.0f);
+    mAboutText->SetPosition(-60.0f, 0.0f);
+#else
     mAboutText->SetTextSize(24.0f);
+#endif
 }
 
 void MenuPageAbout::Tick(float deltaTime)

@@ -4,6 +4,7 @@
 #include "BoostPickup.h"
 #include "Menu.h"
 #include "Hud.h"
+#include "Hud3DS.h"
 #include "Nodes/Node.h"
 
 #include "Engine.h"
@@ -130,7 +131,14 @@ void GameState::ShowMainMenuWidget(bool show)
 {
     if (show && mMainMenuWidget == nullptr)
     {
+#if PLATFORM_3DS
+        // On 3DS, set the main menu on the bottom screen
+        //Renderer::Get()->AddWidget(mMainMenuWidget, -1, 1);
+        mMainMenuWidget = GetWorld(1)->SpawnNode<MainMenu>();
+
+#else
         mMainMenuWidget = GetWorld(0)->SpawnNode<MainMenu>();
+#endif
     }
     else if (!show && mMainMenuWidget != nullptr)
     {
@@ -143,7 +151,11 @@ void GameState::ShowHudWidget(bool show)
 {
     if (show && mHudWidget == nullptr)
     {
+#if PLATFORM_3DS
+        mHudWidget = GetWorld(1)->SpawnNode<Hud>();
+#else
         mHudWidget = GetWorld(0)->SpawnNode<Hud>();
+#endif
     }
     else if (!show && mHudWidget != nullptr)
     {

@@ -5,6 +5,7 @@
 #include "BoostPickup.h"
 #include "Menu.h"
 #include "Hud.h"
+#include "Hud3DS.h"
 
 #include "Engine.h"
 #include "Renderer.h"
