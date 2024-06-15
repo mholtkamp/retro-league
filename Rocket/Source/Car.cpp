@@ -357,9 +357,9 @@ void Car::Tick(float deltaTime)
 
     UpdateAudio(deltaTime);
 
-    mShadowComponent->SetAbsoluteRotation(glm::vec3(180.0f, 0.0f, 0.0f));
-    // TODO-NODE: Shouldn't the following line call SetPosition() instead of SetAbsolutePosition()
-    mShadowComponent->SetAbsolutePosition(GetPosition() + RootRelativeShadowPos);
+    mShadowComponent->SetWorldRotation(glm::vec3(180.0f, 0.0f, 0.0f));
+    // TODO-NODE: Shouldn't the following line call SetPosition() instead of SetWorldPosition()
+    mShadowComponent->SetWorldPosition(GetPosition() + RootRelativeShadowPos);
 }
 
 void Car::GatherReplicatedData(std::vector<NetDatum>& outData)
@@ -1212,8 +1212,8 @@ void Car::UpdateCamera(float deltaTime)
 
     UpdateTransform(true);
 
-    mCamera3D->SetAbsolutePosition(cameraPos);
-    mCamera3D->SetAbsoluteRotation(glm::vec3(mCameraPitch - mCameraPitchOffset, -mCameraYaw - mCameraYawOffset, 0.0f));
+    mCamera3D->SetWorldPosition(cameraPos);
+    mCamera3D->SetWorldRotation(glm::vec3(mCameraPitch - mCameraPitchOffset, -mCameraYaw - mCameraYawOffset, 0.0f));
 }
 
 void Car::UpdateGrounded(float deltaTime)

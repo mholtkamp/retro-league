@@ -98,7 +98,7 @@ void MatchState::Start()
                 comp->GetName().find("MiniBoost") == 0))
             {
                 bool mini = (strncmp(comp->GetName().c_str(), "Mini", 4) == 0);
-                glm::vec3 spawnLocation = comp->GetAbsolutePosition();
+                glm::vec3 spawnLocation = comp->GetWorldPosition();
 
                 comp->SetPendingDestroy(true);
 

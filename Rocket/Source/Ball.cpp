@@ -40,7 +40,7 @@ void Ball::M_GoalExplode(Node* node)
     World* world = ball->GetWorld();
     if (world != nullptr)
     {
-        world->SpawnParticle(ball->mGoalParticle.Get<ParticleSystem>(), ball->GetAbsolutePosition());
+        world->SpawnParticle(ball->mGoalParticle.Get<ParticleSystem>(), ball->GetWorldPosition());
     }
 
     AudioManager::PlaySound3D(
@@ -134,9 +134,9 @@ void Ball::Tick(float deltaTime)
         }
     }
 
-    mShadowComponent->SetAbsoluteRotation(glm::vec3(180.0f, 0.0f, 0.0f));
-    // TODO-NODE: Shouldn't the following line call SetPosition() instead of SetAbsolutePosition()
-    mShadowComponent->SetAbsolutePosition(GetPosition() + RootRelativeShadowPos * GetScale());
+    mShadowComponent->SetWorldRotation(glm::vec3(180.0f, 0.0f, 0.0f));
+    // TODO-NODE: Shouldn't the following line call SetPosition() instead of SetWorldPosition()
+    mShadowComponent->SetWorldPosition(GetPosition() + RootRelativeShadowPos * GetScale());
 
     // Update fresnel color based on last hit.
     MaterialLite* liteMat = GetMaterial()->As<MaterialLite>();
