@@ -166,7 +166,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(VULKAN_SDK)/Bin;$(VULKAN_SDK)/Lib;$(SolutionDir)Engine/External/lib/Lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(VULKAN_SDK)/Bin;$(VULKAN_SDK)/Lib;$(SolutionDir)Engine/External/lib/Lib/;%(AdditionalLibraryDirectories);$(SolutionDir)Octave/External/EOS/Lib/;$(ProjectDir)../Octave/External/Steam/redistributable_bin/win64/;$(ProjectDir)../Octave/External/Steam/public/steam/lib/win64/</AdditionalLibraryDirectories>
       <AdditionalDependencies>spirv-cross-cored.lib;shaderc_combinedd.lib;vulkan-1.lib;Xinput.lib;Xaudio2.lib;Ws2_32.lib;Iphlpapi.lib;Shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -181,7 +181,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(ProjectDir)../Octave/External/Assimp/Build/Windows/$(Platform)/$(Configuration)/;$(ProjectDir)../Octave/External/IrrXML/Build/Windows/$(Platform)/$(Configuration)/;$(ProjectDir)../Octave/External/Zlib/Build/Windows/$(Platform)/$(Configuration)/;$(VULKAN_SDK)/Bin;$(VULKAN_SDK)/Lib;$(SolutionDir)Engine/External/lib/Lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)../Octave/External/Assimp/Build/Windows/$(Platform)/$(Configuration)/;$(ProjectDir)../Octave/External/IrrXML/Build/Windows/$(Platform)/$(Configuration)/;$(ProjectDir)../Octave/External/Zlib/Build/Windows/$(Platform)/$(Configuration)/;$(VULKAN_SDK)/Bin;$(VULKAN_SDK)/Lib;$(SolutionDir)Engine/External/lib/Lib/;%(AdditionalLibraryDirectories);$(SolutionDir)Octave/External/EOS/Lib/;$(ProjectDir)../Octave/External/Steam/redistributable_bin/win64/;$(ProjectDir)../Octave/External/Steam/public/steam/lib/win64/</AdditionalLibraryDirectories>
       <AdditionalDependencies>Assimp.lib;IrrXML.lib;Zlib.lib;spirv-cross-cored.lib;shaderc_combinedd.lib;vulkan-1.lib;Xinput.lib;Xaudio2.lib;Ws2_32.lib;Iphlpapi.lib;Shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -262,7 +262,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(VULKAN_SDK)/Bin;$(VULKAN_SDK)/Lib;$(SolutionDir)Engine/External/lib/Lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(VULKAN_SDK)/Bin;$(VULKAN_SDK)/Lib;$(SolutionDir)Engine/External/lib/Lib/;%(AdditionalLibraryDirectories);$(SolutionDir)Octave/External/EOS/Lib/;$(ProjectDir)../Octave/External/Steam/redistributable_bin/win64/;$(ProjectDir)../Octave/External/Steam/public/steam/lib/win64/</AdditionalLibraryDirectories>
       <AdditionalDependencies>spirv-cross-core.lib;shaderc_combined.lib;vulkan-1.lib;Xinput.lib;Xaudio2.lib;Ws2_32.lib;Iphlpapi.lib;Shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -281,7 +281,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(ProjectDir)../Octave/External/Assimp/Build/Windows/$(Platform)/$(Configuration)/;$(ProjectDir)../Octave/External/IrrXML/Build/Windows/$(Platform)/$(Configuration)/;$(ProjectDir)../Octave/External/Zlib/Build/Windows/$(Platform)/$(Configuration)/;$(VULKAN_SDK)/Bin;$(VULKAN_SDK)/Lib;$(SolutionDir)Engine/External/lib/Lib/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)../Octave/External/Assimp/Build/Windows/$(Platform)/$(Configuration)/;$(ProjectDir)../Octave/External/IrrXML/Build/Windows/$(Platform)/$(Configuration)/;$(ProjectDir)../Octave/External/Zlib/Build/Windows/$(Platform)/$(Configuration)/;$(VULKAN_SDK)/Bin;$(VULKAN_SDK)/Lib;$(SolutionDir)Engine/External/lib/Lib/;%(AdditionalLibraryDirectories);$(SolutionDir)Octave/External/EOS/Lib/;$(ProjectDir)../Octave/External/Steam/redistributable_bin/win64/;$(ProjectDir)../Octave/External/Steam/public/steam/lib/win64/</AdditionalLibraryDirectories>
       <AdditionalDependencies>Assimp.lib;IrrXML.lib;Zlib.lib;spirv-cross-core.lib;shaderc_combined.lib;vulkan-1.lib;Xinput.lib;Xaudio2.lib;Ws2_32.lib;Iphlpapi.lib;Shell32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

@@ -88,5 +88,5 @@ class MenuOptionSession : public MenuOption
 public:
     DECLARE_NODE(MenuOptionSession, MenuOption);
 
-    GameSession mSession;
+    NetSession mSession;
 };

@@ -313,7 +313,7 @@ void MenuPageJoin::Tick(float deltaTime)
 
     if (netMan->IsSearching())
     {
-        const std::vector<GameSession>& sessions = netMan->GetSessions();
+        const std::vector<NetSession>& sessions = netMan->GetSessions();
 
         for (uint32_t i = 0; i < sNumGameOptions; ++i)
         {
