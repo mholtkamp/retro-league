@@ -86,8 +86,9 @@ void GameState::LoadArena()
     if (mMatchOptions.mNetworkMode == NetworkMode::LAN ||
         mMatchOptions.mNetworkMode == NetworkMode::Online)
     {
+        bool lan = (mMatchOptions.mNetworkMode == NetworkMode::LAN);
         NetworkManager::Get()->SetMaxClients(mMatchOptions.mTeamSize * 2 - 1);
-        NetworkManager::Get()->OpenSession();
+        NetworkManager::Get()->OpenSession(lan);
     }
 
     ShowMainMenuWidget(false);
