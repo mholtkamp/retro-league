@@ -278,13 +278,12 @@ void MenuPageAbout::Tick(float deltaTime)
 void MenuPageJoin::ActivateGame(MenuOption* option)
 {
     MenuOptionSession* sessionOpt = (MenuOptionSession*) option;
-    NetHost& host = sessionOpt->mSession.mHost;
+    NetSession& session = sessionOpt->mSession;
+    NetHost& host = session.mHost;
 
-    if (host.mIpAddress != 0)
-    {
-        NetworkManager::Get()->EndSessionSearch();
-        NetworkManager::Get()->Connect(host.mIpAddress, host.mPort);
-    }
+    NetworkManager::Get()->JoinSession(session);
+
+    NetworkManager::Get()->EndSessionSearch();
 }
 
 void MenuPageJoin::Create()
