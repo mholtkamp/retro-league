@@ -86,9 +86,12 @@ void GameState::LoadArena()
     if (mMatchOptions.mNetworkMode == NetworkMode::LAN ||
         mMatchOptions.mNetworkMode == NetworkMode::Online)
     {
-        bool lan = (mMatchOptions.mNetworkMode == NetworkMode::LAN);
-        NetworkManager::Get()->SetMaxClients(mMatchOptions.mTeamSize * 2 - 1);
-        NetworkManager::Get()->OpenSession(lan);
+        NetSessionOpenOptions options;
+        options.mLan = (mMatchOptions.mNetworkMode == NetworkMode::LAN);
+        options.mMaxPlayers = (mMatchOptions.mTeamSize * 2);
+        options.mName = "Retro League";
+        options.mPrivate = false;
+        NetworkManager::Get()->OpenSession(options);
     }
 
     ShowMainMenuWidget(false);

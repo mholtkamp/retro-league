@@ -18,6 +18,7 @@ DEFINE_NODE(MenuPageJoin, MenuPage);
 void MenuPage::Create()
 {
     SetVisible(false);
+    EnableScissor(false);
 }
 
 void MenuPage::SetOpen(bool open)
